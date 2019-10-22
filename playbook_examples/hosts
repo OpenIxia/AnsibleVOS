@@ -1,0 +1,15 @@
+[vision_npb]
+VISION_NPB_IP_ADDRESS_1
+VISION_NPB_IP_ADDRESS_2
+
+[vision_npb:vars]
+ansible_connection=httpapi
+ansible_network_os=nvos
+ansible_connect_timeout=90
+ansible_command_timeout=60
+ansible_user=admin
+ansible_password=admin
+ansible_httpapi_port=8000
+ansible_httpapi_use_ssl=true
+ansible_httpapi_validate_certs=false
+nvos_version=5.2.0

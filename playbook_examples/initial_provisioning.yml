@@ -1,0 +1,89 @@
+---
+- name: Using nvos_system module
+  hosts: vision_npb
+
+  tasks:
+  - name: Initial provisioning
+    nvos_system:
+      login_banner_config:
+        text: This is an Ansible configured login banner
+      dns_config:
+        alt_is_ipv6: true
+        alt_server: 2001:428:e203::7
+        primary_server: 8.8.8.8
+        suffix1: dns_suffix1
+        suffix2: dns_suffix2
+      ntp_server_list:
+        enabled: true
+        servers:
+        - address: time.google.com
+          authentication_enabled: false
+        - address: 2001:610:508:110:192:87:110:2
+          authentication_enabled: false
+        - address: 10.38.185.250
+          authentication_enabled: false
+        - address: ntp1.bit.nl
+          authentication_enabled: false
+      radius_servers:
+        common:
+          attrs:
+          - logical_operation: OR
+            pairs:
+            - name: Anue-Role
+              value: REG
+            type: AUTHZ_REGULAR
+          - logical_operation: OR
+            pairs:
+            - name: Anue-Role
+              value: ADMIN
+            type: AUTHZ_ADMIN
+          - logical_operation: OR
+            pairs:
+            - name: Anue-Groups
+              value: (group list)
+            type: GROUP_NAMES
+          enable_authz: true
+          enable_groups: false
+          local_admin_disabled: false
+        servers:
+        - aaa_username: ''
+          acct_attrs: []
+          acct_port: 1813
+          authn_type: PAP
+          enable_aaa_validation: false
+          enable_acct: false
+          host: 10.38.185.250
+          port: 1812
+          retry_count: 2
+          secret: anueRadius
+          timeout: 10
+      snmp_config:
+        get_access:
+        - community_string: community_v1
+          local_user: null
+          version: V1
+        - community_string: community_v2
+          local_user: null
+          version: V2
+        - local_user:
+            authn_password: v3_password
+            authn_protocol: SHA1
+            context_name: ''
+            engine_id: ''
+            name: RobotUser
+            privacy_password: password_v3
+            privacy_protocol: AES128
+            security_level: AUTHN_AND_PRIVACY
+          version: V3
+        gets_enabled: true
+        preferred_ip: IPV4
+        refresh_time: 1
+        trap_recipients: []
+        traps_enabled: false
+      allow_serial_port_access: true
+      allow_serial_port_login: true
+      syslog_server_list:
+        - host: 1.1.1.1
+          port: 514
+          facility: LOCAL0
+          tls_enabled: false
