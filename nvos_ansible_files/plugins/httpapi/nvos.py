@@ -326,10 +326,17 @@ class HttpApi(HttpApiBase):
             url = '/docs/' + resource_value
             facts = self.get_facts()
 
+            # consider the case of intermediary versions (e.g. 5.2.0.2)
+            version_number = facts.split('|')[0]
+            version_tokens = version_number.split('.')
+            if len(version_tokens) > 3:
+                version_number = version_tokens[0] + '.' + version_tokens[1] \
+                                 + '.' + version_tokens[2]
+
             result = self.send_request(path=url, data={}, method='OPTIONS',
                                        headers={
                                            'Content-type': 'application/json',
-                                           'Version': facts.split('|')[0]})
+                                           'Version': version_number})
 
             grammar = et.fromstring(result)
 
@@ -381,10 +388,17 @@ class HttpApi(HttpApiBase):
             url = '/docs/actions'
             facts = self.get_facts()
 
+            # consider the case of intermediary versions (e.g. 5.2.0.2)
+            version_number = facts.split('|')[0]
+            version_tokens = version_number.split('.')
+            if len(version_tokens) > 3:
+                version_number = version_tokens[0] + '.' + version_tokens[1] \
+                                 + '.' + version_tokens[2]
+
             result = self.send_request(path=url, data={}, method='OPTIONS',
                                        headers={
                                            'Content-type': 'application/json',
-                                           'Version': facts.split('|')[0]})
+                                           'Version': version_number})
 
             grammar = et.fromstring(result)
 
@@ -760,7 +774,15 @@ class HttpApi(HttpApiBase):
         :param method: HTTP request method
         :return: HTTP response body
         """
-        headers = {'Version': self.connection.get_facts().split('|')[0],
+
+        # consider the case of intermediary versions (e.g. 5.2.0.2)
+        version_number = self.connection.get_facts().split('|')[0]
+        version_tokens = version_number.split('.')
+        if len(version_tokens) > 3:
+            version_number = version_tokens[0] + '.' + version_tokens[1] \
+                             + '.' + version_tokens[2]
+
+        headers = {'Version': version_number,
                    'Content-Type': 'application/json',
                    'Authentication': HttpApi._auth_tokens[
                        self.connection._url]}

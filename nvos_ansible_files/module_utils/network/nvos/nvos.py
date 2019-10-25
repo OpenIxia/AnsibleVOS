@@ -189,12 +189,16 @@ class HttpApi:
 
         for pattern_key, pattern_value in pattern.items():
             if isinstance(pattern_value, dict):
+                if pattern_key not in real:
+                    return False
                 found = self.is_subdict(pattern_value, real[pattern_key])
             elif isinstance(pattern_value, list):
+                if pattern_key not in real:
+                    return False
                 found = self.is_same_list(pattern_value, real[pattern_key])
             else:
                 try:
-                    if pattern_value == real[pattern_key]:
+                    if pattern_key in real and pattern_value == real[pattern_key]:
                         found = True
                     else:
                         found = False
@@ -285,8 +289,14 @@ class HttpApi:
         :return: the HTTP response of the request containing the status code
          and the actual returned message
         """
+        # consider the case of intermediary versions (e.g. 5.2.0.2)
+        version_number = self._connection.get_facts().split('|')[0]
+        version_tokens = version_number.split('.')
+        if len(version_tokens) > 3:
+            version_number = version_tokens[0] + '.' + version_tokens[1]\
+                             + '.' + version_tokens[2]
 
-        headers = {'Version': self._connection.get_facts().split('|')[0]}
+        headers = {'Version': version_number}
 
         if add_substitution_flag:
             headers['Flags'] = 'substitute_props'
