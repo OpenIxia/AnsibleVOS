@@ -299,7 +299,7 @@ class HttpApi:
         headers = {'Version': version_number}
 
         if add_substitution_flag:
-            headers['Flags'] = 'substitute_props'
+            headers['Flags'] = 'substitute_props+cli'
 
         try:
             if self._files:
