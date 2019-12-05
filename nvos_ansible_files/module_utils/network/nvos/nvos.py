@@ -291,12 +291,15 @@ class HttpApi:
         """
         # consider the case of intermediary versions (e.g. 5.2.0.2)
         version_number = self._connection.get_facts().split('|')[0]
-        version_tokens = version_number.split('.')
-        if len(version_tokens) > 3:
-            version_number = version_tokens[0] + '.' + version_tokens[1]\
-                             + '.' + version_tokens[2]
 
-        headers = {'Version': version_number}
+        if version_number != "no_version_header":
+            version_tokens = version_number.split('.')
+            if len(version_tokens) > 3:
+                version_number = version_tokens[0] + '.' + version_tokens[1]\
+                                 + '.' + version_tokens[2]
+            headers = {'Version': version_number}
+        else:
+            headers = {}
 
         if add_substitution_flag:
             headers['Flags'] = 'substitute_props+cli'

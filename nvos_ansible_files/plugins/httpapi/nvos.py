@@ -328,15 +328,22 @@ class HttpApi(HttpApiBase):
 
             # consider the case of intermediary versions (e.g. 5.2.0.2)
             version_number = facts.split('|')[0]
-            version_tokens = version_number.split('.')
-            if len(version_tokens) > 3:
-                version_number = version_tokens[0] + '.' + version_tokens[1] \
-                                 + '.' + version_tokens[2]
+            if version_number == "no_version_header":
+                result = self.send_request(path=url, data={}, method='OPTIONS',
+                                           headers={
+                                               'Content-type':
+                                                   'application/json'})
+            else:
+                version_tokens = version_number.split('.')
+                if len(version_tokens) > 3:
+                    version_number = version_tokens[0] + '.' + version_tokens[
+                        1] + '.' + version_tokens[2]
 
-            result = self.send_request(path=url, data={}, method='OPTIONS',
-                                       headers={
-                                           'Content-type': 'application/json',
-                                           'Version': version_number})
+                result = \
+                    self.send_request(path=url, data={}, method='OPTIONS',
+                                      headers={
+                                          'Content-type': 'application/json',
+                                          'Version': version_number})
 
             grammar = et.fromstring(result)
 
@@ -390,15 +397,22 @@ class HttpApi(HttpApiBase):
 
             # consider the case of intermediary versions (e.g. 5.2.0.2)
             version_number = facts.split('|')[0]
-            version_tokens = version_number.split('.')
-            if len(version_tokens) > 3:
-                version_number = version_tokens[0] + '.' + version_tokens[1] \
-                                 + '.' + version_tokens[2]
+            if version_number == "no_version_header":
+                result = self.send_request(path=url, data={}, method='OPTIONS',
+                                           headers={
+                                               'Content-type':
+                                                   'application/json'})
+            else:
+                version_tokens = version_number.split('.')
+                if len(version_tokens) > 3:
+                    version_number = version_tokens[0] + '.' + version_tokens[
+                        1] + '.' + version_tokens[2]
 
-            result = self.send_request(path=url, data={}, method='OPTIONS',
-                                       headers={
-                                           'Content-type': 'application/json',
-                                           'Version': version_number})
+                result = \
+                    self.send_request(path=url, data={}, method='OPTIONS',
+                                      headers={
+                                          'Content-type': 'application/json',
+                                          'Version': version_number})
 
             grammar = et.fromstring(result)
 
@@ -542,7 +556,7 @@ class HttpApi(HttpApiBase):
                     + response['hardware_info']['system_id']
             else:
                 HttpApi._host_facts[self.connection._url] = \
-                    response['software_version'].split('-')[0] + "|" + \
+                    "no_version_header|" + \
                     response['type'] + "|" + \
                     response['hardware_info']['system_id']
 
@@ -777,15 +791,20 @@ class HttpApi(HttpApiBase):
 
         # consider the case of intermediary versions (e.g. 5.2.0.2)
         version_number = self.connection.get_facts().split('|')[0]
-        version_tokens = version_number.split('.')
-        if len(version_tokens) > 3:
-            version_number = version_tokens[0] + '.' + version_tokens[1] \
-                             + '.' + version_tokens[2]
+        if version_number == "no_version_header":
+            headers = {'Content-Type': 'application/json',
+                       'Authentication': HttpApi._auth_tokens[
+                           self.connection._url]}
+        else:
+            version_tokens = version_number.split('.')
+            if len(version_tokens) > 3:
+                version_number = version_tokens[0] + '.' + version_tokens[1] \
+                                 + '.' + version_tokens[2]
 
-        headers = {'Version': version_number,
-                   'Content-Type': 'application/json',
-                   'Authentication': HttpApi._auth_tokens[
-                       self.connection._url]}
+            headers = {'Version': version_number,
+                       'Content-Type': 'application/json',
+                       'Authentication': HttpApi._auth_tokens[
+                           self.connection._url]}
 
         if data and 'file_name' in data:
             file_name = data['file_name']
