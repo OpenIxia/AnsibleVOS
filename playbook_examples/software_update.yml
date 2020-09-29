@@ -1,9 +1,9 @@
 ---
-- name: Using nvos_actions
+- name: Using vos_actions
   hosts: vision_npb
   gather_facts: no
   tasks:
     - name: Install new software image
-      nvos_actions:
+      vos_actions:
         action_name: install_software
         file_path: /home/testuser/NVOS_software_images/

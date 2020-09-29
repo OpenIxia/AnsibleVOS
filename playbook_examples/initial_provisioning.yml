@@ -1,10 +1,10 @@
 ---
-- name: Using nvos_system module
+- name: Using vos_system module
   hosts: vision_npb
 
   tasks:
   - name: Initial provisioning
-    nvos_system:
+    vos_system:
       login_banner_config:
         text: This is an Ansible configured login banner
       dns_config:

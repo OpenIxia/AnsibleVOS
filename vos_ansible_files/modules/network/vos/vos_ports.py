@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-NVOS module used to issue Web API calls implying the 'port_groups' resource from
-Ansbile.
+Keysight Visibility Operating System (VOS) module used to issue Web API calls
+implying the 'ports' resource from Ansbile.
 """
 
 ANSIBLE_METADATA = {
@@ -33,24 +33,73 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = '''
 ---
-module: nvos_port_groups
+module: vos_ports
 
-short_description: This module handles interactions with NVOS port_groups.
+short_description: This module handles interactions with Keysight Visibility Operating
+System (VOS) ports.
 
 version_added: "2.8"
 
 description:
-    - This module handles interactions with NVOS port_groups settings.
-    - NVOS version 5.2.0
+    - This module handles interactions with VOS ports settings.
+    - VOS version 5.2.0
     - Sub-options marked as required are mandatory only when the top parameter is used.
 
 options:
     afm_pipeline_direction:
         description:
-            - The AFM pipeline direction is a read-only property in most cases, reflecting the mode of any enabled advanced features.  The direction is automatically updated any time the mode of an enabled advanced features is changed or when the port mode requires a particular direction. The only case where this property can be updated is when adding a port configured to the SIMPLEX port mode into a port group.  If no advanced features are enabled on the port, the system will default to allowing AFM features on the network side and not on the tool side.  If the network-side port needs to be put in a port group that doesnt allow advanced features, or the tool-side port needs to be put in an advanced port group, the AFM_PIPELINE_DIRECTION will need to be set to EGRESS.
+            - The AFM pipeline direction is a read-only property in most cases, reflecting the mode of any enabled advanced features. The direction is automatically updated any time the mode of an enabled advanced features is changed or when the port mode requires a particular direction. The only case where this property can be updated is when adding a port configured to the SIMPLEX port mode into a port group. If no advanced features are enabled on the port, the system will default to allowing AFM features on the network side and not on the tool side. If the network-side port needs to be put in a port group that doesnt allow advanced features, or the tool-side port needs to be put in an advanced port group, the AFM_PIPELINE_DIRECTION will need to be set to EGRESS.
             - Available on all platforms.
         type: string
         choices: ['EGRESS', 'INGRESS']
+    cdr_bypass_enabled:
+        description:
+            - 
+            - Available on 7300 Series, E100 Series, Vision Edge OS, Vision X Series.
+        type: bool
+    connect_in_access_settings:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            groups:
+                description:
+                    - 
+                    - List of items described below.
+                    - The NAME property of a group
+                required: true
+                type: list
+            policy:
+                description:
+                    - 
+                required: true
+                type: string
+                choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
+    connect_out_access_settings:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            groups:
+                description:
+                    - 
+                    - List of items described below.
+                    - The NAME property of a group
+                required: true
+                type: list
+            policy:
+                description:
+                    - 
+                required: true
+                type: string
+                choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
+    copper_link_polling:
+        description:
+            - Enables or disables the setting for link polling for 1000Base-T Copper SFPs. It does not apply to a port group.
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, F100 Series, F400L Series.
+        type: bool
     custom_icon_id:
         description:
             - 
@@ -61,12 +110,16 @@ options:
             - Sets the optional, user-assigned port description.
             - Available on all platforms.
         type: string
-    failover_mode:
+    direct_attach_copper:
+        description:
+            - Enables or disables the flag that sets whether the port is using Direct Attach Copper (enabled) or Fiber (disabled).
+            - Available on all platforms.
+        type: bool
+    enabled:
         description:
             - 
             - Available on all platforms.
-        type: string
-        choices: ['RESILIENT', 'REBALANCE', 'NONE']
+        type: bool
     filter_criteria:
         description:
             - 
@@ -76,7 +129,9 @@ options:
             custom_mac_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -97,7 +152,9 @@ options:
             custom_mac_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     address_sets:
                         description:
@@ -130,7 +187,9 @@ options:
             custom_mac_src:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -151,7 +210,9 @@ options:
             custom_mac_src_or_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -172,7 +233,9 @@ options:
             custom_mac_srcdst_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr_a:
                         description:
@@ -191,7 +254,9 @@ options:
             dscp:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     value:
                         description:
@@ -201,7 +266,9 @@ options:
             ethertype:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     value:
                         description:
@@ -211,7 +278,9 @@ options:
             gtp_teid:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -230,7 +299,9 @@ options:
             inner_ip_protocol:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -249,7 +320,9 @@ options:
             inner_ip_version:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -268,7 +341,9 @@ options:
             inner_ipv4_dst_addr:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -289,7 +364,9 @@ options:
             inner_ipv4_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     address_sets:
                         description:
@@ -322,7 +399,9 @@ options:
             inner_ipv4_l4_dst_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -341,7 +420,9 @@ options:
             inner_ipv4_l4_port_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     flow_type:
                         description:
@@ -370,7 +451,9 @@ options:
             inner_ipv4_l4_src_or_dst_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -389,7 +472,9 @@ options:
             inner_ipv4_l4_src_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -408,7 +493,9 @@ options:
             inner_ipv4_l4_srcdst_port_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -427,7 +514,9 @@ options:
             inner_ipv4_src_addr:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -448,7 +537,9 @@ options:
             inner_ipv4_src_or_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -469,7 +560,9 @@ options:
             inner_ipv4_srcdst_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr_a:
                         description:
@@ -492,7 +585,9 @@ options:
             inner_ipv6_dst_addr:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -513,7 +608,9 @@ options:
             inner_ipv6_dst_interface_id:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -534,7 +631,9 @@ options:
             inner_ipv6_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     address_sets:
                         description:
@@ -567,7 +666,9 @@ options:
             inner_ipv6_l4_dst_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -586,7 +687,9 @@ options:
             inner_ipv6_l4_port_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     flow_type:
                         description:
@@ -615,7 +718,9 @@ options:
             inner_ipv6_l4_src_or_dst_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -634,7 +739,9 @@ options:
             inner_ipv6_l4_src_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -653,7 +760,9 @@ options:
             inner_ipv6_l4_srcdst_port_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -672,7 +781,9 @@ options:
             inner_ipv6_src_addr:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -693,7 +804,9 @@ options:
             inner_ipv6_src_interface_id:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -714,7 +827,9 @@ options:
             inner_ipv6_src_or_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -735,7 +850,9 @@ options:
             inner_ipv6_srcdst_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr_a:
                         description:
@@ -758,7 +875,9 @@ options:
             inner_vlan:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     priority:
                         description:
@@ -768,10 +887,25 @@ options:
                         description:
                             - 
                         type: integer
+            ip_fragment:
+                description:
+                    - 
+                    - List of items described below.
+                    - 
+                type: list
+                suboptions:
+                    value:
+                        description:
+                            - 
+                        required: true
+                        type: string
+                        choices: ['NON_FRAGMENT', 'FRAGMENT', 'FIRST_FRAGMENT']
             ip_protocol:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     value:
                         description:
@@ -781,7 +915,9 @@ options:
             ipv4_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -793,7 +929,9 @@ options:
             ipv4_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     address_sets:
                         description:
@@ -826,7 +964,9 @@ options:
             ipv4_session_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
+                type: list
                 suboptions:
                     sessions:
                         description:
@@ -838,7 +978,9 @@ options:
             ipv4_session_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     flow_type:
                         description:
@@ -871,7 +1013,9 @@ options:
             ipv4_session_src:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
+                type: list
                 suboptions:
                     sessions:
                         description:
@@ -883,7 +1027,9 @@ options:
             ipv4_session_src_or_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
+                type: list
                 suboptions:
                     sessions:
                         description:
@@ -895,7 +1041,9 @@ options:
             ipv4_src:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -907,7 +1055,9 @@ options:
             ipv4_src_or_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -919,7 +1069,9 @@ options:
             ipv4_srcdst_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr_a:
                         description:
@@ -942,7 +1094,9 @@ options:
             ipv6_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -954,7 +1108,9 @@ options:
             ipv6_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     address_sets:
                         description:
@@ -987,7 +1143,9 @@ options:
             ipv6_session_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
+                type: list
                 suboptions:
                     sessions:
                         description:
@@ -999,7 +1157,9 @@ options:
             ipv6_session_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     flow_type:
                         description:
@@ -1032,7 +1192,9 @@ options:
             ipv6_session_src:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
+                type: list
                 suboptions:
                     sessions:
                         description:
@@ -1044,7 +1206,9 @@ options:
             ipv6_session_src_or_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
+                type: list
                 suboptions:
                     sessions:
                         description:
@@ -1056,7 +1220,9 @@ options:
             ipv6_src:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -1068,7 +1234,9 @@ options:
             ipv6_src_or_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -1080,7 +1248,9 @@ options:
             ipv6_srcdst_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr_a:
                         description:
@@ -1103,7 +1273,9 @@ options:
             layer4_dst_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     port:
                         description:
@@ -1113,7 +1285,9 @@ options:
             layer4_port_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     flow_type:
                         description:
@@ -1142,7 +1316,9 @@ options:
             layer4_src_or_dst_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     port:
                         description:
@@ -1152,7 +1328,9 @@ options:
             layer4_src_port:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     port:
                         description:
@@ -1162,7 +1340,9 @@ options:
             layer4_srcdst_port_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -1186,7 +1366,9 @@ options:
             mac_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -1208,7 +1390,9 @@ options:
             mac_flow:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     address_sets:
                         description:
@@ -1241,7 +1425,9 @@ options:
             mac_src:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -1257,7 +1443,9 @@ options:
             mac_src_or_dst:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr:
                         description:
@@ -1269,7 +1457,9 @@ options:
             mac_srcdst_pair:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     addr_a:
                         description:
@@ -1288,7 +1478,9 @@ options:
             mpls_label:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -1315,11 +1507,15 @@ options:
             raw_custom:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
             tcp_control:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     value:
                         description:
@@ -1329,7 +1525,9 @@ options:
             vlan:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     priority:
                         description:
@@ -1342,7 +1540,9 @@ options:
             vntag:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     value:
                         description:
@@ -1352,7 +1552,9 @@ options:
             vxlan_vni:
                 description:
                     - 
-                type: dict
+                    - List of items described below.
+                    - 
+                type: list
                 suboptions:
                     field_name:
                         description:
@@ -1368,6 +1570,12 @@ options:
                             - 
                         required: true
                         type: integer
+    filter_match_count_unit:
+        description:
+            - 
+            - Available on all platforms.
+        type: string
+        choices: ['BYTES', 'PACKETS']
     filter_mode:
         description:
             - 
@@ -1383,7 +1591,7 @@ options:
     filtering_options:
         description:
             - 
-            - Available on all platforms.
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
         type: dict
         suboptions:
             optimize_connected_df_rules:
@@ -1391,12 +1599,40 @@ options:
                     - The optimize_connected_df_rules property defaults to true.
                 required: true
                 type: bool
+    force_link_up:
+        description:
+            - 
+            - Available on all platforms.
+        type: string
+        choices: ['DISABLED', 'NOT_SUPPORTED', 'MIXED', 'ENABLED']
+    forward_error_correction_settings:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            enabled:
+                description:
+                    - 
+                required: true
+                type: bool
+            fec_type:
+                description:
+                    - 
+                required: true
+                type: string
+                choices: ['FC_FEC', 'RS_FEC']
     icon_type:
         description:
             - 
             - Available on all platforms.
         type: string
-        choices: ['TAP', 'INLINE_BYPASS_PORT_SFP', 'INTERCONNECT', 'QSFP_PLUS', 'LOOPBACK_PORT_SFP', 'INLINE_BYPASS_PORT_CFP', 'BIDIRECTIONAL_PORT_QSFP28', 'INLINE_TOOL_PORT_GROUP', 'RJ45', 'OPENFLOW_PORT_CHANNEL', 'DESKTOP_CRT', 'XFP', 'NETSERVICE_INLINE_BYPASS_PORT_GROUP', 'LOAD_BALANCE', 'BIDIRECTIONAL_PORT_CFP', 'DUAL_QSFP_PLUS', 'ROUTER', 'INLINE_BYPASS_PORT_QSFP_PLUS', 'BIDIRECTIONAL_PORT_SFP', 'INLINE_TOOL_PORT_SFP', 'TOWER', 'WRENCH', 'LAPTOP', 'NETFLOW_INTERCONNECT', 'SIMPLEX_PORT_QSFP_PLUS', 'GTP_LOAD_BALANCE', 'MULTI_SERVICES_SWITCH', 'LAYER_3_SWITCH', 'PHONE', 'LOOPBACK_PORT_QSFP_PLUS', 'NETSERVICE_INLINE_TOOL_PORT_GROUP', 'HA_FABRIC_SFP', 'DESKTOP_LCD', 'SIMPLEX_PORT_SFP_PLUS', 'CFP', 'LOOPBACK_PORT_GROUP', 'LOOPBACK_PORT_QSFP28', 'INLINE_BYPASS_PORT_GROUP', 'SERVER', 'CUSTOM', 'QSFP28', 'AGGREGATION_PORT', 'SFP', 'INLINE_TOOL_PORT_CFP', 'MAGNIFYING_GLASS', 'WORKGROUP_SWITCH', 'CX4', 'BIDIRECTIONAL_PORT_QSFP_PLUS', 'SFP_PLUS', 'INLINE_TOOL_PORT_QSFP_PLUS', 'BIDI_INTERCONNECT', 'RACK', 'NETSERVICE_PASSIVE_DECRYPTED', 'HA_FABRIC_QSFP_PLUS']
+        choices: ['TAP', 'INLINE_BYPASS_PORT_SFP', 'LFD', 'INTERCONNECT', 'QSFP_PLUS', 'LOOPBACK_PORT_SFP', 'INLINE_BYPASS_PORT_CFP', 'BIDIRECTIONAL_PORT_QSFP28', 'INLINE_TOOL_PORT_GROUP', 'RJ45', 'OPENFLOW_PORT_CHANNEL', 'DESKTOP_CRT', 'XFP', 'NETSERVICE_INLINE_BYPASS_PORT_GROUP', 'LOAD_BALANCE', 'BIDIRECTIONAL_PORT_CFP', 'DUAL_QSFP_PLUS', 'ROUTER', 'INLINE_BYPASS_PORT_QSFP_PLUS', 'BIDIRECTIONAL_PORT_SFP', 'INLINE_TOOL_PORT_SFP', 'TOWER', 'WRENCH', 'LAPTOP', 'NETFLOW_INTERCONNECT', 'SIMPLEX_PORT_QSFP_PLUS', 'GTP_LOAD_BALANCE', 'MULTI_SERVICES_SWITCH', 'LAYER_3_SWITCH', 'PHONE', 'LOOPBACK_PORT_QSFP_PLUS', 'NETSERVICE_INLINE_TOOL_PORT_GROUP', 'HA_FABRIC_SFP', 'DESKTOP_LCD', 'SIMPLEX_PORT_SFP_PLUS', 'CFP', 'LOOPBACK_PORT_GROUP', 'LOOPBACK_PORT_QSFP28', 'INLINE_BYPASS_PORT_GROUP', 'SERVER', 'CUSTOM', 'QSFP28', 'AGGREGATION_PORT', 'SFP', 'INLINE_TOOL_PORT_CFP', 'MAGNIFYING_GLASS', 'WORKGROUP_SWITCH', 'CX4', 'BIDIRECTIONAL_PORT_QSFP_PLUS', 'SFP_PLUS', 'INLINE_TOOL_PORT_QSFP_PLUS', 'BIDI_INTERCONNECT', 'RACK', 'NETSERVICE_PASSIVE_DECRYPTED', 'HA_FABRIC_QSFP_PLUS']
+    ignore_pause_frames:
+        description:
+            - Enables or disables the flag that indicates whether the port is to ignore pause frames.
+            - Available on all platforms.
+        type: bool
     inline_bypass_connector_id:
         description:
             - 
@@ -1407,22 +1643,6 @@ options:
             - 
             - Available on TradeVision Series, E100 Series, E40 Series, Vision X Series, Vision E10S.
         type: integer
-    interconnect_info:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            addr:
-                description:
-                    - 
-                required: true
-                type: string
-            port_group:
-                description:
-                    - 
-                required: true
-                type: string
     keywords:
         description:
             - The list of keywords used by the filter.
@@ -1430,6 +1650,33 @@ options:
             - A lowercase version of the value, like port for PORT or Port.
             - Available on all platforms.
         type: list
+    link_settings:
+        description:
+            - Sets the requested port link settings.
+            - Available on all platforms.
+        type: string
+        choices: ['10M_HALF', '25G_FULL', '10M_FULL', 'G20_FULL', '100M_HALF', 'G42_FULL', '1G_FULL', '10G_FULL', '100M_FULL', '40G_FULL', '50G_FULL', 'AUTO', '100G_FULL']
+    link_up_down_trap_enabled:
+        description:
+            - Enables the link up/down traps for specific interfaces.
+            - Available on all platforms.
+        type: bool
+    lldp_receive_enabled:
+        description:
+            - 
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+        type: bool
+    lldp_transmit_enabled:
+        description:
+            - 
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+        type: bool
+    media_type:
+        description:
+            - 
+            - Available on all platforms.
+        type: string
+        choices: ['XFP_10G', 'RXAUI', 'DXAUI', 'QSFP_PLUS_40G', 'CPU_PCIE', 'CFP_100G', 'SFP28', 'COPPER_1G', 'QSFP28', 'SFP_1G', 'G42_HIGIG2', 'CX4_10G', 'SFP_PLUS_10G']
     mod_count:
         description:
             - 
@@ -1441,11 +1688,109 @@ options:
             - Available on all platforms.
         type: string
         choices: ['LOOPBACK', 'NETWORK', 'BYPASS_BIDIRECTIONAL', 'HA_FABRIC', 'BIDIRECTIONAL', 'TOOL', 'SIMPLEX', 'INLINE_TOOL_BIDIRECTIONAL']
+    modify_access_settings:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            groups:
+                description:
+                    - 
+                    - List of items described below.
+                    - The NAME property of a group
+                required: true
+                type: list
+            policy:
+                description:
+                    - 
+                required: true
+                type: string
+                choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
     name:
         description:
             - Sets the optional, user-assigned port name.
             - Available on all platforms.
         type: string
+    netstack_tunnel_origination_local_settings:
+        description:
+            - 
+            - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
+        type: dict
+        suboptions:
+            default_gateway:
+                description:
+                    - 
+                type: string
+            enabled:
+                description:
+                    - 
+                required: true
+                type: bool
+            l2gre_key:
+                description:
+                    - 
+                type: long
+            local_ip_address:
+                description:
+                    - 
+                type: string
+            subnet_mask:
+                description:
+                    - 
+                type: string
+            vnid:
+                description:
+                    - 
+                type: long
+    netstack_tunnel_origination_remote_settings:
+        description:
+            - 
+            - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
+        type: dict
+        suboptions:
+            remote_ip_address:
+                description:
+                    - 
+                required: true
+                type: string
+            remote_mac_address:
+                description:
+                    - 
+                type: dict
+                suboptions:
+                    mac_address:
+                        description:
+                            - 
+                        required: true
+                        type: string
+    netstack_tunnel_termination_settings:
+        description:
+            - 
+            - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
+        type: dict
+        suboptions:
+            dest_ip_addr:
+                description:
+                    - 
+                type: string
+            enabled:
+                description:
+                    - 
+                required: true
+                type: bool
+            ip_version:
+                description:
+                    - 
+                type: null
+            l2gre_key:
+                description:
+                    - 
+                type: long
+            vnid:
+                description:
+                    - 
+                type: long
     packet_length_trailer_settings:
         description:
             - 
@@ -1466,13 +1811,6 @@ options:
                     - The port_mode may be set to either NETWORK or TOOL. It defaults to null and will be set based on a network or tool ports mode. For bidirectional ports, it must be set to either NETWORK or TOOL.      
                 type: string
                 choices: ['LOOPBACK', 'NETWORK', 'BYPASS_BIDIRECTIONAL', 'HA_FABRIC', 'BIDIRECTIONAL', 'TOOL', 'SIMPLEX', 'INLINE_TOOL_BIDIRECTIONAL']
-    port_list:
-        description:
-            - The id list of ports aggregated to make up this PortGroup.
-            - List of items described below.
-            - The integer value of the ID property for an object
-            - Available on all platforms.
-        type: list
     pppoe_strip_settings:
         description:
             - 
@@ -1489,15 +1827,49 @@ options:
                     - The port_mode property may be set to either NETWORK or TOOL. It defaults to null and will be set based on a network or tool ports mode. For bidirectional ports, it must be set to either NETWORK or TOOL.
                 type: string
                 choices: ['LOOPBACK', 'NETWORK', 'BYPASS_BIDIRECTIONAL', 'HA_FABRIC', 'BIDIRECTIONAL', 'TOOL', 'SIMPLEX', 'INLINE_TOOL_BIDIRECTIONAL']
+    resource_access_settings:
+        description:
+            - 
+            - Available on 7300 Series, TradeVision Series, Vision X Series, Vision E10S.
+        type: dict
+        suboptions:
+            groups:
+                description:
+                    - 
+                    - List of items described below.
+                    - The NAME property of a group
+                required: true
+                type: list
+            policy:
+                description:
+                    - 
+                required: true
+                type: string
+                choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
     snmp_tag:
         description:
             - Sets the tag used by the SNMP component for a port.
             - Available on all platforms.
         type: string
-    std_strip_by_vlan_settings:
+    std_port_tagging_settings:
         description:
             - 
             - Available on all platforms.
+        type: dict
+        suboptions:
+            enabled:
+                description:
+                    - The enabled property defaults to false. When disabling this setting, vlan_id is an optional field, but vlan_id is required when setting it to enable.
+                required: true
+                type: bool
+            vlan_id:
+                description:
+                    - For information on the default values used for vlan_id see the User Guide.
+                type: integer
+    std_strip_by_vlan_settings:
+        description:
+            - 
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
         type: dict
         suboptions:
             enabled:
@@ -1564,150 +1936,147 @@ options:
                     - Arista MAC Substitution (7280R, 7500R).
                 required: true
                 type: bool
+    tx_light_status:
+        description:
+            - 
+            - Available on all platforms.
+        type: string
+        choices: ['NOT_SUPPORTED', 'MIXED', 'OFF', 'ON']
+    view_access_settings:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            groups:
+                description:
+                    - 
+                    - List of items described below.
+                    - The NAME property of a group
+                required: true
+                type: list
+            policy:
+                description:
+                    - 
+                required: true
+                type: string
+                choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
 
 author:
     - Keysight
 '''
 
 EXAMPLES = '''
-  - name: Create port group PG1_test_network
-    nvos_port_groups:
-      filtering_options:
-        optimize_connected_df_rules: true
-      mode: NETWORK
-      name: PG1_test_network
-      type: INTERCONNECT
-  - name: Create port group PG2_test_tool
-    nvos_port_groups:
-      filtering_options:
-        optimize_connected_df_rules: true
+  - name: Change port mode to TOOL
+    vos_ports:
+      enabled: true
+      mode: TOOL
+      name: P04
+  - name: Change port mode to BIDIRECTIONAL
+    vos_ports:
+      enabled: true
       mode: BIDIRECTIONAL
-      name: PG2_test_tool
-      type: INTERCONNECT
-  - name: Create port group PG3_test_bidi
-    nvos_port_groups:
-      filtering_options:
-        optimize_connected_df_rules: true
-      mode: LOOPBACK
-      name: PG3_test_bidi
-      type: INTERCONNECT
-  - name: Create port group PG4_test_loopback
-    nvos_port_groups:
-      filtering_options:
-        optimize_connected_df_rules: true
+      name: P03
+	    - name: Configure filter mode to Pass By Criteria for a NETWORK port
+    vos_ports:
+      enabled: true
+      filter_criteria:
+        ip_protocol:
+          value: '1'
+        ipv4_src:
+          addr:
+          - 192.168.100.0/24
+        logical_operation: AND
+        mac_src:
+          addr:
+          - 00-01-02-*-*-*
+      filter_mode: PASS_BY_CRITERIA
+      mode: NETWORK
+      name: P04
+  - name: Configure filter mode to Pass By Criteria for a TOOL port
+    vos_ports:
+      enabled: true
+      filter_criteria:
+        inner_vlan:
+          priority: '000'
+          vlan_id: '4090'
+        ip_protocol:
+          value: '118'
+        logical_operation: AND
+      filter_mode: PASS_BY_CRITERIA
       mode: TOOL
-      name: PG4_test_loopback
-      type: INTERCONNECT
-  - name: Create port group PG5_test_load_balance
-    nvos_port_groups:
-      filtering_options:
-        optimize_connected_df_rules: true
+      name: P03
+  - name: Enable Standard VLAN stripping for a NETWORK port
+    vos_ports:
       mode: TOOL
-      name: PG4_test_load_balance
-      type: LOAD_BALANCE
-  - name: Create port group PG1_test
-    nvos_port_groups:
-      description: This is a NETWORK port group
-      keywords:
-      - keyword1
-      - keyword2
-      - keyword3
-      mode: NETWORK
-      name: PG1_test
-      type: INTERCONNECT
-  - name: Change keywords
-    nvos_port_groups:
-      description: This is a NETWORK port group
-      keywords:
-      - keyword2
-      - keyword5
-      mode: NETWORK
-      name: PG1_test
-      type: INTERCONNECT	  
-  - name: Create port group PG1_test
-    nvos_port_groups:
-      mode: NETWORK
-      name: PG1_test
-      port_list:
-      - P04
-      - P03
-      - P02
-      type: INTERCONNECT
-  - name: Change the port list
-    nvos_port_groups:
-      mode: NETWORK
-      name: PG1_test
-      port_list:
-      - P04
-      type: INTERCONNECT	  
+      name: P04
+      std_vlan_strip_settings:
+        egress_count: 2
+        enabled: true
+        ingress_count: 0
+        strip_mode: EGRESS
+  - name: Enable Standard VLAN stripping for a BIDIRECTIONAL port
+    vos_ports:
+      mode: BIDIRECTIONAL
+      name: P03
+      std_vlan_strip_settings:
+        egress_count: 2
+        enabled: true
+        ingress_count: 0
+        strip_mode: EGRESS
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.network.nvos.nvos import HttpApi
+from ansible.module_utils.connection import Connection
+from ansible.module_utils.network.vos.resource_configurator import ResourceConfigurator
 
 
 def run_module():
     module = AnsibleModule(argument_spec={}, check_invalid_arguments=False)
-    httpApi = HttpApi(module)
+
+    connection = Connection(module._socket_path)
+
+    configurator = ResourceConfigurator(connection=connection, module=module)
 
     # fetch using Web API the python dictionary representing the argument_spec
-    properties = eval(httpApi._connection.get_py_dictionary('port_groups'))
-    # synthetic key used to refer to a port_group whose name we want to change
-    properties['port_group'] = dict(type='str')
-    # synthetic key used to delete an existing port group
+    properties = configurator.connection.get_python_representation_of_object('ports')
+    # synthetic key used to refer to a dynamic filter whose name we want to
+    # change
+
+    properties['port'] = dict(type='str')
+    # synthetic key used to delete an existing dynamic filter
     properties['delete'] = dict(type='bool')
 
-    httpApi._module = AnsibleModule(argument_spec=properties)
+    module = AnsibleModule(argument_spec=properties)
 
     result = dict(
         changed=False,
+        messages=[]
     )
 
     try:
-        clear_payload(httpApi._module.params)
+        configurator.clear_payload(module.params)
+        configurator.module = module
 
-        if 'port_group' in httpApi._module.params:
-            httpApi.get_target('port_group', '/port_groups')
-        elif 'name' in httpApi._module.params:
-            httpApi.get_target('name', '/port_groups')
-        else:
-            httpApi._module.resource_id = None
+        if 'port' in module.params:
+            configurator.get_target('port', '/ports')
+        elif 'name' in module.params:
+            configurator.get_target('name', '/ports')
 
-        output = httpApi.handle_port_groups()
-
-        result['messages'] = []
+        output = configurator.configure_ports()
 
         for each in output:
-            if type(each) is str:
-                each = eval(each)
-
-            if each['code'] not in [200, 202, 401]:
+            if each['status_code'] not in [200, 202, 401]:
                 result['failed'] = True
-            elif each['msg'] != 'NOT CHANGED':
+            elif each['content'] != 'NOT CHANGED':
                 result['changed'] = True
 
-            result['messages'].append(each['msg'])
+            result['messages'].append(each['content'])
 
         module.exit_json(**result)
 
     except Exception as e:
         module.fail_json(msg=e, **result)
-
-
-def clear_payload(input_dict):
-    """
-    Description: Removes from the input dictionary the keys with None values,
-    as they do not produce changes and either override existing values or
-    trigger Web API errors.
-
-    :param input_dict: dictionary to be processed
-    """
-    copy = {k: v for k, v in input_dict.items()}
-    for key, value in copy.items():
-        if value is None:
-            input_dict.pop(key)
-        elif isinstance(value, dict):
-            clear_payload(value)
 
 
 def main():
@@ -1716,3 +2085,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

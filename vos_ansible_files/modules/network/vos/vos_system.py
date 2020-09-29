@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-NVOS module used to issue Web API calls implying the 'system' resource from
-Ansbile.
+Keysight Visibility Operating System (VOS) module used to issue Web API calls
+implying the 'system' resource from Ansbile.
 """
 
 ANSIBLE_METADATA = {
@@ -33,18 +33,44 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = '''
 ---
-module: nvos_system
+module: vos_system
 
-short_description: This module handles interactions with NVOS system.
+short_description: This module handles interactions with Keysight Visibility Operating
+System (VOS) system.
 
 version_added: "2.8"
 
 description:
-    - This module handles interactions with NVOS system settings.
-    - NVOS version 5.2.0
+    - This module handles interactions with VOS system settings.
+    - VOS version 5.2.0
     - Sub-options marked as required are mandatory only when the top parameter is used.
 
 options:
+    action_access_settings:
+        description:
+            - Access settings of various actions
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            syslog_data:
+                description:
+                    - 
+                required: true
+                type: dict
+                suboptions:
+                    groups:
+                        description:
+                            - 
+                            - List of items described below.
+                            - The NAME property of a group
+                        required: true
+                        type: list
+                    policy:
+                        description:
+                            - 
+                        required: true
+                        type: string
+                        choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
     allow_serial_port_access:
         description:
             - Value that indicates if serial port access is allowed.
@@ -61,10 +87,78 @@ options:
             - Available on all platforms.
         type: string
         choices: ['TACACS', 'RADIUS', 'LDAP', 'LOCAL']
+    backup_schedule:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            description:
+                description:
+                    - Human-friendly version of the backup schedule.
+                required: true
+                type: string
+            enabled:
+                description:
+                    - Backups are only run when this value is set to true. They can be paused while still retaining the configuration when this is set to false.
+                required: true
+                type: bool
+            frequency:
+                description:
+                    - Indicates how frequently to run the backup. This is a time interval and should be something like WEEK 1, meaning once per week, or HOUR 3, meaning every three hours.
+                required: true
+                type: dict
+                suboptions:
+                    unit:
+                        description:
+                            - 
+                        required: true
+                        type: string
+                        choices: ['MSEC', 'SEC', 'MIN', 'HOUR', 'WEEK', 'DAY']
+                    value:
+                        description:
+                            - 
+                        required: true
+                        type: integer
+            last_run_time:
+                description:
+                    - Indicates the last time the backup ran. A value of 0 means backups have not yet run.
+                required: true
+                type: long
+            login_id:
+                description:
+                    - User name for logging into the location where backups are stored.
+                required: true
+                type: string
+            password:
+                description:
+                    - Password for the login_id for the location where backups are stored.
+                required: true
+                type: string
+            port:
+                description:
+                    - Port to use on the server.
+                required: true
+                type: integer
+            remote_location:
+                description:
+                    - Location on the remote server where to store the file.
+                required: true
+                type: string
+            server_addr:
+                description:
+                    - Address of the server where backups will be sent to.
+                required: true
+                type: string
+            start_time:
+                description:
+                    - Time to start the backups. The first backup will be done at this time and will continue based on the frequency. A value of 0 means to start backup right away.
+                required: true
+                type: long
     cli_config:
         description:
-            - Updating any cli_config property will cause the CLI service restart. As a result, the request will be terminated with HTTP status 202 Accepted and not 200 OK.  Also note that restarting the CLI service can take up to one minute to complete.
-            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+            - Updating any cli_config property will cause the CLI service restart. As a result, the request will be terminated with HTTP status 202 Accepted and not 200 OK. Also note that restarting the CLI service can take up to one minute to complete.
+            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series.
         type: dict
         suboptions:
             enabled:
@@ -124,7 +218,7 @@ options:
                                     - 
                                 required: true
                                 type: string
-                                choices: ['IPV6_SRC', 'IPV6_DST', 'TCP_CONTROL', 'INNER_VLAN', 'VLAN', 'IP_PROTOCOL', 'LAYER4_SRC_PORT', 'MAC_DST', 'MAC_SRC', 'LAYER4_DST_PORT', 'IPV4_SRC', 'IPV4_DST', 'DSCP', 'ETHERTYPE']
+                                choices: ['IPV6_SRC', 'IPV6_DST', 'TCP_CONTROL', 'INNER_VLAN', 'VLAN', 'IP_FRAGMENT', 'IP_PROTOCOL', 'LAYER4_SRC_PORT', 'MAC_DST', 'MAC_SRC', 'LAYER4_DST_PORT', 'IPV4_SRC', 'IPV4_DST', 'DSCP', 'ETHERTYPE']
                             name:
                                 description:
                                     - 
@@ -175,7 +269,7 @@ options:
                                     - 
                                 required: true
                                 type: string
-                                choices: ['IPV6_SRC', 'IPV6_DST', 'TCP_CONTROL', 'INNER_VLAN', 'VLAN', 'IP_PROTOCOL', 'LAYER4_SRC_PORT', 'MAC_DST', 'MAC_SRC', 'LAYER4_DST_PORT', 'IPV4_SRC', 'IPV4_DST', 'DSCP', 'ETHERTYPE']
+                                choices: ['IPV6_SRC', 'IPV6_DST', 'TCP_CONTROL', 'INNER_VLAN', 'VLAN', 'IP_FRAGMENT', 'IP_PROTOCOL', 'LAYER4_SRC_PORT', 'MAC_DST', 'MAC_SRC', 'LAYER4_DST_PORT', 'IPV4_SRC', 'IPV4_DST', 'DSCP', 'ETHERTYPE']
                             name:
                                 description:
                                     - 
@@ -245,6 +339,16 @@ options:
             - Available on all platforms.
         type: dict
         suboptions:
+            crl_server_addr:
+                description:
+                    - Address for alternate server for certificate revocation lookup.
+                required: true
+                type: string
+            enforce_ntp_auth_key:
+                description:
+                    - 
+                required: true
+                type: bool
             syslog_unknown_cert:
                 description:
                     - 
@@ -282,7 +386,7 @@ options:
                 description:
                     - 
                 type: string
-            require_whitelist:
+            require_passlist:
                 description:
                     - 
                 required: true
@@ -295,6 +399,11 @@ options:
                 required: true
                 type: list
                 suboptions:
+                    accept_icmpv6_redirect:
+                        description:
+                            - 
+                        required: true
+                        type: bool
                     address:
                         description:
                             - 
@@ -314,8 +423,10 @@ options:
             ip_ranges:
                 description:
                     - 
+                    - List of items described below.
+                    - GTP load balancing port group IP setting.
                 required: true
-                type: dict
+                type: list
                 suboptions:
                     gtp_lb_group_id:
                         description:
@@ -343,8 +454,10 @@ options:
             ip_ranges:
                 description:
                     - 
+                    - List of items described below.
+                    - GTP load balancing port group IP setting.
                 required: true
-                type: dict
+                type: list
                 suboptions:
                     gtp_lb_group_id:
                         description:
@@ -417,11 +530,6 @@ options:
                                 required: true
                                 type: dict
                                 suboptions:
-                                    name:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: string
                                     value:
                                         description:
                                             - 
@@ -441,7 +549,7 @@ options:
                         description:
                             - 
                         type: string
-                        choices: ['CAC', 'NO_CAC']
+                        choices: ['CAC', 'LDAP']
             servers:
                 description:
                     - 
@@ -449,6 +557,19 @@ options:
                     - 
                 type: list
                 suboptions:
+                    aaa_user_password:
+                        description:
+                            - For TACACS and Radius, this is the password to be used when enable_aaa_validation is set to true. For LDAP, this is the LDAP server administrator password.
+                        type: string
+                    aaa_username:
+                        description:
+                            - For TACACS and Radius, this is the username to be used when enable_aaa_validation is set to true. For LDAP, this is the LDAP server administrator username.
+                        type: string
+                    bind_type:
+                        description:
+                            - Type of binding to enforce for the LDAP server
+                        type: string
+                        choices: ['ANONYMOUS', 'SIMPLE']
                     host:
                         description:
                             - The IP address of the AAA server.
@@ -456,7 +577,7 @@ options:
                         type: string
                     ldap_string:
                         description:
-                            - 
+                            - The LDAP bind string
                         type: string
                     port:
                         description:
@@ -472,12 +593,12 @@ options:
                         type: integer
                     tls_enabled:
                         description:
-                            - 
+                            - When set to true, communication to and from the LDAP server is over TLS. A certificate is required.
                         type: bool
     lldp_config:
         description:
             - Configuration of LLDP receive and LLDP transmit settings common for all ports.
-            - Available on all platforms.
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
         type: dict
         suboptions:
             lldp_receive:
@@ -621,6 +742,12 @@ options:
                             - List of items described below.
                             - The integer value of the ID property for an object
                         type: list
+            intersection_early_classification_criteria:
+                description:
+                    - 
+                    - List of items described below.
+                    - 
+                type: list
             network:
                 description:
                     - 
@@ -630,12 +757,17 @@ options:
                 description:
                     - 
                 type: string
-                choices: ['NP_050_VRF_050', 'NP_050_DSIP_050', 'NP_025_DSIP_075', 'NP_000_DSIP_100']
+                choices: ['NP_050_VRF_050', 'NP_050_DSIP_050', 'NP_025_DSIP_075', 'NP_050_VRF_050_2K', 'NP_000_DSIP_100']
             tool:
                 description:
                     - 
                 type: string
                 choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
+    mgmt_port_allow_netservices:
+        description:
+            - 
+            - Available on TradeVision Series, Vision X Series.
+        type: bool
     mgmt_port_link_settings:
         description:
             - The requested speed and duplex of the management port.
@@ -646,6 +778,23 @@ options:
         description:
             - 
             - Available on all platforms.
+        type: integer
+    netstack_tunneling_l2gre_key_size:
+        description:
+            - NetStack Tunneling L2GRE key size (default 4 bytes).
+            - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
+        type: string
+        choices: ['2_BYTES', '3_BYTES', '4_BYTES', '20_BITS']
+    netstack_tunneling_protocol:
+        description:
+            - Store the NetStack Tunneling protocol.
+            - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
+        type: string
+        choices: ['L2GRE', 'VXLAN', 'ERSPAN']
+    netstack_tunneling_vxlan_udp_dest_port:
+        description:
+            - Store the NetStack Tunneling VXLAN UDP Dest Port.
+            - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
         type: integer
     ntp_server_list:
         description:
@@ -720,14 +869,14 @@ options:
                     - 
                 required: true
                 type: string
-                choices: ['FIPS_DOD_SECURITY', 'STRONG']
+                choices: ['DISABLED', 'FIPS_DOD_SECURITY', 'STRONG']
             user_inactive_days:
                 description:
                     - 
                 type: integer
     port_assigned_license_map:
         description:
-            - In a union, port_assigned_license_map must be updated on a member-by-member basis.  The URL of the PUT command must include the ID of the member being updated.  For example, to update the map of member S2, the URL would be similar to the following https//{system IP address}/api/system/S2
+            - In a union, port_assigned_license_map must be updated on a member-by-member basis. The URL of the PUT command must include the ID of the member being updated. For example, to update the map of member S2, the URL would be similar to the following https//{system IP address}/api/system/S2
             - Available on all platforms.
         type: dict
     power_on_self_test_enabled:
@@ -738,71 +887,57 @@ options:
     ptp_config:
         description:
             - PTP configuration.
-            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series.
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, F100 Series, F400L Series.
         type: dict
         suboptions:
             address_mode:
                 description:
                     - 
-                required: true
                 type: string
                 choices: ['UNICAST_ONLY', 'MULTICAST_ONLY']
             announce_receipt_timeout:
                 description:
                     - 
-                required: true
                 type: integer
+            client_address:
+                description:
+                    - 
+                type: dict
+                suboptions:
+                    ipv4_address:
+                        description:
+                            - 
+                        required: true
+                        type: string
+                    ipv4_gateway:
+                        description:
+                            - 
+                        required: true
+                        type: string
+                    ipv4_netmask:
+                        description:
+                            - 
+                        required: true
+                        type: string
             clock_domain:
                 description:
                     - 
-                required: true
                 type: integer
             dscp:
                 description:
                     - 
-                required: true
                 type: integer
             enabled:
                 description:
                     - 
-                required: true
                 type: bool
-            master_address:
-                description:
-                    - 
-                required: true
-                type: dict
-                suboptions:
-                    ipv4_address:
-                        description:
-                            - 
-                        required: true
-                        type: string
-                    ipv4_gateway:
-                        description:
-                            - 
-                        required: true
-                        type: string
-                    ipv4_netmask:
-                        description:
-                            - 
-                        required: true
-                        type: string
-            master_interface_speed:
-                description:
-                    - 
-                required: true
-                type: string
-                choices: ['AUTO', 'M100', 'G1']
             phase_lag:
                 description:
                     - 
-                required: true
                 type: integer
-            slave_address:
+            server_address:
                 description:
                     - 
-                required: true
                 type: dict
                 suboptions:
                     ipv4_address:
@@ -820,10 +955,14 @@ options:
                             - 
                         required: true
                         type: string
+            server_interface_speed:
+                description:
+                    - 
+                type: string
+                choices: ['AUTO', 'M100', 'G1']
             vlan_config:
                 description:
                     - 
-                required: true
                 type: dict
                 suboptions:
                     enabled:
@@ -872,11 +1011,6 @@ options:
                                 required: true
                                 type: dict
                                 suboptions:
-                                    name:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: string
                                     value:
                                         description:
                                             - 
@@ -909,11 +1043,11 @@ options:
                 suboptions:
                     aaa_user_password:
                         description:
-                            - The password to be used when enable_aaa_validation is set to true.
+                            - For TACACS and Radius, this is the password to be used when enable_aaa_validation is set to true. For LDAP, this is the LDAP server administrator password.
                         type: string
                     aaa_username:
                         description:
-                            - The username to be used when enable_aaa_validation is set to true.
+                            - For TACACS and Radius, this is the username to be used when enable_aaa_validation is set to true. For LDAP, this is the LDAP server administrator username.
                         type: string
                     acct_attrs:
                         description:
@@ -933,11 +1067,6 @@ options:
                                 required: true
                                 type: dict
                                 suboptions:
-                                    name:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: string
                                     value:
                                         description:
                                             - 
@@ -995,14 +1124,19 @@ options:
         suboptions:
             allow_disabling_auth_at_startup:
                 description:
-                    - When authentication is enabled on the serial console, an option exists to disable it within the first minute or so (depending on hardware) after system startup (boot).  This is a fallback for recovering the box should no one be able to log in.
-                required: true
+                    - 
                 type: bool
             banner:
                 description:
                     - 
                 required: true
                 type: string
+            recovery_option:
+                description:
+                    - When authentication is enabled on the serial console, set up recovery option for recovering the box at system start up if no one be able to log in.
+                required: true
+                type: string
+                choices: ['NONE', 'RESET_PASSWORD', 'DISABLE_LOGIN']
             session_timeout:
                 description:
                     - 
@@ -1020,6 +1154,11 @@ options:
                             - 
                         required: true
                         type: integer
+    server_log_encryption:
+        description:
+            - 
+            - Available on all platforms.
+        type: bool
     session_timeout_interval:
         description:
             - The session_timeout_interval value represents seconds. Zero indicates no timeout. Valid values are from 0 to 216000.
@@ -1058,11 +1197,6 @@ options:
                                 type: string
                                 choices: ['SHA1', 'MD5']
                             context_name:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                            engine_id:
                                 description:
                                     - 
                                 required: true
@@ -1149,11 +1283,6 @@ options:
                                 type: string
                                 choices: ['SHA1', 'MD5']
                             context_name:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                            engine_id:
                                 description:
                                     - 
                                 required: true
@@ -1326,11 +1455,16 @@ options:
                 description:
                     - This is used on the Web console login page as the html id in the password field. If this is set, the id of the password field will not be generated randomly with every refresh. Instead this text will be used as the html id every time. This allows an external application such as Cyber Ark to launch the NTO.
                 type: string
+            port_80_disabled:
+                description:
+                    - 
+                type: bool
     tac_ssh_enabled:
         description:
             - Indicates if SSH access is enabled through the TAC TOOL one-time login challenge script.
-            - Available on all platforms.
-        type: bool
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+        type: string
+        choices: ['DISABLED', 'ENABLED', 'HIDDEN']
     tacacs_servers:
         description:
             - List of configured TACACS servers.
@@ -1362,11 +1496,6 @@ options:
                                 required: true
                                 type: dict
                                 suboptions:
-                                    name:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: string
                                     value:
                                         description:
                                             - 
@@ -1399,11 +1528,11 @@ options:
                 suboptions:
                     aaa_user_password:
                         description:
-                            - The password to be used when enable_aaa_validation is set to true.
+                            - For TACACS and Radius, this is the password to be used when enable_aaa_validation is set to true. For LDAP, this is the LDAP server administrator password.
                         type: string
                     aaa_username:
                         description:
-                            - The username to be used when enable_aaa_validation is set to true.
+                            - For TACACS and Radius, this is the username to be used when enable_aaa_validation is set to true. For LDAP, this is the LDAP server administrator username.
                         type: string
                     acct_attrs:
                         description:
@@ -1423,11 +1552,6 @@ options:
                                 required: true
                                 type: dict
                                 suboptions:
-                                    name:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: string
                                     value:
                                         description:
                                             - 
@@ -1513,7 +1637,7 @@ options:
         type: string
     web_api_config:
         description:
-            - Updating any web_api_config property will cause a Web API service restart. As a result, the request will be terminated with HTTP status 202 Accepted and not 200 OK.  Also note that restarting the Web API service can take up to one minute to complete, during which time all console sessions will be unresponsive as well as the web API interface itself.
+            - Updating any web_api_config property will cause a Web API service restart. As a result, the request will be terminated with HTTP status 202 Accepted and not 200 OK. Also note that restarting the Web API service can take up to one minute to complete, during which time all console sessions will be unresponsive as well as the web API interface itself.
             - Available on all platforms.
         type: dict
         suboptions:
@@ -1571,12 +1695,12 @@ author:
 
 EXAMPLES = '''
   - name: Enable CLI settings
-    nvos_system:
+    vos_system:
       cli_config: 
         enabled: true
         port: 22222
   - name: Configure DNS server
-    nvos_system:
+    vos_system:
       dns_config: 
         alt_is_ipv6: true
         alt_server: 2001:428:e203::7
@@ -1584,14 +1708,14 @@ EXAMPLES = '''
         suffix1: dns_suffix1
         suffix2: dns_suffix2
   - name: Configure System information
-    nvos_system:
+    vos_system:
       system_info: 
         asset_info: This is an asset info text
         contact_info: user@mail.com
         location: YourLocation
         name: test device
   - name: Configure LLDP settings
-    nvos_system:
+    vos_system:
       lldp_config:
         lldp_receive:
           keep_neighbors_expired_enabled: true
@@ -1620,7 +1744,7 @@ EXAMPLES = '''
                 mac_address_enabled: true
               tlv_enabled: true
   - name: Configure NTP server list
-    nvos_system:
+    vos_system:
       ntp_server_list:
         enabled: true
         servers:
@@ -1635,7 +1759,7 @@ EXAMPLES = '''
         - address: ntp1.bit.nl
           authentication_enabled: false
   - name: Configure Radius servers
-    nvos_system:
+    vos_system:
       radius_servers:
         common:
           attrs:
@@ -1670,7 +1794,7 @@ EXAMPLES = '''
           secret: YourRadius
           timeout: 10		  
   - name: Configure SNMP requests
-    nvos_system:
+    vos_system:
       snmp_config:
         get_access:
         - community_string: community_v1
@@ -1695,7 +1819,7 @@ EXAMPLES = '''
         trap_recipients: []
         traps_enabled: false		  
   - name: Configure SNMP traps
-    nvos_system:
+    vos_system:
       snmp_config:
         get_access: []
         gets_enabled: false
@@ -1736,7 +1860,7 @@ EXAMPLES = '''
           version: V2
         traps_enabled: true
   - name: Configure SNMP traps
-    nvos_system:
+    vos_system:
       snmp_config:
         get_access: []
         gets_enabled: false
@@ -1769,10 +1893,10 @@ EXAMPLES = '''
           version: V3
         traps_enabled: true		
   - name: Change authentication mode
-    nvos_system:
+    vos_system:
       authentication_mode: TACACS
   - name: Configure Tacacs servers
-    nvos_system:
+    vos_system:
       tacacs_servers:
         common:
           attrs:
@@ -1814,63 +1938,44 @@ EXAMPLES = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.network.nvos.nvos import HttpApi
+from ansible.module_utils.connection import Connection
+from ansible.module_utils.network.vos.resource_configurator import ResourceConfigurator
 
 
 def run_module():
     module = AnsibleModule(argument_spec={}, check_invalid_arguments=False)
-    httpApi = HttpApi(module)
+
+    connection = Connection(module._socket_path)
+    configurator = ResourceConfigurator(connection=connection, module=module)
 
     # fetch using Web API the python dictionary representing the argument_spec
-    properties = eval(httpApi._connection.get_py_dictionary('system'))
+    properties = configurator.connection.get_python_representation_of_object('system')
 
-    httpApi.__module = AnsibleModule(argument_spec=properties)
+    module = AnsibleModule(argument_spec=properties)
 
     result = dict(
         changed=False,
+        messages=[]
     )
 
     try:
-        clear_payload(httpApi._module.params)
+        configurator.clear_payload(module.params)
+        configurator.module = module
 
-        output = httpApi.handle_system()
-
-        result['messages'] = []
+        output = configurator.configure_system()
 
         for each in output:
-            if type(each) is str:
-                each = eval(each)
-
-            if each['code'] not in [200, 202, 401]:
+            if each['status_code'] not in [200, 202, 401]:
                 result['failed'] = True
-            elif each['msg'] != 'NOT CHANGED':
+            elif each['content'] != 'NOT CHANGED':
                 result['changed'] = True
 
-            result['messages'].append(each['msg'])
+            result['messages'].append(each['content'])
 
         module.exit_json(**result)
 
     except Exception as e:
         module.fail_json(msg=e, **result)
-
-    result['changed'] = True
-    module.exit_json(**result)
-
-
-def clear_payload(input_dict):
-    """
-    Description: Removes from the input dictionary the keys with None values,
-    as they do not produce changes and either override existing values or
-    trigger Web API errors.
-
-    :param input_dict: dictionary to be processed
-    """
-    copy = {k: v for k, v in input_dict.items()}
-    for key, value in copy.items():
-        if value is None:
-            input_dict.pop(key)
-        elif isinstance(value, dict):
-            clear_payload(value)
 
 
 def main():
@@ -1879,3 +1984,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

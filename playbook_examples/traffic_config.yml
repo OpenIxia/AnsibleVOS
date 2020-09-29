@@ -3,7 +3,7 @@
   hosts: vision_npb
   gather_facts: false
   tasks:
-      nvos_ports:
+      vos_ports:
         port: P01
         name: From TAP1
         enabled: true
@@ -18,7 +18,7 @@
           vlan_id: 101
 
     - name: Enable port P02 and configure it to pass IPv4 traffic
-      nvos_ports:
+      vos_ports:
         port: P02
         name: From TAP2
         enabled: true
@@ -33,7 +33,7 @@
           vlan_id: 102
 
     - name: Enable port P03 and configure it to pass IPv4 traffic
-      nvos_ports:
+      vos_ports:
         port: P03
         name: From TAP3
         enabled: true
@@ -48,7 +48,7 @@
           vlan_id: 103
 
     - name: Enable port P10 and make it tool
-      nvos_ports:
+      vos_ports:
         port: P10
         name: Probe 1 port 1
         keywords: IT
@@ -56,7 +56,7 @@
         mode: TOOL
 
     - name: Enable port P11 and make it tool
-      nvos_ports:
+      vos_ports:
         port: P11
         name: Probe 1 port 2
         keywords: IT
@@ -64,14 +64,14 @@
         mode: TOOL
 
     - name: Enable port P12 and make it tool
-      nvos_ports:
+      vos_ports:
         port: P12
         name: To probe 2
         enabled: true
         mode: TOOL
 
     - name: Create interconnect tool port group
-      nvos_port_groups:
+      vos_port_groups:
         name: To probe 1
         mode: TOOL
         type: INTERCONNECT
@@ -80,7 +80,7 @@
           - Probe 1 port 2
 
     - name: Create PBC filter for server group 1
-      nvos_filters:
+      vos_filters:
         name: Server Group 1
         mode: PASS_BY_CRITERIA
         criteria:
@@ -111,7 +111,7 @@
           - From TAP3
 
     - name: Create PBC filter for server group 2
-      nvos_filters:
+      vos_filters:
         name: Server Group 2
         mode: PASS_BY_CRITERIA
         criteria:

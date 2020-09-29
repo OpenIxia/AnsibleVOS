@@ -1,10 +1,10 @@
 ---
-- name: Using nvos_action module
+- name: Using vos_action module
   hosts: vision_npb
 
   tasks:
   - name: Configuration backup
-    nvos_actions:
+    vos_actions:
       action_name: export
       export_payload:
         boundary: INCLUDE
