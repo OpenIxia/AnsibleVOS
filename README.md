@@ -37,7 +37,7 @@ git clone https://github.com/OpenIxia/AnsibleVOS.git
 3. Copy Keysight VOS modules, module_utils and plugins into Ansible library folder.
 <pre><code>e.g. sudo cp -r modules module_utils plugins <b>/usr/local/lib/python3.6/dist-packages/ansible</b></pre></code>
 4. Open a terminal where your playbooks are located and run your first test. 
-``
+```
 ansible-playbook playbook_name.yml
 ```
 
