@@ -6,7 +6,7 @@ On the Vision NPB devices:
 1. Keysight VOS version 5.2.0 or greater
 
 On the Linux machine used to run Ansible playbooks:
-1. Ansible 2.8.3 or greater installed
+1. Ansible 2.8.3 installed
 ```
 e.g. sudo pip3 install ansible
 ```
