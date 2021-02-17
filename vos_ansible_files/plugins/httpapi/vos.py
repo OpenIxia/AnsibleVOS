@@ -134,6 +134,8 @@ class HttpApi(HttpApiBase):
         expression = ".//*[@id='%s']" % a_ref
         try:
             node = xml.find(expression)
+            if a_name is None:
+                a_name = node.get('name')
         except SyntaxError:
             node = None
         if node is None:
@@ -303,23 +305,22 @@ class HttpApi(HttpApiBase):
                     # end of map type processing
         return output
 
-    def get_python_representation_of_object(self, resource_value):
+    def get_python_representation_of_object(self, resource_url, resource_name):
         """
         Description: Method that dynamically retrieves the python dictionary
         associated to a NPB platform, version and resource.
 
-        :param resource_value: the resource type whose python representation we
+        :param resource_name: the resource type whose python representation we
          want to get
+        :param resource_url: the path associated in WebAPI to resource_name
         :return: the python dictionary
         """
         if self.connection._connected is False:
             self.connection._connect()
 
-        key = self.connection._url + "_" + resource_value
-
+        key = self.connection._url + "_" + resource_url
         if key not in self.repository:
-            url = self.connection._url + '/docs/' + resource_value
-
+            url = self.connection._url + '/docs/' + resource_url
             headers = self.get_headers()
 
             result = self.execute_request(url=url, data={},
@@ -327,10 +328,8 @@ class HttpApi(HttpApiBase):
 
             grammar = et.fromstring(result.text)
 
-            node = grammar.find(".")
-
-            w_name = ".//*[@name='%s_writable_properties']/param" % resource_value
-            c_name = ".//*[@name='%s_create_properties']/param" % resource_value
+            w_name = ".//*[@name='%s_writable_properties']/param" % resource_name
+            c_name = ".//*[@name='%s_create_properties']/param" % resource_name
 
             writable = grammar.findall(w_name)
             creatable = grammar.findall(c_name)
@@ -338,10 +337,13 @@ class HttpApi(HttpApiBase):
             visited = list()
             py_dict = dict()
 
+            if resource_name == 'packetstack_resources':
+                py_dict = self.get_python_representation_of_method(False, resource_url)
+
             for each in itertools.chain(writable, creatable):
                 a_name = each.get('name')
 
-                if a_name not in visited:
+                if a_name is not None and a_name not in visited:
                     visited.append(a_name)
 
                     try:
@@ -357,37 +359,40 @@ class HttpApi(HttpApiBase):
 
         return self.repository[key]
 
-    def get_python_representation_of_action(self):
+    def get_python_representation_of_method(self, query_for_actions=True, resource_url='actions'):
         """
         Description: Method that dynamically retrieves the python dictionary
-        associated to a NPB platform and version for the actions resource.
+        associated to a NPB platform and version for the actions resource or
+        for particular operations associated with regular NPB resources.
 
         :return: the python dictionary for the actions resource
         """
         if self.connection._connected is False:
             self.connection._connect()
 
-        key = self.connection._url + "_actions"
-
+        key = self.connection._url + "_" + resource_url
         if key not in self.repository:
-            url = self.connection._url + '/docs/actions'
+            url = self.connection._url + '/docs/' + resource_url
 
             headers = self.get_headers()
-
             result = self.execute_request(url=url, data={},
                                           method='OPTIONS', headers=headers)
 
             grammar = et.fromstring(result.text)
 
-            node = grammar.find(".")
-
-            name = ".//*[@http_method='POST']"
+            if query_for_actions:
+                name = ".//*[@http_method='POST']"
+            else:
+                name = ".//*[@http_method='PUT']"
             methods = grammar.findall(name)
 
             visited = list()
             py_dict = dict()
 
             for each_method in methods:
+                if each_method.get('name') == 'Update':
+                    continue
+
                 request = each_method.findall("request")[0]
 
                 if request is not None:
@@ -403,10 +408,18 @@ class HttpApi(HttpApiBase):
                                 node_style = None
                             if node_style is not None:
                                 node_name = each.get('fixed')
-                                if node_name + "_payload" not in visited:
-                                    visited.append(node_name + "_payload")
-                                continue
+
+                                if query_for_actions:
+                                    node_name += "_payload"
+
+                                if node_name is not None and node_name not in visited:
+                                    visited.append(node_name)
                             else:
+                                if not query_for_actions:
+                                    node_name = each.get('name')
+                                    if node_name is not None and node_name not in visited:
+                                        visited.append(node_name)
+
                                 try:
                                     node_ref = each.get('ref')[1:]
                                 except TypeError:
@@ -418,10 +431,9 @@ class HttpApi(HttpApiBase):
 
                                 py_dict.update(
                                     self.define_type(grammar,
-                                                     node_name + "_payload",
+                                                     node_name,
                                                      node_ref, node_type,
-                                                     HttpApi.check_qualifier(
-                                                         each)))
+                                                     HttpApi.check_qualifier(each)))
 
             self.repository[key] = py_dict
 
@@ -579,7 +591,6 @@ class HttpApi(HttpApiBase):
         data = dumps(data) if type(data) == dict else data
         headers = self.get_headers() if headers is None else headers
         url = self.connection._url + path
-
         response = self.execute_request(url=url, data=data, method=method,
                                         headers=headers)
 
@@ -756,7 +767,7 @@ class HttpApi(HttpApiBase):
         """
         host = self.connection._url
         if host not in self.host_details:
-            url = '/system?properties=type,software_version,hardware_info'
+            url = '/system?properties=type,hardware_info'
 
             response = self.send_request(path=url, data={}, method='GET',
                                          headers=BASE_HEADERS)
@@ -771,16 +782,22 @@ class HttpApi(HttpApiBase):
             response_data = loads(response_data)
 
             if SOFTWARE_VERSION in self.connection._options:
-                version = self.connection.get_option(SOFTWARE_VERSION)
-
                 self.host_details[host] = \
-                    version + "|" + response_data['type'] + "|" \
-                    + response_data['hardware_info']['system_id']
+                    self.connection.get_option(SOFTWARE_VERSION) + "|" + \
+                    response_data['type'] + "|" + \
+                    response_data['hardware_info']['system_id']
             else:
                 self.host_details[host] = \
                     NO_VERSION_HEADER + "|" + \
                     response_data['type'] + "|" + \
                     response_data['hardware_info']['system_id']
+
+    def set_software_version(self, version):
+        """
+        Description: Method designed to set the software version value within
+        connection's options.
+        """
+        self.connection.set_option(SOFTWARE_VERSION, version)
 
     def get_headers(self):
         """

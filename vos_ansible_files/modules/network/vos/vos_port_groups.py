@@ -1452,6 +1452,18 @@ options:
                             - 
                         required: true
                         type: integer
+            outer_tpid:
+                description:
+                    - 
+                    - List of items described below.
+                    - 
+                type: list
+                suboptions:
+                    value:
+                        description:
+                            - 
+                        required: true
+                        type: integer
             raw_custom:
                 description:
                     - 
@@ -1596,6 +1608,32 @@ options:
             - Sets the optional, user-assigned port name.
             - Available on all platforms.
         type: string
+    nextgen_gsc_tpg_config:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            enable_session_thresholds:
+                description:
+                    - 
+                required: true
+                type: bool
+            non_session_tpg:
+                description:
+                    - 
+                required: true
+                type: bool
+            session_thresholds:
+                description:
+                    - 
+                required: true
+                type: integer
+            utilization_thresholds:
+                description:
+                    - 
+                required: true
+                type: integer
     packet_length_trailer_settings:
         description:
             - 
@@ -1804,13 +1842,15 @@ def run_module():
     configurator = ResourceConfigurator(connection=connection, module=module)
 
     # fetch using Web API the python dictionary representing the argument_spec
-    properties = configurator.connection.get_python_representation_of_object('port_groups')
+    properties = configurator.connection.get_python_representation_of_object('port_groups', 'port_groups')
 
     # synthetic key used to refer to a dynamic filter whose name we want to
     # change
     properties['port_group'] = dict(type='str')
     # synthetic key used to delete an existing dynamic filter
     properties['delete'] = dict(type='bool')
+    # synthetic key used to specify the software version
+    properties['software_version'] = dict(type='str')
 
     module = AnsibleModule(argument_spec=properties)
 

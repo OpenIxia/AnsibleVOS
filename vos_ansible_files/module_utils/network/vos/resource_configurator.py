@@ -32,7 +32,9 @@ ANSIBLE_METADATA = {
 }
 
 from json import dumps
+import re
 
+SOFTWARE_VERSION = 'software_version'
 EXPORT_ACTION = 'export'
 SAVE_LOGS_ACTION = 'save_logs'
 EXPORT_OFFLINE_LICENSE = 'export_offline_license_request_file'
@@ -40,6 +42,12 @@ BINARY_ACTIONS = [EXPORT_ACTION, SAVE_LOGS_ACTION, EXPORT_OFFLINE_LICENSE]
 BINARY = 'binary'
 MULTIPART = 'multipart'
 REGULAR = 'regular'
+REGEX = '^[0-9]+$'
+RAFM_URL = '/recirculated_afm_resources/'
+ENABLE = '/enable'
+DISABLE = '/disable'
+ATIP_URL = '/atip_resources/'
+RESOURCE_ATTACHMENT_RESULTS = {'resource_not_set': 0, 'resource_set_same_config': 1, 'resource_set_different_config': 2}
 
 
 class ResourceConfigurator:
@@ -47,6 +55,9 @@ class ResourceConfigurator:
         self.connection = connection
         self.module = module
         self.resource_ids = []
+
+        if SOFTWARE_VERSION in module.params:
+            self.connection.set_software_version(module.params[SOFTWARE_VERSION])
 
     def get_all_items(self, resource_url):
         """
@@ -67,24 +78,6 @@ class ResourceConfigurator:
             output.append(each['name'])
 
         return output
-
-    def get_comma_list_items(self, object_list):
-        """
-        Description: Method that retrieves all objects of a particular type in
-        NPB from a comma separated list.
-
-        :param object_list: actual list expressed like "[P10, P20, P30]"
-        :return: a list of names
-        """
-        if "'" in object_list:
-            object_list = object_list.replace("'", "")
-        if '"' in object_list:
-            object_list = object_list.replace('"', '')
-
-        tokens = object_list.split(',')
-        stripped_tokens = [item.strip() for item in tokens]
-
-        return stripped_tokens
 
     def get_range(self, resource_url, object_range):
         """
@@ -148,8 +141,7 @@ class ResourceConfigurator:
             self.resource_ids = self.get_all_items(resource_url)
         elif target.startswith("[") and target.endswith("]"):
             if ',' in target:
-                self.resource_ids = self.get_comma_list_items(
-                    target[1:-1])
+                self.resource_ids = get_comma_list_items(target[1:-1])
             else:
                 self.resource_ids = self.get_range(resource_url,
                                                    target[1:-1])
@@ -239,10 +231,55 @@ class ResourceConfigurator:
         """
         copy = {k: v for k, v in input_dict.items()}
         for key, value in copy.items():
-            if value is None:
+            if key == SOFTWARE_VERSION:
+                input_dict.pop(SOFTWARE_VERSION)
+            elif value is None:
                 input_dict.pop(key)
             elif isinstance(value, dict):
                 self.clear_payload(value)
+
+    def unicode_to_numeric_list_conversion(self, input_list):
+        """
+        Description: Converts positive integer values
+        represented as unicode strings from a list into
+        corresponding integers
+        :param input_list: list to be processed
+        """
+        copy = list(input_list)
+        for index in range(len(copy)):
+            item = copy[index]
+            if isinstance(item, dict):
+                self.unicode_to_numeric_dict_conversion(item)
+            elif isinstance(item, list):
+                self.unicode_to_numeric_list_conversion(item)
+            elif isinstance(item, bool) or isinstance(item, int) \
+                    or isinstance(item, float):
+                continue
+            elif re.search(REGEX, item):
+                input_list[index] = int(item)
+
+        return input_list
+
+    def unicode_to_numeric_dict_conversion(self, input_dict):
+        """
+        Description: Converts positive integer values
+        represented as unicode strings from a dict into
+        corresponding integers
+        :param input_dict: dictionary to be processed
+        """
+        copy = {k: v for k, v in input_dict.items()}
+        for key, value in copy.items():
+            if isinstance(value, dict):
+                self.unicode_to_numeric_dict_conversion(value)
+            elif isinstance(value, list):
+                self.unicode_to_numeric_list_conversion(value)
+            elif isinstance(value, bool) or isinstance(value, int) \
+                    or isinstance(value, float):
+                continue
+            elif re.search(REGEX, value):
+                input_dict[key] = int(value)
+
+        return input_dict
 
     def will_payload_imply_changes(self, url, data, method):
         """
@@ -272,10 +309,45 @@ class ResourceConfigurator:
             resp_text = resp_text.replace('null', '"null"')
 
             resp_dict = eval(resp_text)
+            resp_dict = self.unicode_to_numeric_dict_conversion(resp_dict)
 
             return not self.is_subdict(data, resp_dict)
 
         return True
+
+    def is_resource_attached(self, url, data):
+        """
+        Description: Method that checks if a resource is attached and compares
+        the values in the request body with existing values on the resource.
+
+        :param url: the HTTP url of the request
+        :param data: the HTTP body of the request
+        :return: one of the RESOURCE_ATTACHMENT_RESULTS values
+        """
+        url_res = url[:url.rfind('/')]
+        resp_res = self.connection.send_request(url_res, {}, 'GET')
+
+        if resp_res['status_code'] == 200:
+            lane_config_list = resp_res['content']['lane_config_list']
+            if lane_config_list:
+                for lane_config in lane_config_list:
+                    kind = lane_config['attachment_type'].lower()
+
+                    url_attachment = '/' + kind + 's/' + lane_config['attachment_id']
+                    resp_attachment = self.connection.send_request(url_attachment, {}, 'GET')
+
+                    if resp_attachment['status_code'] == 200:
+                        if resp_attachment['content']['id'] == data['object_id'] or \
+                            resp_attachment['content']['name'] == data['object_id'] or \
+                                resp_attachment['content']['default_name'] == data['object_id']:
+
+                            if 'allocated_bandwidth' in data and \
+                                    lane_config['allocated_bandwidth'] == data["allocated_bandwidth"]:
+                                return RESOURCE_ATTACHMENT_RESULTS['resource_set_same_config']
+
+                            return RESOURCE_ATTACHMENT_RESULTS['resource_set_different_config']
+
+        return RESOURCE_ATTACHMENT_RESULTS['resource_not_set']
 
     def configure(self, url, method, data, request_type=REGULAR):
         """
@@ -297,11 +369,30 @@ class ResourceConfigurator:
         elif request_type == BINARY:
             response = self.connection.send_binary(path=url, data=data)
         else:
-            if self.will_payload_imply_changes(url, data, method):
-                response = self.connection.send_request(path=url, data=data,
-                                                        method=method)
+            if RAFM_URL in url and (ENABLE in url or DISABLE in url):
+                result = self.is_resource_attached(url, data)
+                if DISABLE in url:
+                    if result == RESOURCE_ATTACHMENT_RESULTS['resource_not_set']:
+                        return {'status_code': 200, 'content': 'NOT CHANGED'}
+                    else:
+                        return self.connection.send_request(path=url, data=data, method=method)
+                else:
+                    if result == RESOURCE_ATTACHMENT_RESULTS['resource_set_same_config']:
+                        return {'status_code': 200, 'content': 'NOT CHANGED'}
+                    elif result == RESOURCE_ATTACHMENT_RESULTS['resource_set_different_config']:
+                        return {'status_code': 409, 'content': "FAILED - Cannot change "
+                                                               "PacketStack properties while the resource is attached."}
+                    else:
+                        response = self.connection.send_request(path=url, data=data, method=method)
             else:
-                return {'status_code': 200, 'content': 'NOT CHANGED'}
+                skipped = True
+                if not self.will_payload_imply_changes(url, data, method):
+                    skipped = False
+
+                response = self.connection.send_request(path=url, data=data, method=method)
+
+                if skipped:
+                    return {'status_code': 200, 'content': 'NOT CHANGED'}
 
         response = self.connection.check_error_codes(response, url, data,
                                                      method)
@@ -323,6 +414,35 @@ class ResourceConfigurator:
                 content = ''
 
             response['content'] = 'SUCCESSFULLY CHANGED' + content
+
+        return response
+
+    def configure_resources(self):
+        """
+        Description: Method for constructing Web API resources requests that are
+        further handled by the generic method.
+
+        :return: the response from the generic method
+        """
+        resource_type = self.module.params['type']
+
+        if resource_type == 'packet_stack':
+            url = RAFM_URL
+        elif resource_type == 'app_stack':
+            url = ATIP_URL
+        if 'payload' in self.module.params:
+            payload = self.module.params['payload']
+        else:
+            payload = dict()
+
+        response = []
+        if self.resource_ids:
+            for each in self.resource_ids:
+                url += each
+                if 'operation' in self.module.params:
+                    url += '/' + self.module.params['operation']
+                response.append(
+                    self.configure(url=url, method='PUT', data=payload))
 
         return response
 
@@ -467,3 +587,20 @@ class ResourceConfigurator:
         return response
 
 
+def get_comma_list_items(object_list):
+    """
+    Description: Method that retrieves all objects of a particular type in
+    NPB from a comma separated list.
+
+    :param object_list: actual list expressed like "[P10, P20, P30]"
+    :return: a list of names
+    """
+    if "'" in object_list:
+        object_list = object_list.replace("'", "")
+    if '"' in object_list:
+        object_list = object_list.replace('"', '')
+
+    tokens = object_list.split(',')
+    stripped_tokens = [item.strip() for item in tokens]
+
+    return stripped_tokens

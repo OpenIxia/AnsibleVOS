@@ -98,7 +98,7 @@ options:
     copper_link_polling:
         description:
             - Enables or disables the setting for link polling for 1000Base-T Copper SFPs. It does not apply to a port group.
-            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, F100 Series, F400L Series.
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, F100 Series, F400 Series.
         type: bool
     custom_icon_id:
         description:
@@ -1504,6 +1504,18 @@ options:
                             - 
                         required: true
                         type: integer
+            outer_tpid:
+                description:
+                    - 
+                    - List of items described below.
+                    - 
+                type: list
+                suboptions:
+                    value:
+                        description:
+                            - 
+                        required: true
+                        type: integer
             raw_custom:
                 description:
                     - 
@@ -1718,10 +1730,6 @@ options:
             - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
         type: dict
         suboptions:
-            default_gateway:
-                description:
-                    - 
-                type: string
             enabled:
                 description:
                     - 
@@ -1731,14 +1739,6 @@ options:
                 description:
                     - 
                 type: long
-            local_ip_address:
-                description:
-                    - 
-                type: string
-            subnet_mask:
-                description:
-                    - 
-                type: string
             vnid:
                 description:
                     - 
@@ -1770,10 +1770,6 @@ options:
             - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
         type: dict
         suboptions:
-            dest_ip_addr:
-                description:
-                    - 
-                type: string
             enabled:
                 description:
                     - 
@@ -1791,6 +1787,72 @@ options:
                 description:
                     - 
                 type: long
+    network_interface_settings:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            arp_reply_enabled:
+                description:
+                    - 
+                type: bool
+            default_gateway:
+                description:
+                    - 
+                type: string
+            icmp_reply_enabled:
+                description:
+                    - 
+                type: bool
+            ip_address:
+                description:
+                    - 
+                type: string
+            ip_settings_enabled:
+                description:
+                    - 
+                required: true
+                type: bool
+            ip_version:
+                description:
+                    - 
+                type: null
+            subnet_mask:
+                description:
+                    - 
+                type: string
+            vlan_enabled:
+                description:
+                    - 
+                required: true
+                type: bool
+    nextgen_gsc_tpg_config:
+        description:
+            - 
+            - Available on all platforms.
+        type: dict
+        suboptions:
+            enable_session_thresholds:
+                description:
+                    - 
+                required: true
+                type: bool
+            non_session_tpg:
+                description:
+                    - 
+                required: true
+                type: bool
+            session_thresholds:
+                description:
+                    - 
+                required: true
+                type: integer
+            utilization_thresholds:
+                description:
+                    - 
+                required: true
+                type: integer
     packet_length_trailer_settings:
         description:
             - 
@@ -1830,7 +1892,7 @@ options:
     resource_access_settings:
         description:
             - 
-            - Available on 7300 Series, TradeVision Series, Vision X Series, Vision E10S.
+            - Available on 7300 Series, TradeVision Series, Vision X Series, Vision E10S, F400 Series.
         type: dict
         suboptions:
             groups:
@@ -2039,13 +2101,15 @@ def run_module():
     configurator = ResourceConfigurator(connection=connection, module=module)
 
     # fetch using Web API the python dictionary representing the argument_spec
-    properties = configurator.connection.get_python_representation_of_object('ports')
+    properties = configurator.connection.get_python_representation_of_object('ports', 'ports')
     # synthetic key used to refer to a dynamic filter whose name we want to
     # change
 
     properties['port'] = dict(type='str')
     # synthetic key used to delete an existing dynamic filter
     properties['delete'] = dict(type='bool')
+    # synthetic key used to specify the software version
+    properties['software_version'] = dict(type='str')
 
     module = AnsibleModule(argument_spec=properties)
 

@@ -158,7 +158,7 @@ options:
     cli_config:
         description:
             - Updating any cli_config property will cause the CLI service restart. As a result, the request will be terminated with HTTP status 202 Accepted and not 200 OK. Also note that restarting the CLI service can take up to one minute to complete.
-            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series.
+            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
         type: dict
         suboptions:
             enabled:
@@ -218,7 +218,7 @@ options:
                                     - 
                                 required: true
                                 type: string
-                                choices: ['IPV6_SRC', 'IPV6_DST', 'TCP_CONTROL', 'INNER_VLAN', 'VLAN', 'IP_FRAGMENT', 'IP_PROTOCOL', 'LAYER4_SRC_PORT', 'MAC_DST', 'MAC_SRC', 'LAYER4_DST_PORT', 'IPV4_SRC', 'IPV4_DST', 'DSCP', 'ETHERTYPE']
+                                choices: ['IPV6_SRC', 'IPV6_DST', 'TCP_CONTROL', 'INNER_VLAN', 'VLAN', 'IP_FRAGMENT', 'IP_PROTOCOL', 'LAYER4_SRC_PORT', 'MAC_DST', 'MAC_SRC', 'LAYER4_DST_PORT', 'IPV4_SRC', 'IPV4_DST', 'OUTER_TPID', 'DSCP', 'ETHERTYPE']
                             name:
                                 description:
                                     - 
@@ -269,7 +269,7 @@ options:
                                     - 
                                 required: true
                                 type: string
-                                choices: ['IPV6_SRC', 'IPV6_DST', 'TCP_CONTROL', 'INNER_VLAN', 'VLAN', 'IP_FRAGMENT', 'IP_PROTOCOL', 'LAYER4_SRC_PORT', 'MAC_DST', 'MAC_SRC', 'LAYER4_DST_PORT', 'IPV4_SRC', 'IPV4_DST', 'DSCP', 'ETHERTYPE']
+                                choices: ['IPV6_SRC', 'IPV6_DST', 'TCP_CONTROL', 'INNER_VLAN', 'VLAN', 'IP_FRAGMENT', 'IP_PROTOCOL', 'LAYER4_SRC_PORT', 'MAC_DST', 'MAC_SRC', 'LAYER4_DST_PORT', 'IPV4_SRC', 'IPV4_DST', 'OUTER_TPID', 'DSCP', 'ETHERTYPE']
                             name:
                                 description:
                                     - 
@@ -386,7 +386,7 @@ options:
                 description:
                     - 
                 type: string
-            require_passlist:
+            require_allowlist:
                 description:
                     - 
                 required: true
@@ -409,6 +409,24 @@ options:
                             - 
                         required: true
                         type: string
+    gsc_timeouts:
+        description:
+            - 
+            - Available on Vision X Series.
+        type: dict
+        suboptions:
+            gtpv1_loops:
+                description:
+                    - 
+                type: integer
+            gtpv2_loops:
+                description:
+                    - 
+                type: integer
+            timer_granularity:
+                description:
+                    - 
+                type: integer
     gtp_fd_restore_timeout:
         description:
             - The gtp_fd_restore_timeout value represents minutes. Zero indicates no timeout. Valid values are from 0 to 30.
@@ -746,7 +764,7 @@ options:
                 description:
                     - 
                     - List of items described below.
-                    - 
+                    - OUTER_TPID is allowed only on the following models 8000
                 type: list
             network:
                 description:
@@ -887,7 +905,7 @@ options:
     ptp_config:
         description:
             - PTP configuration.
-            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, F100 Series, F400L Series.
+            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, F100 Series, F400 Series.
         type: dict
         suboptions:
             address_mode:
@@ -899,26 +917,6 @@ options:
                 description:
                     - 
                 type: integer
-            client_address:
-                description:
-                    - 
-                type: dict
-                suboptions:
-                    ipv4_address:
-                        description:
-                            - 
-                        required: true
-                        type: string
-                    ipv4_gateway:
-                        description:
-                            - 
-                        required: true
-                        type: string
-                    ipv4_netmask:
-                        description:
-                            - 
-                        required: true
-                        type: string
             clock_domain:
                 description:
                     - 
@@ -931,11 +929,7 @@ options:
                 description:
                     - 
                 type: bool
-            phase_lag:
-                description:
-                    - 
-                type: integer
-            server_address:
+            master_address:
                 description:
                     - 
                 type: dict
@@ -955,11 +949,35 @@ options:
                             - 
                         required: true
                         type: string
-            server_interface_speed:
+            master_interface_speed:
                 description:
                     - 
                 type: string
                 choices: ['AUTO', 'M100', 'G1']
+            phase_lag:
+                description:
+                    - 
+                type: integer
+            slave_address:
+                description:
+                    - 
+                type: dict
+                suboptions:
+                    ipv4_address:
+                        description:
+                            - 
+                        required: true
+                        type: string
+                    ipv4_gateway:
+                        description:
+                            - 
+                        required: true
+                        type: string
+                    ipv4_netmask:
+                        description:
+                            - 
+                        required: true
+                        type: string
             vlan_config:
                 description:
                     - 
@@ -1949,7 +1967,10 @@ def run_module():
     configurator = ResourceConfigurator(connection=connection, module=module)
 
     # fetch using Web API the python dictionary representing the argument_spec
-    properties = configurator.connection.get_python_representation_of_object('system')
+    properties = configurator.connection.get_python_representation_of_object('system', 'system')
+
+    # synthetic key used to specify the software version
+    properties['software_version'] = dict(type='str')
 
     module = AnsibleModule(argument_spec=properties)
 

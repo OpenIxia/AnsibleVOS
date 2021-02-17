@@ -45,9 +45,10 @@ description:
     - VOS version 5.2.0
     - Sub-options marked as required are mandatory only when the top parameter is used.
     - The following actions are available.
+    - Backup GSC configuration. Selected by choice 'backup_gsc_config'.  .Available on Vision X Series. 
     - Certificate Management. Selected by choice 'certificates'.  .Available on all platforms. 
     - Change Filter Priority. Selected by choice 'change_filter_priority'.  .Available on E100 Series, E40 Series, Vision X Series, Vision E10S. 
-    - Change speed configuration of a port. Selected by choice 'change_speed_configuration'.  .Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S. 
+    - Change speed configuration of a port. Selected by choice 'change_speed_configuration'.  .Available on all platforms. 
     - Clear configuration. Selected by choice 'clear_config'.  .Available on all platforms. 
     - Clear filters and ports. Selected by choice 'clear_filters_and_ports'.  .Available on all platforms. 
     - Clear system. Selected by choice 'clear_system'.  .Available on all platforms. 
@@ -76,22 +77,24 @@ description:
     - Get values for a property. Selected by choice 'get_values'.  .Available on all platforms. 
     - Import. Selected by choice 'import'.  .Available on all platforms. 
     - Install license. Selected by choice 'install_license'.  .Available on all platforms. 
-    - Install Mako OS software. Selected by choice 'install_mako'.  .Available on Vision X Series. 
+    - Install Mako OS software. Selected by choice 'install_mako'.  .Available on E100 Series, E40 Series, Vision X Series, Vision E10S. 
     - Install netservice. Selected by choice 'install_netservice'.  .Available on Vision X Series. 
     - Install software. Selected by choice 'install_software'.  .Available on all platforms. 
     - MTU Query. Selected by choice 'mtu_query'.  .Available on all platforms. 
     - Power down. Selected by choice 'power_down'.  .Available on all platforms. 
-    - Pull Config to HA Peer. Selected by choice 'pull_config_from_ha_peer'.  .Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series. 
-    - Push Config to HA Peer. Selected by choice 'push_config_to_ha_peer'.  .Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series. 
+    - Pull Config to HA Peer. Selected by choice 'pull_config_from_ha_peer'.  .Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series. 
+    - Push Config to HA Peer. Selected by choice 'push_config_to_ha_peer'.  .Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series. 
     - Remove license. Selected by choice 'remove_license'.  .Available on all platforms. 
     - Remove netservice. Selected by choice 'remove_netservice'.  .Available on Vision X Series. 
     - Remove plugin. Selected by choice 'remove_plugin'.  .Available on TradeVision Series, Vision X Series. 
     - Remove port module configuration. Selected by choice 'remove_port_module_config'.  .Available on Vision X Series. 
     - Restart. Selected by choice 'restart'.  .Available on all platforms. 
     - Restore firewall. Selected by choice 'restore_firewall'.  .Available on all platforms. 
+    - Restore GSC configuration. Selected by choice 'restore_gsc_config'.  .Available on Vision X Series. 
+    - resume_itr_traffic. Selected by choice 'resume_itr_traffic'.  .Available on TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S. 
     - Revert software. Selected by choice 'revert_software'.  .Available on all platforms. 
     - Save logs. Selected by choice 'save_logs'.  .Available on all platforms. 
-    - Set HA sync port. Selected by choice 'set_ha_sync_port'.  .Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series. 
+    - Set HA sync port. Selected by choice 'set_ha_sync_port'.  .Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series. 
     - Set IP Config. Selected by choice 'set_ip_config'.  .Available on all platforms. 
     - Swap Port Licenses. Selected by choice 'swap_port_licenses'.  .Available on all platforms. 
     - Update Single IP Address. Selected by choice 'update_single_ip_addr'.  .Available on all platforms. 
@@ -101,9 +104,10 @@ options:
     action_name:
         description:
             - Selects what action will be executed.
+            - backup_gsc_config is available on Vision X Series.
             - certificates is available on all platforms.
             - change_filter_priority is available on E100 Series, E40 Series, Vision X Series, Vision E10S.
-            - change_speed_configuration is available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+            - change_speed_configuration is available on all platforms.
             - clear_config is available on all platforms.
             - clear_filters_and_ports is available on all platforms.
             - clear_system is available on all platforms.
@@ -132,33 +136,41 @@ options:
             - get_values is available on all platforms.
             - import is available on all platforms.
             - install_license is available on all platforms.
-            - install_mako is available on Vision X Series.
+            - install_mako is available on E100 Series, E40 Series, Vision X Series, Vision E10S.
             - install_netservice is available on Vision X Series.
             - install_software is available on all platforms.
             - mtu_query is available on all platforms.
             - power_down is available on all platforms.
-            - pull_config_from_ha_peer is available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series.
-            - push_config_to_ha_peer is available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series.
+            - pull_config_from_ha_peer is available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
+            - push_config_to_ha_peer is available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
             - remove_license is available on all platforms.
             - remove_netservice is available on Vision X Series.
             - remove_plugin is available on TradeVision Series, Vision X Series.
             - remove_port_module_config is available on Vision X Series.
             - restart is available on all platforms.
             - restore_firewall is available on all platforms.
+            - restore_gsc_config is available on Vision X Series.
+            - resume_itr_traffic is available on TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
             - revert_software is available on all platforms.
             - save_logs is available on all platforms.
-            - set_ha_sync_port is available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series.
+            - set_ha_sync_port is available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
             - set_ip_config is available on all platforms.
             - swap_port_licenses is available on all platforms.
             - update_single_ip_addr is available on all platforms.
             - validate_auth is available on TradeVision Series, Vision X Series.
         type: string
         required: true
-        choices: ['certificates', 'change_filter_priority', 'change_speed_configuration', 'clear_config', 'clear_filters_and_ports', 'clear_system', 'deploy_net_service_instance', 'drain_net_service_instance', 'enable_fips_server_encryption', 'export', 'export_offline_license_request_file', 'factory_reset', 'fips_server_encryption_status', 'force_power_port_module', 'generate_csr', 'get_available_filter_criteria', 'get_early_classification_criteria', 'get_fnood_license_public_info', 'get_ha_config_for_cli', 'get_local_ports_valid_for_lfd', 'get_login_info', 'get_memory_meters', 'get_memory_meters_preview', 'get_neighbors', 'get_object_type', 'get_peer_ports_valid_for_lfd', 'get_props', 'get_transceiver_info', 'get_values', 'import', 'install_license', 'install_mako', 'install_netservice', 'install_software', 'mtu_query', 'power_down', 'pull_config_from_ha_peer', 'push_config_to_ha_peer', 'remove_license', 'remove_netservice', 'remove_plugin', 'remove_port_module_config', 'restart', 'restore_firewall', 'revert_software', 'save_logs', 'set_ha_sync_port', 'set_ip_config', 'swap_port_licenses', 'update_single_ip_addr', 'validate_auth']
+        choices: ['backup_gsc_config', 'certificates', 'change_filter_priority', 'change_speed_configuration', 'clear_config', 'clear_filters_and_ports', 'clear_system', 'deploy_net_service_instance', 'drain_net_service_instance', 'enable_fips_server_encryption', 'export', 'export_offline_license_request_file', 'factory_reset', 'fips_server_encryption_status', 'force_power_port_module', 'generate_csr', 'get_available_filter_criteria', 'get_early_classification_criteria', 'get_fnood_license_public_info', 'get_ha_config_for_cli', 'get_local_ports_valid_for_lfd', 'get_login_info', 'get_memory_meters', 'get_memory_meters_preview', 'get_neighbors', 'get_object_type', 'get_peer_ports_valid_for_lfd', 'get_props', 'get_transceiver_info', 'get_values', 'import', 'install_license', 'install_mako', 'install_netservice', 'install_software', 'mtu_query', 'power_down', 'pull_config_from_ha_peer', 'push_config_to_ha_peer', 'remove_license', 'remove_netservice', 'remove_plugin', 'remove_port_module_config', 'restart', 'restore_firewall', 'restore_gsc_config', 'resume_itr_traffic', 'revert_software', 'save_logs', 'set_ha_sync_port', 'set_ip_config', 'swap_port_licenses', 'update_single_ip_addr', 'validate_auth']
     file_path:
         description:
             - The path to a file or folder. It is a required parameter for multi-part actions.
         type: string
+    backup_gsc_config_payload:
+        description:
+            - 
+            - Available on Vision X Series.
+        type: dict
+        suboptions:
     certificates_payload:
         description:
             - When the ACTION property is UPLOAD, the content type of the HTTP request must be multipart. In addition to the JSON string, one or two files may be uploaded for Syslog and one for TLS/HTTPS. For TLS/HTTPS, the file contains the server certificate and must be assigned the name authentication in the HTTP header. For Syslog, one file is the client certificate, which must be assigned the name client in the HTTP header. The second Syslog file is the trusted root certificate, which must be assigned the name trusted_root in the HTTP header. For TLS/HTTPS, there is also an optional property, ENABLE_RMI_ENCRYPTION. Including this property will enable or disable RMI TLS encryption; omitting this property will leave RMI TLS encryption in the same state.
@@ -214,7 +226,7 @@ options:
     change_speed_configuration_payload:
         description:
             - 
-            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+            - Available on all platforms.
         type: dict
         suboptions:
             num_ports:
@@ -1769,6 +1781,18 @@ options:
                                     - 
                                 required: true
                                 type: integer
+                    outer_tpid:
+                        description:
+                            - 
+                            - List of items described below.
+                            - 
+                        type: list
+                        suboptions:
+                            value:
+                                description:
+                                    - 
+                                required: true
+                                type: integer
                     raw_custom:
                         description:
                             - 
@@ -1882,7 +1906,7 @@ options:
                         description:
                             - 
                             - List of items described below.
-                            - 
+                            - OUTER_TPID is allowed only on the following models 8000
                         type: list
                     network:
                         description:
@@ -1990,7 +2014,7 @@ options:
                 description:
                     - 
                     - List of items described below.
-                    - 
+                    - OUTER_TPID is allowed only on the following models 8000
                 type: list
             network:
                 description:
@@ -2091,7 +2115,7 @@ options:
     install_mako_payload:
         description:
             - 
-            - Available on Vision X Series.
+            - Available on E100 Series, E40 Series, Vision X Series, Vision E10S.
         type: dict
         suboptions:
     install_netservice_payload:
@@ -2137,13 +2161,13 @@ options:
     pull_config_from_ha_peer_payload:
         description:
             - 
-            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series.
+            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
         type: dict
         suboptions:
     push_config_to_ha_peer_payload:
         description:
             - 
-            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series.
+            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
         type: dict
         suboptions:
     remove_license_payload:
@@ -2198,6 +2222,23 @@ options:
             - Available on all platforms.
         type: dict
         suboptions:
+    restore_gsc_config_payload:
+        description:
+            - 
+            - Available on Vision X Series.
+        type: dict
+        suboptions:
+    resume_itr_traffic_payload:
+        description:
+            - 
+            - Available on TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+        type: dict
+        suboptions:
+            id:
+                description:
+                    - 
+                required: true
+                type: integer
     revert_software_payload:
         description:
             - 
@@ -2222,7 +2263,7 @@ options:
     set_ha_sync_port_payload:
         description:
             - 
-            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400L Series.
+            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
         type: dict
         suboptions:
             port:
@@ -3693,6 +3734,18 @@ options:
                                     - 
                                 required: true
                                 type: integer
+                    outer_tpid:
+                        description:
+                            - 
+                            - List of items described below.
+                            - 
+                        type: list
+                        suboptions:
+                            value:
+                                description:
+                                    - 
+                                required: true
+                                type: integer
                     raw_custom:
                         description:
                             - 
@@ -3759,6 +3812,11 @@ options:
                                     - 
                                 required: true
                                 type: integer
+            filter:
+                description:
+                    - 
+                required: true
+                type: null
     validate_auth_payload:
         description:
             - 
@@ -3898,21 +3956,25 @@ EXAMPLES = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible.module_utils.network.vos.resource_configurator import ResourceConfigurator
-
+import logging
+logging.basicConfig(filename="ao.log", level=logging.DEBUG)
 
 def run_module():
     # custom structure of the arguments, as actions do not follow a generic
     # format
     module = AnsibleModule(argument_spec={}, check_invalid_arguments=False)
-
+    logging.debug('am creat modul')
     connection = Connection(module._socket_path)
+    logging.debug('am creat conn')
     configurator = ResourceConfigurator(connection=connection, module=module)
-
+    logging.debug('am creat configurator')
     # fetch using Web API the python dictionary representing the argument_spec
-    properties = configurator.connection.get_python_representation_of_action()
+    properties = configurator.connection.get_python_representation_of_method()
 
     properties['action_name'] = dict(type='str')
     properties['file_path'] = dict(type='str')
+    # synthetic key used to specify the software version
+    properties['software_version'] = dict(type='str')
 
     module = AnsibleModule(argument_spec=properties)
     action_name = module.params['action_name']

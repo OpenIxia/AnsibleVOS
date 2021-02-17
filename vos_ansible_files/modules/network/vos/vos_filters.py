@@ -1507,6 +1507,18 @@ options:
                             - 
                         required: true
                         type: integer
+            outer_tpid:
+                description:
+                    - 
+                    - List of items described below.
+                    - 
+                type: list
+                suboptions:
+                    value:
+                        description:
+                            - 
+                        required: true
+                        type: integer
             raw_custom:
                 description:
                     - 
@@ -1643,7 +1655,7 @@ options:
     resource_access_settings:
         description:
             - The settings that control who can assign resources on the filter.
-            - Available on 7300 Series, TradeVision Series, Vision X Series, Vision E10S.
+            - Available on 7300 Series, TradeVision Series, Vision X Series, Vision E10S, F400 Series.
         type: dict
         suboptions:
             groups:
@@ -1911,12 +1923,14 @@ def run_module():
     configurator = ResourceConfigurator(connection=connection, module=module)
 
     # fetch using Web API the python dictionary representing the argument_spec
-    properties = configurator.connection.get_python_representation_of_object('filters')
+    properties = configurator.connection.get_python_representation_of_object('filters', 'filters')
     # synthetic key used to refer to a dynamic filter whose name we want to
     # change
     properties['filter'] = dict(type='str')
     # synthetic key used to delete an existing dynamic filter
     properties['delete'] = dict(type='bool')
+    # synthetic key used to specify the software version
+    properties['software_version'] = dict(type='str')
 
     module = AnsibleModule(argument_spec=properties)
 
