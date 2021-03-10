@@ -21,7 +21,7 @@ SOFTWARE.
 
 
 Keysight Visibility Operating System (VOS) module used to issue Web API calls
-implying the 'actions' resource from Ansbile.
+implying the 'packetstack' resource from Ansible.
 """
 
 ANSIBLE_METADATA = {
@@ -30,11 +30,162 @@ ANSIBLE_METADATA = {
     'status': ['preview']
 }
 
-
 DOCUMENTATION = '''
+---
+module: vos_resources
+
+short_description: This module handles interactions with Keysight Visibility Operating
+System (VOS) resources.
+
+version_added: "2.8"
+
+description:
+    - This module handles interactions with VOS resources settings.
+    - VOS version 5.2.0
+    - Sub-options marked as required are mandatory only when the top parameter is used.
+    
+
+options:
+    type:
+        description:
+            - The resource type.
+        type: string
+        required: true
+        choices: [ packet_stack ]
+    resource:
+        description:
+            - The name of the resource.
+        type: string
+        required: true
+    operation:
+        description:
+            - The operation that is applied to the resource. Required only for resource attach (enable) and detach (disable).
+        type: string
+        required: false
+        choices: [ enable, disable ]
+    settings:
+        description:
+            - The properties to be changed.
+        type: dict
+        required: true
+        suboptions: 
+            allocated_bandwidth:
+                description:
+                    - Available on 7300 Series, Vision E10S.
+                type: integer
+            connect_disconnect_access_settings:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    groups:
+                        description:
+                            - List of items described below.
+                            - The NAME property of a group
+                        required: true
+                        type: list
+                    policy:
+                        required: true
+                        type: string
+                        choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
+            description:
+                description:
+                    - Available on all platforms.
+                type: string
+            mod_count:
+                description:
+                    - Available on all platforms.
+                type: integer
+            modify_access_settings:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    groups:
+                        description:
+                            - List of items described below.
+                            - The NAME property of a group
+                        required: true
+                        type: list
+                    policy:
+                        required: true
+                        type: string
+                        choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
+            name:
+                description:
+                    - Available on all platforms.
+                type: string
+            object_id:
+                description:
+                    - Available on 7300 Series, E100 Series, E40 Series, Vision E10S.
+                type: string or integer
+            port_mode:
+                description:
+                    - Available on 7300 Series, E100 Series, E40 Series, Vision E10S.
+                type: string
+                choices: ['LOOPBACK', 'NETWORK', 'BYPASS_BIDIRECTIONAL', 'HA_FABRIC', 'BIDIRECTIONAL', 'TOOL', 'SIMPLEX', 'INLINE_TOOL_BIDIRECTIONAL']
+            view_access_settings:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    groups:
+                        description:
+                            - List of items described below.
+                            - The NAME property of a group
+                        required: true
+                        type: list
+                    policy:
+                        required: true
+                        type: string
+                        choices: ['ALLOW_ALL', 'REQUIRE_MEMBER', 'REQUIRE_ADMIN']
+
+
+author:
+    - Keysight
 '''
 
-EXAMPLES ='''
+EXAMPLES = '''
+  - name: Enable PacketStack
+     vos_resources:
+       type: packetstack
+       operation: enable
+       resource: L2-AFM
+       settings:
+         allocated_bandwidth: 100
+         object_id: P2-03
+         port_mode: NETWORK
+   - name: Change resource name
+     vos_resources:
+       type: packetstack
+       resource: L2-AFM
+       settings:
+         name: L2-AFM
+   - name: Update resource
+     vos_resources:
+       type: packetstack
+       resource: L2-AFM
+       settings:
+         description: PacketStack resource attached to P01
+         modify_access_settings:
+           groups: []
+           policy: REQUIRE_ADMIN
+   - name: Enable PacketStack features on port
+     vos_ports:
+       port: P2-03
+       resource_attachment_config: 
+         vxlan_strip_settings: 
+           enabled: true
+           port_mode: NETWORK
+         etag_strip_settings:
+           enabled: true
+   - name: Detach PacketStack
+     vos_resources:
+       type: packetstack
+       operation: disable
+       resource: L2-AFM
+       settings:
+         object_id: P2-03
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -51,10 +202,10 @@ def run_module():
 
     configurator = ResourceConfigurator(connection=connection, module=module)
 
-    if module.params['type'] == 'packet_stack':
+    if module.params['type'] == 'packetstack':
         resource_url = 'recirculated_afm_resources'
         resource_name = 'packetstack_resources'
-    elif module.params['type'] == 'app_stack':
+    elif module.params['type'] == 'appstack':
         resource_url = 'atip_resources'
         resource_name = 'appstack_resources'
 

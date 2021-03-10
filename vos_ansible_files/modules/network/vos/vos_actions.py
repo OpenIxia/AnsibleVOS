@@ -3956,18 +3956,16 @@ EXAMPLES = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.connection import Connection
 from ansible.module_utils.network.vos.resource_configurator import ResourceConfigurator
-import logging
-logging.basicConfig(filename="ao.log", level=logging.DEBUG)
+
 
 def run_module():
     # custom structure of the arguments, as actions do not follow a generic
     # format
     module = AnsibleModule(argument_spec={}, check_invalid_arguments=False)
-    logging.debug('am creat modul')
+
     connection = Connection(module._socket_path)
-    logging.debug('am creat conn')
     configurator = ResourceConfigurator(connection=connection, module=module)
-    logging.debug('am creat configurator')
+
     # fetch using Web API the python dictionary representing the argument_spec
     properties = configurator.connection.get_python_representation_of_method()
 

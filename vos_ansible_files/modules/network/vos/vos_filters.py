@@ -21,7 +21,7 @@ SOFTWARE.
 
 
 Keysight Visibility Operating System (VOS) module used to issue Web API calls
-implying the 'filters' resource from Ansbile.
+implying the 'filters' resource from Ansible.
 """
 
 ANSIBLE_METADATA = {
@@ -46,6 +46,14 @@ description:
     - Sub-options marked as required are mandatory only when the top parameter is used.
 
 options:
+    filter:
+        description:
+            - Key used to identify the current entity. Alternative to name. Relevant when the name has to be changed.
+        type: string
+    delete:
+        description:
+            - Key used to mark that current entity would be deleted.
+        type: bool
     application_forwarding_map:
         description:
             - The application forwarding map for an ATIP filter.

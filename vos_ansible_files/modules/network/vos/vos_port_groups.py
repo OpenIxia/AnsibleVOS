@@ -46,6 +46,14 @@ description:
     - Sub-options marked as required are mandatory only when the top parameter is used.
 
 options:
+    port_group:
+        description:
+            - Key used to identify the current entity. Alternative to name. Relevant when the name has to be changed.
+        type: string
+    delete:
+        description:
+            - Key used to mark that current entity would be deleted.
+        type: bool
     afm_pipeline_direction:
         description:
             - The AFM pipeline direction is a read-only property in most cases, reflecting the mode of any enabled advanced features. The direction is automatically updated any time the mode of an enabled advanced features is changed or when the port mode requires a particular direction. The only case where this property can be updated is when adding a port configured to the SIMPLEX port mode into a port group. If no advanced features are enabled on the port, the system will default to allowing AFM features on the network side and not on the tool side. If the network-side port needs to be put in a port group that doesnt allow advanced features, or the tool-side port needs to be put in an advanced port group, the AFM_PIPELINE_DIRECTION will need to be set to EGRESS.

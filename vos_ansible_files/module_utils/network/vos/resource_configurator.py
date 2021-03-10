@@ -426,9 +426,9 @@ class ResourceConfigurator:
         """
         resource_type = self.module.params['type']
 
-        if resource_type == 'packet_stack':
+        if resource_type == 'packetstack':
             url = RAFM_URL
-        elif resource_type == 'app_stack':
+        elif resource_type == 'appstack':
             url = ATIP_URL
         if 'payload' in self.module.params:
             payload = self.module.params['payload']
