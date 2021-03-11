@@ -1,0 +1,91 @@
+---
+- gather_facts: 'no'
+  hosts: vision_npb
+  name: This playbook is a sample for PacketStack support
+  tasks:
+  - name: Enable port P01 as NETWORK port
+    vos_ports:
+      port: P01
+      enabled: true
+  - name: Enable port P02 as NETWORK port
+    vos_ports:
+      port: P02
+      enabled: true
+  - name: Enable port P03 as NETWORK port
+    vos_ports:
+      port: P03
+      enabled: true
+  - name: Change port P09 mode to TOOL and enable it
+    vos_ports:
+      port: P09
+      mode: TOOL
+      enabled: true
+  - name: Create port NETWORK port group PG_1
+    vos_port_groups:
+      mode: NETWORK
+      name: PG_1
+      port_list: [P02, P03]
+      type: INTERCONNECT
+  - name: Create dynamic filter MY_HTTP_FILTER
+    vos_filters:
+      name: MY_HTTP_FILTER
+      mode: PASS_BY_CRITERIA
+      criteria:
+        layer4_src_or_dst_port:
+          - port: 80
+        logical_operation: AND
+      source_port_list: [P01]
+      source_port_group_list: [PG_1]
+      dest_port_list: [P09]
+  - name: Attach PacketStack resource to nework port P01
+    vos_resources:
+      type: packetstack
+      resource: L1-AFM
+      operation: enable
+      payload:
+        allocated_bandwidth: 10
+        object_id: P01
+        port_mode: NETWORK
+  - name: Enable de-duplication on network port P01
+    vos_ports:
+      port: P01
+      resource_attachment_config:
+        dedup_settings:
+          enabled: true
+          port_mode: NETWORK
+          ignored_headers: MAC_VLAN_MPLS
+          use_time_check: true
+          window_size: 500
+  - name: Attach PacketStack resource to nework port group PG_1
+    vos_resources:
+      type: packetstack
+      resource: L1-AFM
+      operation: enable
+      payload:
+        allocated_bandwidth: 20
+        object_id: PG1
+        port_mode: NETWORK
+  - name: Enable VXLAN header stripping on port group PG_1
+    vos_port_groups:
+      port_group: PG_1
+      resource_attachment_config:
+        vxlan_strip_settings:
+          enabled: true
+          port_mode: NETWORK
+          vxlan_mode: NOT_SET_OR_STANDARD
+  - name: Attach PacketStack resource to dynamic filter MY_HTTP_FILTER
+    vos_resources:
+      type: packetstack
+      resource: L1-AFM
+      operation: enable
+      payload:
+        allocated_bandwidth: 30
+        object_id: F1
+  - name: Enable packet trimming on dynamic filter MY_HTTP_FILTER
+    vos_filters:
+      filter: MY_HTTP_FILTER
+      resource_attachment_config:
+        trim_settings:
+          enabled: true
+          retained_bytes: 100
+          retained_headers: MAC_VLAN_MPLS
