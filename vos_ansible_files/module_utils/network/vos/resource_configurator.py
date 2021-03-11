@@ -384,16 +384,12 @@ class ResourceConfigurator:
                                                                "PacketStack properties while the resource is attached."}
                     else:
                         response = self.connection.send_request(path=url, data=data, method=method)
-            else:
-                skipped = True
-                if not self.will_payload_imply_changes(url, data, method):
-                    skipped = False
 
+            elif self.will_payload_imply_changes(url, data, method):
                 response = self.connection.send_request(path=url, data=data, method=method)
-
-                if skipped:
-                    return {'status_code': 200, 'content': 'NOT CHANGED'}
-
+            else:
+                return {'status_code': 200, 'content': 'NOT CHANGED'}
+            
         response = self.connection.check_error_codes(response, url, data,
                                                      method)
 
