@@ -160,7 +160,8 @@ class ResourceConfigurator:
         """
         if real is None:
             return False
-
+        if real == 'null':
+            return False
         if isinstance(real, str):
             real = eval(real)
         if isinstance(pattern, str):
@@ -389,7 +390,7 @@ class ResourceConfigurator:
                 response = self.connection.send_request(path=url, data=data, method=method)
             else:
                 return {'status_code': 200, 'content': 'NOT CHANGED'}
-            
+
         response = self.connection.check_error_codes(response, url, data,
                                                      method)
 
