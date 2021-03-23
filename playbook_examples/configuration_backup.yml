@@ -6,7 +6,7 @@
   - name: Configuration backup
     vos_actions:
       action: export
-      export:
+      settings:
         boundary: INCLUDE
         export_type: FULL_BACKUP
         file_name: /home/testuser/configuration_backup/files/
