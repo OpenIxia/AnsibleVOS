@@ -5,137 +5,146 @@
   tasks:
       vos_ports:
         port: P01
-        name: From TAP1
-        enabled: true
-        filter_mode: PASS_BY_CRITERIA
-        filter_criteria:
-          ethertype:
-            value: 800
-          logical_operation: AND
-        mode: NETWORK
-        std_port_tagging_settings:
+        settings:
+          name: From TAP1
           enabled: true
-          vlan_id: 101
+          filter_mode: PASS_BY_CRITERIA
+          filter_criteria:
+            ethertype:
+              value: 800
+            logical_operation: AND
+          mode: NETWORK
+          std_port_tagging_settings:
+            enabled: true
+            vlan_id: 101
 
     - name: Enable port P02 and configure it to pass IPv4 traffic
       vos_ports:
         port: P02
-        name: From TAP2
-        enabled: true
-        filter_mode: PASS_BY_CRITERIA
-        filter_criteria:
-          ethertype:
-            value: 800
-          logical_operation: AND
-        mode: NETWORK
-        std_port_tagging_settings:
+        settings:
+          name: From TAP2
           enabled: true
-          vlan_id: 102
+          filter_mode: PASS_BY_CRITERIA
+          filter_criteria:
+            ethertype:
+              value: 800
+            logical_operation: AND
+          mode: NETWORK
+          std_port_tagging_settings:
+            enabled: true
+            vlan_id: 102
 
     - name: Enable port P03 and configure it to pass IPv4 traffic
       vos_ports:
         port: P03
-        name: From TAP3
-        enabled: true
-        filter_mode: PASS_BY_CRITERIA
-        filter_criteria:
-          ethertype:
-            value: 800
-          logical_operation: AND
-        mode: NETWORK
-        std_port_tagging_settings:
+        settings:
+          name: From TAP3
           enabled: true
-          vlan_id: 103
+          filter_mode: PASS_BY_CRITERIA
+          filter_criteria:
+            ethertype:
+              value: 800
+            logical_operation: AND
+          mode: NETWORK
+          std_port_tagging_settings:
+            enabled: true
+            vlan_id: 103
 
     - name: Enable port P10 and make it tool
       vos_ports:
         port: P10
-        name: Probe 1 port 1
-        keywords: IT
-        enabled: true
-        mode: TOOL
+        settings:
+          name: Probe 1 port 1
+          keywords: IT
+          enabled: true
+          mode: TOOL
 
     - name: Enable port P11 and make it tool
       vos_ports:
         port: P11
-        name: Probe 1 port 2
-        keywords: IT
-        enabled: true
-        mode: TOOL
+        settings:
+          name: Probe 1 port 2
+          keywords: IT
+          enabled: true
+          mode: TOOL
 
     - name: Enable port P12 and make it tool
       vos_ports:
         port: P12
-        name: To probe 2
-        enabled: true
-        mode: TOOL
+        settings:
+          name: To probe 2
+          enabled: true
+          mode: TOOL
 
     - name: Create interconnect tool port group
       vos_port_groups:
-        name: To probe 1
-        mode: TOOL
-        type: INTERCONNECT
-        port_list:
-          - Probe 1 port 1
-          - Probe 1 port 2
+        settings:
+          name: To probe 1
+          mode: TOOL
+          type: INTERCONNECT
+          port_list:
+            - Probe 1 port 1
+            - Probe 1 port 2
 
     - name: Create PBC filter for server group 1
       vos_filters:
-        name: Server Group 1
-        mode: PASS_BY_CRITERIA
-        criteria:
-          ipv4_flow:
-            address_sets:
-              - addr_a:
-                - 11.0.0.1/24
-                addr_b:
-                - 22.0.0.1/24
-              - addr_a:
-                - 33.0.0.1/24
-                addr_b:
-                - 44.0.0.1/24
-              - addr_a:
-                - 55.0.0.1/24
-                addr_b:
-                - 66.0.0.1/24
-              - addr_a:
-                - 77.0.0.1/24
-                addr_b:
-                - 88.0.0.1/24
-            flow_type: BIDI
-        dest_port_group_list:
-          - To probe 1
-        source_port_list:
-          - From TAP1
-          - From TAP2
-          - From TAP3
+        settings:
+          name: Server Group 1
+          mode: PASS_BY_CRITERIA
+          criteria:
+            ipv4_flow:
+              address_sets:
+                - addr_a:
+                  - 11.0.0.1/24
+                  addr_b:
+                  - 22.0.0.1/24
+                - addr_a:
+                  - 33.0.0.1/24
+                  addr_b:
+                  - 44.0.0.1/24
+                - addr_a:
+                  - 55.0.0.1/24
+                  addr_b:
+                  - 66.0.0.1/24
+                - addr_a:
+                  - 77.0.0.1/24
+                  addr_b:
+                  - 88.0.0.1/24
+              flow_type: BIDI
+          dest_port_group_list:
+            - To probe 1
+          source_port_list:
+            - From TAP1
+            - From TAP2
+            - From TAP3
 
     - name: Create PBC filter for server group 2
       vos_filters:
-        name: Server Group 2
-        mode: PASS_BY_CRITERIA
-        criteria:
-          ipv4_flow:
-            address_sets:
-              - addr_a:
-                - 111.0.0.1/24
-                addr_b:
-                - 122.0.0.1/24
-              - addr_a:
-                - 133.0.0.1/24
-                addr_b:
-                - 144.0.0.1/24
-              - addr_a:
-                - 155.0.0.1/24
-                addr_b:
-                - 166.0.0.1/24
-              - addr_a:
-                - 177.0.0.1/24
-                addr_b:
-                - 188.0.0.1/24
-            flow_type: BIDI
-        dest_port_list:
-          - To probe 2
-        source_port_list:
-          - From TAP1
-          - From TAP2
+        settings:
+          name: Server Group 2
+          mode: PASS_BY_CRITERIA
+          criteria:
+            ipv4_flow:
+              address_sets:
+                - addr_a:
+                  - 111.0.0.1/24
+                  addr_b:
+                  - 122.0.0.1/24
+                - addr_a:
+                  - 133.0.0.1/24
+                  addr_b:
+                  - 144.0.0.1/24
+                - addr_a:
+                  - 155.0.0.1/24
+                  addr_b:
+                  - 166.0.0.1/24
+                - addr_a:
+                  - 177.0.0.1/24
+                  addr_b:
+                  - 188.0.0.1/24
+              flow_type: BIDI
+          dest_port_list:
+            - To probe 2
+          source_port_list:
+            - From TAP1
+            - From TAP2

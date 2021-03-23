@@ -5,8 +5,8 @@
   tasks:
   - name: Configuration backup
     vos_actions:
-      action_name: export
-      export_payload:
+      action: export
+      export:
         boundary: INCLUDE
         export_type: FULL_BACKUP
         file_name: /home/testuser/configuration_backup/files/

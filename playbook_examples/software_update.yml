@@ -5,5 +5,5 @@
   tasks:
     - name: Install new software image
       vos_actions:
-        action_name: install_software
+        action: install_software
         file_path: /home/testuser/NVOS_software_images/
