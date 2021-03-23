@@ -35,8 +35,7 @@ DOCUMENTATION = '''
 ---
 module: vos_ports
 
-short_description: This module handles interactions with Keysight Visibility Operating
-System (VOS) ports.
+short_description: This module handles interactions with Keysight Visibility Operating System (VOS) ports.
 
 version_added: "2.8"
 

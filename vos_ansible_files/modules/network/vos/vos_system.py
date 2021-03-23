@@ -35,8 +35,7 @@ DOCUMENTATION = '''
 ---
 module: vos_system
 
-short_description: This module handles interactions with Keysight Visibility Operating
-System (VOS) system.
+short_description: This module handles interactions with Keysight Visibility Operating System (VOS) system.
 
 version_added: "2.8"
 

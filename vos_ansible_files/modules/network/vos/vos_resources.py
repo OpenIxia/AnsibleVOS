@@ -34,8 +34,7 @@ DOCUMENTATION = '''
 ---
 module: vos_resources
 
-short_description: This module handles interactions with Keysight Visibility Operating
-System (VOS) resources.
+short_description: This module handles interactions with Keysight Visibility Operating System (VOS) resources.
 
 version_added: "2.8"
 

@@ -35,8 +35,7 @@ DOCUMENTATION = '''
 ---
 module: vos_filters
 
-short_description: This module handles interactions with Keysight Visibility Operating
-System (VOS) filters.
+short_description: This module handles interactions with Keysight Visibility Operating System (VOS) filters.
 
 version_added: "2.8"
 
