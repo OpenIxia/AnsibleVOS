@@ -1,5 +1,5 @@
 """
-COPYRIGHT 2019 Keysight Technologies.
+COPYRIGHT 2021 Keysight Technologies.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@ SOFTWARE.
 
 
 Keysight Visibility Operating System (VOS) module used to issue Web API calls
-implying the 'actions' resource from Ansbile.
+implying the 'actions' resource from Ansible.
 """
 
 ANSIBLE_METADATA = {
@@ -101,7 +101,7 @@ description:
     - Validate auth calls. Selected by choice 'validate_auth'.  .Available on TradeVision Series, Vision X Series. 
 
 options:
-    action_name:
+    action:
         description:
             - Selects what action will be executed.
             - backup_gsc_config is available on Vision X Series.
@@ -165,3664 +165,2519 @@ options:
         description:
             - The path to a file or folder. It is a required parameter for multi-part actions.
         type: string
-    backup_gsc_config_payload:
+    settings:
         description:
-            - 
-            - Available on Vision X Series.
+            - Configuration values available for each action.
         type: dict
         suboptions:
-    certificates_payload:
-        description:
-            - When the ACTION property is UPLOAD, the content type of the HTTP request must be multipart. In addition to the JSON string, one or two files may be uploaded for Syslog and one for TLS/HTTPS. For TLS/HTTPS, the file contains the server certificate and must be assigned the name authentication in the HTTP header. For Syslog, one file is the client certificate, which must be assigned the name client in the HTTP header. The second Syslog file is the trusted root certificate, which must be assigned the name trusted_root in the HTTP header. For TLS/HTTPS, there is also an optional property, ENABLE_RMI_ENCRYPTION. Including this property will enable or disable RMI TLS encryption; omitting this property will leave RMI TLS encryption in the same state.
-            - For Syslog, it is allowed to upload EITHER the client authentication certificate, OR the trusted root certificate WITHOUT uploading both of them together. Whichever is not uploaded will be left on the server. If one or both files are missing on the server, TLS encryption cannot be enabled on any Syslog servers.
-            - The default TLS/HTTPS cannot be deleted or changed, meaning if CERTIFICATE_USE is DEFAULT_TLS_HTTPS, the ACTION must be VIEW.
-            - The host is optional and is used only for LDAP servers. It corresponds to the ip address or host name of an LDAP server to indicate which server the certificate is for. If there is only one LDAP server defined, this value can be left out and the certificate will be assumed to be for that server.
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            action:
+            backup_gsc_config:
                 description:
-                    - 
-                required: true
-                type: string
-                choices: ['DELETE', 'UPLOAD', 'VIEW']
-            certificate_use:
+                    - Available on Vision X Series.
+                type: dict
+            certificates:
                 description:
-                    - 
-                required: true
-                type: string
-                choices: ['LDAP_CAC', 'LDAP', 'SYSLOG_TRUSTED_ROOT', 'SYSLOG', 'TLS_HTTPS', 'CAC_CLIENT_AUTHENTICATION', 'SYSLOG_CLIENT', 'DEFAULT_TLS_HTTPS']
-            enable_rmi_encryption:
-                description:
-                    - 
-                required: true
-                type: bool
-            host:
-                description:
-                    - 
-                type: string
-    change_filter_priority_payload:
-        description:
-            - The action must contain the source_port_id or the source_port_group_id property, but not both.
-            - The prioritized_dest_filter_id_list must be in priority order, where the first entry (lowest index) has highest priority.
-            - Available on E100 Series, E40 Series, Vision X Series, Vision E10S.
-        type: dict
-        suboptions:
-            prioritized_dest_filter_id_list:
-                description:
-                    - 
-                    - List of items described below.
-                    - The integer value of the ID property for an object
-                required: true
-                type: list
-            source_port_group_id:
-                description:
-                    - 
-                type: integer
-            source_port_id:
-                description:
-                    - 
-                type: integer
-    change_speed_configuration_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            num_ports:
-                description:
-                    - 
-                required: true
-                type: integer
-            port_list:
-                description:
-                    - 
-                    - List of items described below.
-                    - The integer value of the ID property for an object
-                required: true
-                type: list
-            qsfp28_port_mode:
-                description:
-                    - 
-                required: true
-                type: string
-                choices: ['MODE_25G', 'MODE_QSFP', 'MODE_DUAL_QSFP', 'MODE_QSFP28', 'MODE_50G', 'MODE_SFP']
-    clear_config_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    clear_filters_and_ports_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    clear_system_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    deploy_net_service_instance_payload:
-        description:
-            - 
-            - Available on Vision X Series.
-        type: dict
-        suboptions:
-            default_name:
-                description:
-                    - 
-                required: true
-                type: string
-    drain_net_service_instance_payload:
-        description:
-            - 
-            - Available on Vision X Series.
-        type: dict
-        suboptions:
-            default_name:
-                description:
-                    - 
-                required: true
-                type: string
-    enable_fips_server_encryption_payload:
-        description:
-            - 
-            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
-        type: dict
-        suboptions:
-    export_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    export_offline_license_request_file_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            file_name:
-                description:
-                    - 
-                type: string
-    factory_reset_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    fips_server_encryption_status_payload:
-        description:
-            - 
-            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
-        type: dict
-        suboptions:
-    force_power_port_module_payload:
-        description:
-            - 
-            - Available on Vision X Series.
-        type: dict
-        suboptions:
-            port_module_location:
-                description:
-                    - 
-                required: true
-                type: string
-            power_enable:
-                description:
-                    - 
-                required: true
-                type: bool
-    generate_csr_payload:
-        description:
-            - If no csr_use property is included, its value will default to TLS.
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            csr_use:
-                description:
-                    - 
-                type: string
-                choices: ['LDAP', 'SYSLOG', 'TLS']
-            tls_cert_request_info:
-                description:
-                    - 
+                    - When the ACTION property is UPLOAD, the content type of the HTTP request must be multipart. In addition to the JSON string, one or two files may be uploaded for Syslog and one for TLS/HTTPS. For TLS/HTTPS, the file contains the server certificate and must be assigned the name authentication in the HTTP header. For Syslog, one file is the client certificate, which must be assigned the name client in the HTTP header. The second Syslog file is the trusted root certificate, which must be assigned the name trusted_root in the HTTP header. For TLS/HTTPS, there is also an optional property, ENABLE_RMI_ENCRYPTION. Including this property will enable or disable RMI TLS encryption; omitting this property will leave RMI TLS encryption in the same state.
+                    - For Syslog, it is allowed to upload EITHER the client authentication certificate, OR the trusted root certificate WITHOUT uploading both of them together. Whichever is not uploaded will be left on the server. If one or both files are missing on the server, TLS encryption cannot be enabled on any Syslog servers.
+                    - The default TLS/HTTPS cannot be deleted or changed, meaning if CERTIFICATE_USE is DEFAULT_TLS_HTTPS, the ACTION must be VIEW.
+                    - The host is optional and is used only for LDAP servers. It corresponds to the ip address or host name of an LDAP server to indicate which server the certificate is for. If there is only one LDAP server defined, this value can be left out and the certificate will be assumed to be for that server.
+                    - Available on all platforms.
                 type: dict
                 suboptions:
-                    city:
-                        description:
-                            - 
+                    action:
+                        required: true
                         type: string
-                    common_name:
-                        description:
-                            - 
+                        choices: ['DELETE', 'UPLOAD', 'VIEW']
+                    certificate_use:
+                        required: true
                         type: string
-                    country:
-                        description:
-                            - 
+                        choices: ['LDAP_CAC', 'LDAP', 'SYSLOG_TRUSTED_ROOT', 'SYSLOG', 'TLS_HTTPS', 'CAC_CLIENT_AUTHENTICATION', 'SYSLOG_CLIENT', 'DEFAULT_TLS_HTTPS']
+                    enable_rmi_encryption:
+                        required: true
+                        type: bool
+                    host:
                         type: string
-                    email_address:
-                        description:
-                            - 
-                        type: string
-                    organization:
-                        description:
-                            - 
-                        type: string
-                    organization_unit:
-                        description:
-                            - 
-                        type: string
-                    state:
-                        description:
-                            - 
-                        type: string
-                    subject_alt_name:
-                        description:
-                            - 
-                        type: string
-    get_available_filter_criteria_payload:
-        description:
-            - The source_port_list and source_port_group_list properties are ignored when filter_object_type is not FILTER.
-            - If filter_criteria is not specified, all criterion types allowed by the memory allocation are returned.
-            - The dynamic_filter_id property should always be included whenever querying the criteria available for an existing dynamic filter and the source_port_list and/or source_port_group_list properties are included.
-            - If memory_allocation is not specified, the systems current memory allocation will be used. If the memory_allocation JSON does not specify a value for every property, the property will be added with a value from the systems current memory allocation.
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            dynamic_filter_id:
+            change_filter_priority:
                 description:
-                    - 
-                type: integer
-            filter_criteria:
-                description:
-                    - 
+                    - The action must contain the source_port_id or the source_port_group_id property, but not both.
+                    - The prioritized_dest_filter_id_list must be in priority order, where the first entry (lowest index) has highest priority.
+                    - Available on E100 Series, E40 Series, Vision X Series, Vision E10S.
                 type: dict
                 suboptions:
-                    custom_mac_dst:
+                    prioritized_dest_filter_id_list:
                         description:
-                            - 
                             - List of items described below.
-                            - 
+                            - The integer value of the ID property for an object
+                        required: true
                         type: list
+                    source_port_group_id:
+                        type: integer
+                    source_port_id:
+                        type: integer
+            change_speed_configuration:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    num_ports:
+                        required: true
+                        type: integer
+                    port_list:
+                        description:
+                            - List of items described below.
+                            - The integer value of the ID property for an object
+                        required: true
+                        type: list
+                    qsfp28_port_mode:
+                        required: true
+                        type: string
+                        choices: ['MODE_25G', 'MODE_QSFP', 'MODE_DUAL_QSFP', 'MODE_QSFP28', 'MODE_50G', 'MODE_SFP']
+            clear_config:
+                description:
+                    - Available on all platforms.
+                type: dict
+            clear_filters_and_ports:
+                description:
+                    - Available on all platforms.
+                type: dict
+            clear_system:
+                description:
+                    - Available on all platforms.
+                type: dict
+            deploy_net_service_instance:
+                description:
+                    - Available on Vision X Series.
+                type: dict
+                suboptions:
+                    default_name:
+                        required: true
+                        type: string
+            drain_net_service_instance:
+                description:
+                    - Available on Vision X Series.
+                type: dict
+                suboptions:
+                    default_name:
+                        required: true
+                        type: string
+            enable_fips_server_encryption:
+                description:
+                    - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+                type: dict
+            export:
+                description:
+                    - Available on all platforms.
+                type: dict
+            export_offline_license_request_file:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    file_name:
+                        type: string
+            factory_reset:
+                description:
+                    - Available on all platforms.
+                type: dict
+            fips_server_encryption_status:
+                description:
+                    - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+                type: dict
+            force_power_port_module:
+                description:
+                    - Available on Vision X Series.
+                type: dict
+                suboptions:
+                    port_module_location:
+                        required: true
+                        type: string
+                    power_enable:
+                        required: true
+                        type: bool
+            generate_csr:
+                description:
+                    - If no csr_use property is included, its value will default to TLS.
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    csr_use:
+                        type: string
+                        choices: ['LDAP', 'SYSLOG', 'TLS']
+                    tls_cert_request_info:
+                        type: dict
                         suboptions:
-                            addr:
+                            city:
+                                type: string
+                            common_name:
+                                type: string
+                            country:
+                                type: string
+                            email_address:
+                                type: string
+                            organization:
+                                type: string
+                            organization_unit:
+                                type: string
+                            state:
+                                type: string
+                            subject_alt_name:
+                                type: string
+            get_available_filter_criteria:
+                description:
+                    - The source_port_list and source_port_group_list properties are ignored when filter_object_type is not FILTER.
+                    - If filter_criteria is not specified, all criterion types allowed by the memory allocation are returned.
+                    - The dynamic_filter_id property should always be included whenever querying the criteria available for an existing dynamic filter and the source_port_list and/or source_port_group_list properties are included.
+                    - If memory_allocation is not specified, the systems current memory allocation will be used. If the memory_allocation JSON does not specify a value for every property, the property will be added with a value from the systems current memory allocation.
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    dynamic_filter_id:
+                        type: integer
+                    filter_criteria:
+                        type: dict
+                        suboptions:
+                            custom_mac_dst:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                            field_name:
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            custom_mac_flow:
                                 description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    custom_mac_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            custom_mac_src:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            custom_mac_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            custom_mac_srcdst_pair:
+                                description:
+                                    - List of items described below.
                                 type: list
                                 suboptions:
                                     addr_a:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
                                     addr_b:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
-                            flow_type:
+                            dscp:
                                 description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    custom_mac_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    custom_mac_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    custom_mac_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    dscp:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                    ethertype:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                    gtp_teid:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ip_protocol:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ip_version:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: null
-                    inner_ipv4_dst_addr:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv4_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
                                 type: list
                                 suboptions:
-                                    addr_a:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
+                                    value:
                                         required: true
-                                        type: list
-                                    addr_b:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                            flow_type:
+                                        type: string
+                            ethertype:
                                 description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    inner_ipv4_l4_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv4_l4_port_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            port_sets:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
                                 suboptions:
+                                    value:
+                                        required: true
+                                        type: string
+                            gtp_teid:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        required: true
+                                        type: integer
+                            inner_ip_protocol:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        required: true
+                                        type: integer
+                            inner_ip_version:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        required: true
+                                        type: string or integer
+                            inner_ipv4_dst_addr:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv4_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            inner_ipv4_l4_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv4_l4_port_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    port_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            port_a:
+                                                required: true
+                                                type: integer
+                                            port_b:
+                                                required: true
+                                                type: integer
+                            inner_ipv4_l4_src_or_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv4_l4_src_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv4_l4_srcdst_port_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
                                     port_a:
-                                        description:
-                                            - 
                                         required: true
                                         type: integer
                                     port_b:
-                                        description:
-                                            - 
                                         required: true
                                         type: integer
-                    inner_ipv4_l4_src_or_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
+                            inner_ipv4_src_addr:
                                 description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv4_l4_src_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv4_l4_srcdst_port_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            port_a:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                            port_b:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv4_src_addr:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                            field_name:
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv4_src_or_dst:
                                 description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv4_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                            field_name:
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv4_srcdst_pair:
                                 description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv4_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                    inner_ipv6_dst_addr:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv6_dst_interface_id:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    inner_ipv6_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
                                 type: list
                                 suboptions:
                                     addr_a:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
                                     addr_b:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
-                            flow_type:
+                                    field_name:
+                                        type: string
+                            inner_ipv6_dst_addr:
                                 description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    inner_ipv6_l4_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv6_l4_port_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            port_sets:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
                                 suboptions:
-                                    port_a:
+                                    addr:
                                         description:
-                                            - 
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv6_dst_interface_id:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            inner_ipv6_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            inner_ipv6_l4_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv6_l4_port_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    port_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            port_a:
+                                                required: true
+                                                type: integer
+                                            port_b:
+                                                required: true
+                                                type: integer
+                            inner_ipv6_l4_src_or_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv6_l4_src_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv6_l4_srcdst_port_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    port_a:
                                         required: true
                                         type: integer
                                     port_b:
-                                        description:
-                                            - 
                                         required: true
                                         type: integer
-                    inner_ipv6_l4_src_or_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
+                            inner_ipv6_src_addr:
                                 description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv6_l4_src_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv6_l4_srcdst_port_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            port_a:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                            port_b:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv6_src_addr:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                            field_name:
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv6_src_interface_id:
                                 description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv6_src_interface_id:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                    inner_ipv6_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            inner_ipv6_src_or_dst:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                            field_name:
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv6_srcdst_pair:
                                 description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv6_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                    inner_vlan:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            priority:
-                                description:
-                                    - 
-                                type: string
-                            vlan_id:
-                                description:
-                                    - 
-                                type: integer
-                    ip_fragment:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['NON_FRAGMENT', 'FRAGMENT', 'FIRST_FRAGMENT']
-                    ip_protocol:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    ipv4_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv4_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
                                 type: list
                                 suboptions:
                                     addr_a:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
                                     addr_b:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
-                            flow_type:
+                                    field_name:
+                                        type: string
+                            inner_vlan:
                                 description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    ipv4_session_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
-                                required: true
-                                type: list
-                    ipv4_session_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            session_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - A flow set allows only one IPv4 specification where both the address is all dont care (CIDR is 0 or the Netmask is 0.0.0.0) and the port is dont care (left blank), whether in the a_session or b_session.
-                                required: true
                                 type: list
                                 suboptions:
-                                    a_sessions:
+                                    priority:
+                                        type: string
+                                    vlan_id:
+                                        type: integer
+                            ip_fragment:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: string
+                                        choices: ['NON_FRAGMENT', 'FRAGMENT', 'FIRST_FRAGMENT']
+                            ip_protocol:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: integer
+                            ipv4_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
                                         description:
-                                            - 
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv4_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            ipv4_session_dst:
+                                description:
+                                    - List of items described below.
+                                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
                                             - List of items described below.
                                             - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
                                         required: true
                                         type: list
-                                    b_sessions:
+                            ipv4_session_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    session_sets:
                                         description:
-                                            - 
+                                            - List of items described below.
+                                            - A flow set allows only one IPv4 specification where both the address is all dont care (CIDR is 0 or the Netmask is 0.0.0.0) and the port is dont care (left blank), whether in the a_session or b_session.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            a_sessions:
+                                                description:
+                                                    - List of items described below.
+                                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
+                                                required: true
+                                                type: list
+                                            b_sessions:
+                                                description:
+                                                    - List of items described below.
+                                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
+                                                required: true
+                                                type: list
+                            ipv4_session_src:
+                                description:
+                                    - List of items described below.
+                                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
                                             - List of items described below.
                                             - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
                                         required: true
                                         type: list
-                    ipv4_session_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
+                            ipv4_session_src_or_dst:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
-                                required: true
+                                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
                                 type: list
-                    ipv4_session_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
+                                suboptions:
+                                    sessions:
+                                        description:
+                                            - List of items described below.
+                                            - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
+                                        required: true
+                                        type: list
+                            ipv4_src:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
-                                required: true
                                 type: list
-                    ipv4_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv4_src_or_dst:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                    ipv4_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv4_srcdst_pair:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv4_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                    ipv6_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv6_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
                                 type: list
                                 suboptions:
                                     addr_a:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
                                     addr_b:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
-                            flow_type:
+                                    field_name:
+                                        type: string
+                            ipv6_dst:
                                 description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    ipv6_session_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
-                                required: true
-                                type: list
-                    ipv6_session_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            session_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - A flow set allows only one IPv6 specification where both the address is all dont care (CIDR is 0 or the Netmask is 00000000) and the port is dont care (left blank), whether in the a_session or b_session.
-                                required: true
                                 type: list
                                 suboptions:
-                                    a_sessions:
+                                    addr:
                                         description:
-                                            - 
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv6_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            ipv6_session_dst:
+                                description:
+                                    - List of items described below.
+                                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
                                             - List of items described below.
                                             - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
                                         required: true
                                         type: list
-                                    b_sessions:
+                            ipv6_session_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    session_sets:
                                         description:
-                                            - 
+                                            - List of items described below.
+                                            - A flow set allows only one IPv6 specification where both the address is all dont care (CIDR is 0 or the Netmask is 00000000) and the port is dont care (left blank), whether in the a_session or b_session.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            a_sessions:
+                                                description:
+                                                    - List of items described below.
+                                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
+                                                required: true
+                                                type: list
+                                            b_sessions:
+                                                description:
+                                                    - List of items described below.
+                                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
+                                                required: true
+                                                type: list
+                            ipv6_session_src:
+                                description:
+                                    - List of items described below.
+                                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
                                             - List of items described below.
                                             - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
                                         required: true
                                         type: list
-                    ipv6_session_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
+                            ipv6_session_src_or_dst:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
-                                required: true
-                                type: list
-                    ipv6_session_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
-                                required: true
-                                type: list
-                    ipv6_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv6_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv6_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                    layer4_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    layer4_port_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            port_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
+                                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
                                 type: list
                                 suboptions:
+                                    sessions:
+                                        description:
+                                            - List of items described below.
+                                            - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
+                                        required: true
+                                        type: list
+                            ipv6_src:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv6_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv6_srcdst_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr_a:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    addr_b:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                            layer4_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    port:
+                                        required: true
+                                        type: integer
+                            layer4_port_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    port_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            port_a:
+                                                required: true
+                                                type: integer
+                                            port_b:
+                                                required: true
+                                                type: integer
+                            layer4_src_or_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    port:
+                                        required: true
+                                        type: integer
+                            layer4_src_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    port:
+                                        required: true
+                                        type: integer
+                            layer4_srcdst_port_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
                                     port_a:
-                                        description:
-                                            - 
                                         required: true
                                         type: integer
                                     port_b:
-                                        description:
-                                            - 
                                         required: true
                                         type: integer
-                    layer4_src_or_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    layer4_src_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    layer4_srcdst_port_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
+                            logical_operation:
                                 type: string
-                            port_a:
+                                choices: ['OR', 'AND']
+                            mac_dst:
                                 description:
-                                    - 
-                                required: true
-                                type: integer
-                            port_b:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    logical_operation:
-                        description:
-                            - 
-                        type: string
-                        choices: ['OR', 'AND']
-                    mac_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
                                 type: list
-                            admin_type:
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        type: list
+                                    admin_type:
+                                        type: string
+                                        choices: ['UNIVERSAL', 'LOCAL', 'ANY']
+                                    dest_addr_type:
+                                        required: true
+                                        type: string
+                                        choices: ['GROUP', 'ANY', 'INDIVIDUAL']
+                            mac_flow:
                                 description:
-                                    - 
-                                type: string
-                                choices: ['UNIVERSAL', 'LOCAL', 'ANY']
-                            dest_addr_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['GROUP', 'ANY', 'INDIVIDUAL']
-                    mac_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            mac_src:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        type: list
+                                    admin_type:
+                                        type: string
+                                        choices: ['UNIVERSAL', 'LOCAL', 'ANY']
+                            mac_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            mac_srcdst_pair:
+                                description:
+                                    - List of items described below.
                                 type: list
                                 suboptions:
                                     addr_a:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
                                     addr_b:
                                         description:
-                                            - 
                                             - List of items described below.
-                                            - 
                                         required: true
                                         type: list
-                            flow_type:
+                            mpls_label:
                                 description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    mac_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
                                 type: list
-                            admin_type:
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    is_capture_mpls_label:
+                                        description:
+                                            - The is_capture_mpls_label property should be set to true only when creating an MPLS label trigger criteria for a Capture Resource.
+                                        type: bool
+                                    label_level:
+                                        description:
+                                            - The label_level property is required only when creating an MPLS label trigger criteria for a Capture Resource.
+                                        type: integer
+                                    value:
+                                        required: true
+                                        type: integer
+                            outer_tpid:
                                 description:
-                                    - 
-                                type: string
-                                choices: ['UNIVERSAL', 'LOCAL', 'ANY']
-                    mac_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                    mac_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: integer
+                            raw_custom:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                            addr_b:
+                            tcp_control:
                                 description:
-                                    - 
                                     - List of items described below.
-                                    - 
-                                required: true
                                 type: list
-                    mpls_label:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: string
+                            vlan:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    priority:
+                                        type: string
+                                    vlan_id:
+                                        type: integer
+                            vntag:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: integer
+                            vxlan_vni:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        required: true
+                                        type: integer
+                    filter_object_type:
+                        required: true
+                        type: string
+                        choices: ['FILTER', 'NETWORK_PORT', 'TOOL_PORT', 'CAPTURE_RESOURCE', 'INLINE_SERVICE_CHAIN', 'FILTER_TEMPLATE']
+                    memory_allocation:
+                        type: dict
                         suboptions:
-                            field_name:
-                                description:
-                                    - 
+                            custom:
                                 type: string
-                            field_set:
-                                description:
-                                    - 
+                                choices: ['CUSTOM_32_BYTE', 'CUSTOM_16_BYTE', 'CUSTOM_NONE']
+                            dynamic:
                                 type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            is_capture_mpls_label:
-                                description:
-                                    - The is_capture_mpls_label property should be set to true only when creating an MPLS label trigger criteria for a Capture Resource.
-                                type: bool
-                            label_level:
-                                description:
-                                    - The label_level property is required only when creating an MPLS label trigger criteria for a Capture Resource.
-                                type: integer
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    outer_tpid:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    raw_custom:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                    tcp_control:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
+                                choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
+                            dynamic_sip:
                                 type: string
-                    vlan:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            priority:
+                                choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
+                            filter_build_settings:
+                                type: dict
+                                suboptions:
+                                    filter_build_mode:
+                                        required: true
+                                        type: string
+                                        choices: ['INTERSECTION', 'PRIORITY']
+                                    priority_port_id_list:
+                                        description:
+                                            - List of items described below.
+                                            - The integer value of the ID property for an object
+                                        type: list
+                            intersection_early_classification_criteria:
                                 description:
-                                    - 
+                                    - List of items described below.
+                                    - OUTER_TPID is allowed only on the following models 8000
+                                type: list
+                            network:
                                 type: string
-                            vlan_id:
-                                description:
-                                    - 
-                                type: integer
-                    vntag:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    vxlan_vni:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
+                                choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
+                            network_dynamic_sip_allocation_mix:
                                 type: string
-                            field_set:
-                                description:
-                                    - 
+                                choices: ['NP_050_VRF_050', 'NP_050_DSIP_050', 'NP_025_DSIP_075', 'NP_050_VRF_050_2K', 'NP_000_DSIP_100']
+                            tool:
                                 type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-            filter_object_type:
+                                choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
+                    source_port_group_list:
+                        description:
+                            - List of items described below.
+                            - The integer value of the ID property for an object
+                        type: list
+                    source_port_list:
+                        description:
+                            - List of items described below.
+                            - The integer value of the ID property for an object
+                        type: list
+            get_early_classification_criteria:
                 description:
-                    - 
-                required: true
-                type: string
-                choices: ['FILTER', 'NETWORK_PORT', 'TOOL_PORT', 'CAPTURE_RESOURCE', 'INLINE_SERVICE_CHAIN', 'FILTER_TEMPLATE']
-            memory_allocation:
+                    - Available on E100 Series, Vision X Series.
+                type: dict
+            get_fnood_license_public_info:
                 description:
-                    - 
+                    - Available on all platforms.
+                type: dict
+            get_ha_config_for_cli:
+                description:
+                    - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
+                type: dict
+            get_local_ports_valid_for_lfd:
+                description:
+                    - Available on all platforms.
+                type: dict
+            get_login_info:
+                description:
+                    - Available on all platforms.
+                type: dict
+            get_memory_meters:
+                description:
+                    - Available on all platforms.
+                type: dict
+            get_memory_meters_preview:
+                description:
+                    - If a parameter is omitted, it will be defaulted as follows network_dynamic_sip_allocation_mix - NP_025_DSIP_075, network - L2L3L4_100, dynamic_sip - IPV4_100_IPV6_000, dynamic - L2L3L4_11_L2L3L4_NOMAC_89, tool - L2L3L4_100, custom - CUSTOM_NONE, filter_build_settings - INTERSECTION. Note To enable support for 8184 dynamic filter source IP address, network_dynamic_sip_allocation_mix must be set to NP_050_VRF_050.
+                    - intersection_early_classification_criteria is allowed only on the following models 8000
+                    - Available on all platforms.
                 type: dict
                 suboptions:
                     custom:
-                        description:
-                            - 
                         type: string
                         choices: ['CUSTOM_32_BYTE', 'CUSTOM_16_BYTE', 'CUSTOM_NONE']
                     dynamic:
-                        description:
-                            - 
                         type: string
                         choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
                     dynamic_sip:
-                        description:
-                            - 
                         type: string
                         choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
                     filter_build_settings:
-                        description:
-                            - 
                         type: dict
                         suboptions:
                             filter_build_mode:
-                                description:
-                                    - 
                                 required: true
                                 type: string
                                 choices: ['INTERSECTION', 'PRIORITY']
                             priority_port_id_list:
                                 description:
-                                    - 
                                     - List of items described below.
                                     - The integer value of the ID property for an object
                                 type: list
                     intersection_early_classification_criteria:
                         description:
-                            - 
                             - List of items described below.
                             - OUTER_TPID is allowed only on the following models 8000
                         type: list
                     network:
-                        description:
-                            - 
                         type: string
                         choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
                     network_dynamic_sip_allocation_mix:
-                        description:
-                            - 
                         type: string
                         choices: ['NP_050_VRF_050', 'NP_050_DSIP_050', 'NP_025_DSIP_075', 'NP_050_VRF_050_2K', 'NP_000_DSIP_100']
                     tool:
-                        description:
-                            - 
                         type: string
                         choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
-            source_port_group_list:
+            get_neighbors:
                 description:
-                    - 
-                    - List of items described below.
-                    - The integer value of the ID property for an object
-                type: list
-            source_port_list:
-                description:
-                    - 
-                    - List of items described below.
-                    - The integer value of the ID property for an object
-                type: list
-    get_early_classification_criteria_payload:
-        description:
-            - 
-            - Available on E100 Series, Vision X Series.
-        type: dict
-        suboptions:
-    get_fnood_license_public_info_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    get_ha_config_for_cli_payload:
-        description:
-            - 
-            - Available on E100 Series, E40 Series, Vision Edge OS, Vision X Series.
-        type: dict
-        suboptions:
-    get_local_ports_valid_for_lfd_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    get_login_info_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    get_memory_meters_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    get_memory_meters_preview_payload:
-        description:
-            - If a parameter is omitted, it will be defaulted as follows network_dynamic_sip_allocation_mix - NP_025_DSIP_075, network - L2L3L4_100, dynamic_sip - IPV4_100_IPV6_000, dynamic - L2L3L4_11_L2L3L4_NOMAC_89, tool - L2L3L4_100, custom - CUSTOM_NONE, filter_build_settings - INTERSECTION. Note To enable support for 8184 dynamic filter source IP address, network_dynamic_sip_allocation_mix must be set to NP_050_VRF_050.
-            - intersection_early_classification_criteria is allowed only on the following models 8000
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            custom:
-                description:
-                    - 
-                type: string
-                choices: ['CUSTOM_32_BYTE', 'CUSTOM_16_BYTE', 'CUSTOM_NONE']
-            dynamic:
-                description:
-                    - 
-                type: string
-                choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
-            dynamic_sip:
-                description:
-                    - 
-                type: string
-                choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
-            filter_build_settings:
-                description:
-                    - 
+                    - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
                 type: dict
                 suboptions:
-                    filter_build_mode:
+                    port_id_list:
                         description:
-                            - 
-                        required: true
-                        type: string
-                        choices: ['INTERSECTION', 'PRIORITY']
-                    priority_port_id_list:
-                        description:
-                            - 
                             - List of items described below.
                             - The integer value of the ID property for an object
                         type: list
-            intersection_early_classification_criteria:
+            get_object_type:
                 description:
-                    - 
-                    - List of items described below.
-                    - OUTER_TPID is allowed only on the following models 8000
-                type: list
-            network:
-                description:
-                    - 
-                type: string
-                choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
-            network_dynamic_sip_allocation_mix:
-                description:
-                    - 
-                type: string
-                choices: ['NP_050_VRF_050', 'NP_050_DSIP_050', 'NP_025_DSIP_075', 'NP_050_VRF_050_2K', 'NP_000_DSIP_100']
-            tool:
-                description:
-                    - 
-                type: string
-                choices: ['L2_075_L3L4_025', 'IPV4_100_IPV6_000', 'IPV4_075_IPV6_025', 'IPV4_050_IPV6_050', 'L2L3L4_11_L2L3L4_NOMAC_89', 'L2_000_IPV4_066_IPV6_033_VLAN_100_L4_000', 'IPV4_067_IPV6_033', 'L2L3L4_33_L3L4_67', 'L2L3L4_050_IPV6_050', 'IPV4_025_IPV6_075', 'L2_100_L3L4_000', 'L2L3L4_50_IPV6_50_VLAN_000_L4_100', 'IPV4_033_IPV6_067', 'L2L3L4_30_L2L3L4_NOMAC_70', 'L2L3L4_NOMAC_100', 'L2_050_L3L4_050', 'L2_000_IPV4_000_IPV6_100_VLAN_000_L4_100', 'L2_066_IPV4_000_IPV6_033', 'L2_066_IPV4_000_IPV6_033_VLAN_000_L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_050_L4_050', 'L2L3L4_50_IPV6_50_VLAN_100_L4_000', 'DISABLED', 'L2L3L4_58_L2L3L4_NOMAC_42', 'L2L3L4_04_L2L3L4_NOMAC_96', 'IPV4_000_IPV6_100', 'L2_025_L3L4_075', 'L2_000_L3L4_100', 'L2_000_IPV4_000_IPV6_100_VLAN_100_L4_000', 'L2_033_IPV4_033_IPV6_033', 'L2_000_IPV4_066_IPV6_033_VLAN_000_L4_100', 'L2L3L4_100', 'L2_066_IPV4_000_IPV6_033_VLAN_100_L4_000']
-    get_neighbors_payload:
-        description:
-            - 
-            - Available on 7300 Series, TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
-        type: dict
-        suboptions:
-            port_id_list:
-                description:
-                    - 
-                    - List of items described below.
-                    - The integer value of the ID property for an object
-                type: list
-    get_object_type_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            id:
-                description:
-                    - 
-                required: true
-                type: integer
-    get_peer_ports_valid_for_lfd_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    get_props_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            filter:
-                description:
-                    - 
-                type: string
-                choices: ['READABLE_OR_WRITABLE', 'WRITABLE', 'READABLE', 'WRITABLE_ONLY', 'READABLE_ONLY']
-            object_type:
-                description:
-                    - 
-                required: true
-                type: string
-                choices: ['SYSTEM', 'ATIP_RESOURCE', 'FILTER', 'NETFLOW_GENERATOR_RESOURCE', 'PORT', 'MONITOR', 'CAPTURE_RESOURCE', 'PORT_GROUP', 'USER', 'GROUP', 'CUSTOM_ICON', 'AE_RESOURCE', 'FILTER_TEMPLATE_COLLECTION', 'FILTER_TEMPLATE']
-    get_transceiver_info_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    get_values_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            object_type:
-                description:
-                    - 
-                required: true
-                type: string
-                choices: ['SYSTEM', 'ATIP_RESOURCE', 'FILTER', 'NETFLOW_GENERATOR_RESOURCE', 'PORT', 'MONITOR', 'CAPTURE_RESOURCE', 'PORT_GROUP', 'USER', 'GROUP', 'CUSTOM_ICON', 'AE_RESOURCE', 'FILTER_TEMPLATE_COLLECTION', 'FILTER_TEMPLATE']
-            prop_name:
-                description:
-                    - 
-                required: true
-                type: string
-    import_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    install_license_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    install_mako_payload:
-        description:
-            - 
-            - Available on E100 Series, E40 Series, Vision X Series, Vision E10S.
-        type: dict
-        suboptions:
-    install_netservice_payload:
-        description:
-            - 
-            - Available on Vision X Series.
-        type: dict
-        suboptions:
-    install_software_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    mtu_query_payload:
-        description:
-            - Although every parameter is optional, you should specify either a default name, or a filter/port/port_group id.
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            default_name:
-                description:
-                    - 
-                type: string
-            filter_id:
-                description:
-                    - 
-                type: integer
-            port_id:
-                description:
-                    - 
-                type: integer
-            portgroup_id:
-                description:
-                    - 
-                type: integer
-    power_down_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    pull_config_from_ha_peer_payload:
-        description:
-            - 
-            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
-        type: dict
-        suboptions:
-    push_config_to_ha_peer_payload:
-        description:
-            - 
-            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
-        type: dict
-        suboptions:
-    remove_license_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    remove_netservice_payload:
-        description:
-            - 
-            - Available on Vision X Series.
-        type: dict
-        suboptions:
-            service_id:
-                description:
-                    - 
-                required: true
-                type: string
-    remove_plugin_payload:
-        description:
-            - 
-            - Available on TradeVision Series, Vision X Series.
-        type: dict
-        suboptions:
-            plugin_type:
-                description:
-                    - 
-                required: true
-                type: string
-                choices: ['HCS']
-    remove_port_module_config_payload:
-        description:
-            - 
-            - Available on Vision X Series.
-        type: dict
-        suboptions:
-            port_module_location:
-                description:
-                    - 
-                required: true
-                type: string
-    restart_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    restore_firewall_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    restore_gsc_config_payload:
-        description:
-            - 
-            - Available on Vision X Series.
-        type: dict
-        suboptions:
-    resume_itr_traffic_payload:
-        description:
-            - 
-            - Available on TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
-        type: dict
-        suboptions:
-            id:
-                description:
-                    - 
-                required: true
-                type: integer
-    revert_software_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    save_logs_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            entity:
-                description:
-                    - 
-                type: null
-            file_name:
-                description:
-                    - 
-                required: true
-                type: string
-    set_ha_sync_port_payload:
-        description:
-            - 
-            - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
-        type: dict
-        suboptions:
-            port:
-                description:
-                    - 
-                required: true
-                type: null
-    set_ip_config_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            configured_static_ipv4_address:
-                description:
-                    - 
-                type: string
-            configured_static_ipv4_gateway:
-                description:
-                    - 
-                type: string
-            configured_static_ipv4_netmask:
-                description:
-                    - 
-                type: string
-            dhcp_enabled:
-                description:
-                    - 
-                type: bool
-            ipv4_address:
-                description:
-                    - 
-                type: string
-            ipv4_enabled:
-                description:
-                    - 
-                type: bool
-            ipv4_gateway:
-                description:
-                    - 
-                type: string
-            ipv4_netmask:
-                description:
-                    - 
-                type: string
-            ipv6_address:
-                description:
-                    - 
-                type: string
-            ipv6_allow_autoconfig:
-                description:
-                    - 
-                type: bool
-            ipv6_enabled:
-                description:
-                    - 
-                type: bool
-            ipv6_gateway:
-                description:
-                    - 
-                type: string
-            ipv6_prefix_length:
-                description:
-                    - 
-                type: integer
-    swap_port_licenses_payload:
-        description:
-            - 
-            - Available on all platforms.
-        type: dict
-        suboptions:
-    update_single_ip_addr_payload:
-        description:
-            - This can be used to update a single IPv4 or IPv6 address in a dynamic filters criteria.
-            - The action can be ADD or REMOVE.
-            - The criteria is a subset of the regular criteria type. Only ipv4_src, ipv4_dst, ipv4_src_or_dst, ipv6_src, ipv6_dst, and ipv6_src_or_dst are allowed. Only 1 IP address can be entered at one time.
-            - The filter parameter can be the filters name, default name, or the internal id.
-            - Available on all platforms.
-        type: dict
-        suboptions:
-            action:
-                description:
-                    - 
-                required: true
-                type: string
-                choices: ['ADD', 'SET', 'REMOVE']
-            criteria:
-                description:
-                    - 
-                required: true
+                    - Available on all platforms.
                 type: dict
                 suboptions:
-                    custom_mac_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    custom_mac_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    addr_a:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                                    addr_b:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    custom_mac_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    custom_mac_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    custom_mac_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    dscp:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                    ethertype:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                    gtp_teid:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ip_protocol:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ip_version:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: null
-                    inner_ipv4_dst_addr:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv4_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    addr_a:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                                    addr_b:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    inner_ipv4_l4_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv4_l4_port_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            port_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    port_a:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: integer
-                                    port_b:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: integer
-                    inner_ipv4_l4_src_or_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv4_l4_src_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv4_l4_srcdst_port_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            port_a:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                            port_b:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv4_src_addr:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv4_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv4_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                    inner_ipv6_dst_addr:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv6_dst_interface_id:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    inner_ipv6_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    addr_a:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                                    addr_b:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    inner_ipv6_l4_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv6_l4_port_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            port_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    port_a:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: integer
-                                    port_b:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: integer
-                    inner_ipv6_l4_src_or_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv6_l4_src_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv6_l4_srcdst_port_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            port_a:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                            port_b:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    inner_ipv6_src_addr:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv6_src_interface_id:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    inner_ipv6_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                    inner_ipv6_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                    inner_vlan:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            priority:
-                                description:
-                                    - 
-                                type: string
-                            vlan_id:
-                                description:
-                                    - 
-                                type: integer
-                    ip_fragment:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['NON_FRAGMENT', 'FRAGMENT', 'FIRST_FRAGMENT']
-                    ip_protocol:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    ipv4_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv4_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    addr_a:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                                    addr_b:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    ipv4_session_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
-                                required: true
-                                type: list
-                    ipv4_session_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            session_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - A flow set allows only one IPv4 specification where both the address is all dont care (CIDR is 0 or the Netmask is 0.0.0.0) and the port is dont care (left blank), whether in the a_session or b_session.
-                                required: true
-                                type: list
-                                suboptions:
-                                    a_sessions:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
-                                        required: true
-                                        type: list
-                                    b_sessions:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
-                                        required: true
-                                        type: list
-                    ipv4_session_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
-                                required: true
-                                type: list
-                    ipv4_session_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
-                                required: true
-                                type: list
-                    ipv4_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv4_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv4_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                    ipv6_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv6_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    addr_a:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                                    addr_b:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    ipv6_session_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
-                                required: true
-                                type: list
-                    ipv6_session_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            session_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - A flow set allows only one IPv6 specification where both the address is all dont care (CIDR is 0 or the Netmask is 00000000) and the port is dont care (left blank), whether in the a_session or b_session.
-                                required: true
-                                type: list
-                                suboptions:
-                                    a_sessions:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
-                                        required: true
-                                        type: list
-                                    b_sessions:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
-                                        required: true
-                                        type: list
-                    ipv6_session_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
-                                required: true
-                                type: list
-                    ipv6_session_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
-                        type: list
-                        suboptions:
-                            sessions:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
-                                required: true
-                                type: list
-                    ipv6_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv6_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    ipv6_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                    layer4_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    layer4_port_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                            port_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    port_a:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: integer
-                                    port_b:
-                                        description:
-                                            - 
-                                        required: true
-                                        type: integer
-                    layer4_src_or_dst_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    layer4_src_port:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            port:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    layer4_srcdst_port_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            port_a:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                            port_b:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    logical_operation:
-                        description:
-                            - 
-                        type: string
-                        choices: ['OR', 'AND']
-                    mac_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                type: list
-                            admin_type:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['UNIVERSAL', 'LOCAL', 'ANY']
-                            dest_addr_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['GROUP', 'ANY', 'INDIVIDUAL']
-                    mac_flow:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            address_sets:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                                suboptions:
-                                    addr_a:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                                    addr_b:
-                                        description:
-                                            - 
-                                            - List of items described below.
-                                            - 
-                                        required: true
-                                        type: list
-                            flow_type:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                                choices: ['UNI', 'BIDI']
-                    mac_src:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                type: list
-                            admin_type:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['UNIVERSAL', 'LOCAL', 'ANY']
-                    mac_src_or_dst:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    mac_srcdst_pair:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            addr_a:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                            addr_b:
-                                description:
-                                    - 
-                                    - List of items described below.
-                                    - 
-                                required: true
-                                type: list
-                    mpls_label:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            is_capture_mpls_label:
-                                description:
-                                    - The is_capture_mpls_label property should be set to true only when creating an MPLS label trigger criteria for a Capture Resource.
-                                type: bool
-                            label_level:
-                                description:
-                                    - The label_level property is required only when creating an MPLS label trigger criteria for a Capture Resource.
-                                type: integer
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    outer_tpid:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    raw_custom:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                    tcp_control:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: string
-                    vlan:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            priority:
-                                description:
-                                    - 
-                                type: string
-                            vlan_id:
-                                description:
-                                    - 
-                                type: integer
-                    vntag:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-                    vxlan_vni:
-                        description:
-                            - 
-                            - List of items described below.
-                            - 
-                        type: list
-                        suboptions:
-                            field_name:
-                                description:
-                                    - 
-                                type: string
-                            field_set:
-                                description:
-                                    - 
-                                type: string
-                                choices: ['FS2', 'FS1', 'BOTH']
-                            value:
-                                description:
-                                    - 
-                                required: true
-                                type: integer
-            filter:
+                    id:
+                        required: true
+                        type: integer
+            get_peer_ports_valid_for_lfd:
                 description:
-                    - 
-                required: true
-                type: null
-    validate_auth_payload:
-        description:
-            - 
-            - Available on TradeVision Series, Vision X Series.
-        type: dict
-        suboptions:
+                    - Available on all platforms.
+                type: dict
+            get_props:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    filter:
+                        type: string
+                        choices: ['READABLE_OR_WRITABLE', 'WRITABLE', 'READABLE', 'WRITABLE_ONLY', 'READABLE_ONLY']
+                    object_type:
+                        required: true
+                        type: string
+                        choices: ['SYSTEM', 'ATIP_RESOURCE', 'FILTER', 'NETFLOW_GENERATOR_RESOURCE', 'PORT', 'MONITOR', 'CAPTURE_RESOURCE', 'PORT_GROUP', 'USER', 'GROUP', 'CUSTOM_ICON', 'AE_RESOURCE', 'FILTER_TEMPLATE_COLLECTION', 'FILTER_TEMPLATE']
+            get_transceiver_info:
+                description:
+                    - Available on all platforms.
+                type: dict
+            get_values:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    object_type:
+                        required: true
+                        type: string
+                        choices: ['SYSTEM', 'ATIP_RESOURCE', 'FILTER', 'NETFLOW_GENERATOR_RESOURCE', 'PORT', 'MONITOR', 'CAPTURE_RESOURCE', 'PORT_GROUP', 'USER', 'GROUP', 'CUSTOM_ICON', 'AE_RESOURCE', 'FILTER_TEMPLATE_COLLECTION', 'FILTER_TEMPLATE']
+                    prop_name:
+                        required: true
+                        type: string
+            import:
+                description:
+                    - Available on all platforms.
+                type: dict
+            install_license:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+            install_mako:
+                description:
+                    - Available on E100 Series, E40 Series, Vision X Series, Vision E10S.
+                type: dict
+            install_netservice:
+                description:
+                    - Available on Vision X Series.
+                type: dict
+            install_software:
+                description:
+                    - Available on all platforms.
+                type: dict
+            mtu_query:
+                description:
+                    - Although every parameter is optional, you should specify either a default name, or a filter/port/port_group id.
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    default_name:
+                        type: string
+                    filter_id:
+                        type: integer
+                    port_id:
+                        type: integer
+                    portgroup_id:
+                        type: integer
+            power_down:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+            pull_config_from_ha_peer:
+                description:
+                    - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
+                type: dict
+            push_config_to_ha_peer:
+                description:
+                    - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
+                type: dict
+            remove_license:
+                description:
+                    - Available on all platforms.
+                type: dict
+            remove_netservice:
+                description:
+                    - Available on Vision X Series.
+                type: dict
+                suboptions:
+                    service_id:
+                        required: true
+                        type: string
+            remove_plugin:
+                description:
+                    - Available on TradeVision Series, Vision X Series.
+                type: dict
+                suboptions:
+                    plugin_type:
+                        required: true
+                        type: string
+                        choices: ['HCS']
+            remove_port_module_config:
+                description:
+                    - Available on Vision X Series.
+                type: dict
+                suboptions:
+                    port_module_location:
+                        required: true
+                        type: string
+            restart:
+                description:
+                    - Available on all platforms.
+                type: dict
+            restore_firewall:
+                description:
+                    - Available on all platforms.
+                type: dict
+            restore_gsc_config:
+                description:
+                    - Available on Vision X Series.
+                type: dict
+            resume_itr_traffic:
+                description:
+                    - Available on TradeVision Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S.
+                type: dict
+                suboptions:
+                    id:
+                        required: true
+                        type: integer
+            revert_software:
+                description:
+                    - Available on all platforms.
+                type: dict
+            save_logs:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    entity:
+                        type: null
+                    file_name:
+                        required: true
+                        type: string
+            set_ha_sync_port:
+                description:
+                    - Available on 7300 Series, E100 Series, E40 Series, Vision Edge OS, Vision X Series, Vision E10S, F100 Series, F400 Series.
+                type: dict
+                suboptions:
+                    port:
+                        required: true
+                        type: null
+            set_ip_config:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    configured_static_ipv4_address:
+                        type: string
+                    configured_static_ipv4_gateway:
+                        type: string
+                    configured_static_ipv4_netmask:
+                        type: string
+                    dhcp_enabled:
+                        type: bool
+                    ipv4_address:
+                        type: string
+                    ipv4_enabled:
+                        type: bool
+                    ipv4_gateway:
+                        type: string
+                    ipv4_netmask:
+                        type: string
+                    ipv6_address:
+                        type: string
+                    ipv6_allow_autoconfig:
+                        type: bool
+                    ipv6_enabled:
+                        type: bool
+                    ipv6_gateway:
+                        type: string
+                    ipv6_prefix_length:
+                        type: integer
+            swap_port_licenses:
+                description:
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+            update_single_ip_addr:
+                description:
+                    - This can be used to update a single IPv4 or IPv6 address in a dynamic filters criteria.
+                    - The action can be ADD or REMOVE.
+                    - The criteria is a subset of the regular criteria type. Only ipv4_src, ipv4_dst, ipv4_src_or_dst, ipv6_src, ipv6_dst, and ipv6_src_or_dst are allowed. Only 1 IP address can be entered at one time.
+                    - The filter parameter can be the filters name, default name, or the internal id.
+                    - Available on all platforms.
+                type: dict
+                suboptions:
+                    action:
+                        required: true
+                        type: string
+                        choices: ['ADD', 'SET', 'REMOVE']
+                    criteria:
+                        required: true
+                        type: dict
+                        suboptions:
+                            custom_mac_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            custom_mac_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            custom_mac_src:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            custom_mac_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            custom_mac_srcdst_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr_a:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    addr_b:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            dscp:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: string
+                            ethertype:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: string
+                            gtp_teid:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        required: true
+                                        type: integer
+                            inner_ip_protocol:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        required: true
+                                        type: integer
+                            inner_ip_version:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        required: true
+                                        type: string or integer
+                            inner_ipv4_dst_addr:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv4_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            inner_ipv4_l4_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv4_l4_port_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    port_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            port_a:
+                                                required: true
+                                                type: integer
+                                            port_b:
+                                                required: true
+                                                type: integer
+                            inner_ipv4_l4_src_or_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv4_l4_src_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv4_l4_srcdst_port_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    port_a:
+                                        required: true
+                                        type: integer
+                                    port_b:
+                                        required: true
+                                        type: integer
+                            inner_ipv4_src_addr:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv4_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv4_srcdst_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr_a:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    addr_b:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                            inner_ipv6_dst_addr:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv6_dst_interface_id:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            inner_ipv6_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            inner_ipv6_l4_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv6_l4_port_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    port_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            port_a:
+                                                required: true
+                                                type: integer
+                                            port_b:
+                                                required: true
+                                                type: integer
+                            inner_ipv6_l4_src_or_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv6_l4_src_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    port:
+                                        required: true
+                                        type: integer
+                            inner_ipv6_l4_srcdst_port_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    port_a:
+                                        required: true
+                                        type: integer
+                                    port_b:
+                                        required: true
+                                        type: integer
+                            inner_ipv6_src_addr:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv6_src_interface_id:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            inner_ipv6_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                            inner_ipv6_srcdst_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr_a:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    addr_b:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                            inner_vlan:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    priority:
+                                        type: string
+                                    vlan_id:
+                                        type: integer
+                            ip_fragment:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: string
+                                        choices: ['NON_FRAGMENT', 'FRAGMENT', 'FIRST_FRAGMENT']
+                            ip_protocol:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: integer
+                            ipv4_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv4_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            ipv4_session_dst:
+                                description:
+                                    - List of items described below.
+                                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
+                                            - List of items described below.
+                                            - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
+                                        required: true
+                                        type: list
+                            ipv4_session_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    session_sets:
+                                        description:
+                                            - List of items described below.
+                                            - A flow set allows only one IPv4 specification where both the address is all dont care (CIDR is 0 or the Netmask is 0.0.0.0) and the port is dont care (left blank), whether in the a_session or b_session.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            a_sessions:
+                                                description:
+                                                    - List of items described below.
+                                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
+                                                required: true
+                                                type: list
+                                            b_sessions:
+                                                description:
+                                                    - List of items described below.
+                                                    - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
+                                                required: true
+                                                type: list
+                            ipv4_session_src:
+                                description:
+                                    - List of items described below.
+                                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
+                                            - List of items described below.
+                                            - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
+                                        required: true
+                                        type: list
+                            ipv4_session_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                    - The IPv4 session specifications may have either the address be set to all dont care (CIDR is 0 or the Netmask is 0.0.0.0) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
+                                            - List of items described below.
+                                            - An IPv4 address and a port. The port may be left blank, as in 3.2.1.0/20.  If the CIDR is 0 or the Netmask is 0000, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Examples (CIDR) 11.22.33.44/2415-17, 19, (Netmask) 10.11.12.13/255.255.255.10530, (No mask type) 90.80.70.60-6514, 17, 20-22
+                                        required: true
+                                        type: list
+                            ipv4_src:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv4_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv4_srcdst_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr_a:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    addr_b:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                            ipv6_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv6_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            ipv6_session_dst:
+                                description:
+                                    - List of items described below.
+                                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
+                                            - List of items described below.
+                                            - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
+                                        required: true
+                                        type: list
+                            ipv6_session_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    session_sets:
+                                        description:
+                                            - List of items described below.
+                                            - A flow set allows only one IPv6 specification where both the address is all dont care (CIDR is 0 or the Netmask is 00000000) and the port is dont care (left blank), whether in the a_session or b_session.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            a_sessions:
+                                                description:
+                                                    - List of items described below.
+                                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
+                                                required: true
+                                                type: list
+                                            b_sessions:
+                                                description:
+                                                    - List of items described below.
+                                                    - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
+                                                required: true
+                                                type: list
+                            ipv6_session_src:
+                                description:
+                                    - List of items described below.
+                                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
+                                            - List of items described below.
+                                            - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
+                                        required: true
+                                        type: list
+                            ipv6_session_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                    - The IPv6 session specification may have either the address be set to all dont care (CIDR is 0 or the Netmask is 00000000) or the port be dont care (left blank), but not both.
+                                type: list
+                                suboptions:
+                                    sessions:
+                                        description:
+                                            - List of items described below.
+                                            - An IPv6 address and a port. The port may be left blank, as in 3210dcba. If a CIDR of 0 or a Netmask of 00000000 is used, then the criterion will not filter on the address at all, meaning there would be no distinction between an IPv4 and IPv6 address. Note that protocol calls for the IPv6 address portion to appear within square brackets [12345678]24.  However, since JSON already uses square brackets to denote an array, the address should not appear within square brackets - the port will be assumed to follow the last colon.  Examples (CIDR) 1122334455667788/2415-17, 19, (Netmask) 1011121314151617/255.255.255.10530, (No mask type) 90.80.70.605040302014, 17, 20-22  
+                                        required: true
+                                        type: list
+                            ipv6_src:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv6_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            ipv6_srcdst_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr_a:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    addr_b:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    field_name:
+                                        type: string
+                            layer4_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    port:
+                                        required: true
+                                        type: integer
+                            layer4_port_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                                    port_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            port_a:
+                                                required: true
+                                                type: integer
+                                            port_b:
+                                                required: true
+                                                type: integer
+                            layer4_src_or_dst_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    port:
+                                        required: true
+                                        type: integer
+                            layer4_src_port:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    port:
+                                        required: true
+                                        type: integer
+                            layer4_srcdst_port_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    port_a:
+                                        required: true
+                                        type: integer
+                                    port_b:
+                                        required: true
+                                        type: integer
+                            logical_operation:
+                                type: string
+                                choices: ['OR', 'AND']
+                            mac_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        type: list
+                                    admin_type:
+                                        type: string
+                                        choices: ['UNIVERSAL', 'LOCAL', 'ANY']
+                                    dest_addr_type:
+                                        required: true
+                                        type: string
+                                        choices: ['GROUP', 'ANY', 'INDIVIDUAL']
+                            mac_flow:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    address_sets:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                        suboptions:
+                                            addr_a:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                            addr_b:
+                                                description:
+                                                    - List of items described below.
+                                                required: true
+                                                type: list
+                                    flow_type:
+                                        required: true
+                                        type: string
+                                        choices: ['UNI', 'BIDI']
+                            mac_src:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        type: list
+                                    admin_type:
+                                        type: string
+                                        choices: ['UNIVERSAL', 'LOCAL', 'ANY']
+                            mac_src_or_dst:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            mac_srcdst_pair:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    addr_a:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                                    addr_b:
+                                        description:
+                                            - List of items described below.
+                                        required: true
+                                        type: list
+                            mpls_label:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    is_capture_mpls_label:
+                                        description:
+                                            - The is_capture_mpls_label property should be set to true only when creating an MPLS label trigger criteria for a Capture Resource.
+                                        type: bool
+                                    label_level:
+                                        description:
+                                            - The label_level property is required only when creating an MPLS label trigger criteria for a Capture Resource.
+                                        type: integer
+                                    value:
+                                        required: true
+                                        type: integer
+                            outer_tpid:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: integer
+                            raw_custom:
+                                description:
+                                    - List of items described below.
+                                type: list
+                            tcp_control:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: string
+                            vlan:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    priority:
+                                        type: string
+                                    vlan_id:
+                                        type: integer
+                            vntag:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    value:
+                                        required: true
+                                        type: integer
+                            vxlan_vni:
+                                description:
+                                    - List of items described below.
+                                type: list
+                                suboptions:
+                                    field_name:
+                                        type: string
+                                    field_set:
+                                        type: string
+                                        choices: ['FS2', 'FS1', 'BOTH']
+                                    value:
+                                        required: true
+                                        type: integer
+                    filter:
+                        required: true
+                        type: null
+            validate_auth:
+                description:
+                    - Available on TradeVision Series, Vision X Series.
+                type: dict
 
 author:
     - Keysight
@@ -3831,126 +2686,137 @@ author:
 EXAMPLES = '''
   - name: Create port group
     vos_port_groups:
-      mode: NETWORK
-      name: PG_1
-      port_list: P04
-      type: INTERCONNECT
+      settings:
+        mode: NETWORK
+        name: PG_1
+        port_list: P04
+        type: INTERCONNECT
   - name: Create first dynamic filter
     vos_filters:
-      dynamic_filter_type: TWO_STAGE
-      mode: PASS_ALL
-      name: DF1
-      source_port_group_list: PG_1
-      source_port_list: P03
+      settings:
+        dynamic_filter_type: TWO_STAGE
+        mode: PASS_ALL
+        name: DF1
+        source_port_group_list: PG_1
+        source_port_list: P03
   - name: Create second dynamic filter
     vos_filters:
-      dynamic_filter_type: TWO_STAGE
-      mode: PASS_ALL
-      name: DF2
-      source_port_group_list: PGtest
-      source_port_list: P03
+      settings:
+        dynamic_filter_type: TWO_STAGE
+        mode: PASS_ALL
+        name: DF2
+        source_port_group_list: PGtest
+        source_port_list: P03
   - name: Configure memory allocation
     vos_system:
-      memory_allocation:
-        custom: CUSTOM_NONE
-        dynamic: L2L3L4_100
-        dynamic_sip: IPV4_100_IPV6_000
-        filter_build_settings:
-          filter_build_mode: PRIORITY
-          priority_port_id_list: []
-        network: L2L3L4_50_IPV6_50_VLAN_100_L4_000
-        network_dynamic_sip_allocation_mix: NP_050_DSIP_050
-        tool: L2_033_IPV4_033_IPV6_033
+      settings:
+        memory_allocation:
+          custom: CUSTOM_NONE
+          dynamic: L2L3L4_100
+          dynamic_sip: IPV4_100_IPV6_000
+          filter_build_settings:
+            filter_build_mode: PRIORITY
+            priority_port_id_list: []
+          network: L2L3L4_50_IPV6_50_VLAN_100_L4_000
+          network_dynamic_sip_allocation_mix: NP_050_DSIP_050
+          tool: L2_033_IPV4_033_IPV6_033
   - name: Set the following filter priority for P03 DF2, DF1
     vos_actions: 
-      action_name: change_filter_priority 
-      change_filter_priority_payload: 
+      action: change_filter_priority 
+      settings: 
         prioritized_dest_filter_id_list: [DF2,DF1]
         source_port_id: P03
   - name: Set the following filter priority for PG_1: DF2, DF1
     vos_actions: 
-      action_name: change_filter_priority
-      change_filter_priority_payload: 
+      action: change_filter_priority
+      settings: 
         prioritized_dest_filter_id_list: [DF2,DF1]
         source_port_group_id: PG_1
   - name: Clear current configuration
     vos_actions: 
-      action_name: clear_config
+      action: clear_config
   - name: Clear dynamic filters and ports
     vos_actions: 
-      action_name: clear_filters_and_ports      
-	    - name: Clear the system
+      action: clear_filters_and_ports      
+  - name: Clear the system
     vos_actions:
-      action_name: clear_system
+      action: clear_system
   - name: Enable FIPS encryption
     vos_actions: 
-      action_name: enable_fips_server_encryption	  
+      action: enable_fips_server_encryption	  
   - name: Get login information
     vos_actions: 
-      action_name: get_login_info	  
+      action: get_login_info	  
   - name: Change port P04 mode to TOOL
-    vos_ports: 
-      mode: TOOL
-      name: P04
+    vos_ports:
+      settings: 
+        mode: TOOL
+        name: P04
   - name: Change port P03 mode to TOOL
     vos_ports:
-      mode: TOOL
-      name: P03
+      settings:
+        mode: TOOL
+        name: P03
   - name: Change port P02 mode to TOOL
     vos_ports: 
-      mode: TOOL
-      name: P02
+      settings:
+        mode: TOOL
+        name: P02
   - name: Create port group PG_1
     vos_port_groups:
-      mode: TOOL
-      name: PG_1
-      port_list: [P04]
-      type: INTERCONNECT
+      settings:
+        mode: TOOL
+        name: PG_1
+        port_list: [P04]
+        type: INTERCONNECT
   - name: Create port group PG_2
     vos_port_groups:
-      mode: TOOL
-      name: PG_2
-      port_list: [P03]
-      type: INTERCONNECT
+      settings:
+        mode: TOOL
+        name: PG_2
+        port_list: [P03]
+        type: INTERCONNECT
   - name: Create port group PG_3
     vos_port_groups:
-      mode: TOOL
-      name: PG_3
-      port_list: [P02]
-      type: INTERCONNECT
+      settings:
+        mode: TOOL
+        name: PG_3
+        port_list: [P02]
+        type: INTERCONNECT
   - name: Create dynamic filter DF1
     vos_filters:
-      dest_port_group_list: [PG_1, PG_2, PG_3]
-      mode: PASS_ALL
-      name: DF1
+      settings:
+        dest_port_group_list: [PG_1, PG_2, PG_3]
+        mode: PASS_ALL
+        name: DF1
   - name: Export current configuration into a .ata file
     vos_actions:
-      action_name: export
-      export_payload: 
+      action: export
+      settings: 
         boundary: INCLUDE
         export_type: FULL_BACKUP
         file_name: /home/testuser/Desktop/
   - name: Clear current configuration
     vos_actions:
-      action_name: clear_config
+      action: clear_config
   - name: Import a configuration from a .ata file
     vos_actions:
-      action_name: import
+      action: import
       file_path: /home/testuser/Desktop/
-      import_payload: 
+      settings: 
         boundary: INCLUDE
         import_type: FULL_IMPORT_FROM_BACKUP	  
   - name: NTO restart
     vos_actions: 
-      action_name: restart		
+      action: restart		
   - name: Revert NTO to a previous installed version
     vos_actions: 
-      action_name: revert_software	  
+      action: revert_software	  
   - name: Save log files from the NTO
     vos_actions: 
-      action_name: save_logs
-      save_logs_payload: 
-        file_name: /home/testuser/logs.zip	  
+      action: save_logs
+      settings: 
+        file_name: /home/testuser/logs.zip	
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -3959,23 +2825,28 @@ from ansible.module_utils.network.vos.resource_configurator import ResourceConfi
 
 
 def run_module():
-    # custom structure of the arguments, as actions do not follow a generic
-    # format
-    module = AnsibleModule(argument_spec={}, check_invalid_arguments=False)
+    module = AnsibleModule(argument_spec={'action': dict(type='str'), 'file_path': dict(type='str'),
+                                          'software_version': dict(type='str'), 'settings': dict(type='dict')})
 
     connection = Connection(module._socket_path)
     configurator = ResourceConfigurator(connection=connection, module=module)
 
-    # fetch using Web API the python dictionary representing the argument_spec
-    properties = configurator.connection.get_python_representation_of_method()
+    try:
+        from inspect import signature
+        # fetch using Web API the python dictionary representing the argument_spec
+        properties = configurator.connection.get_python_representation_of_method()
 
-    properties['action_name'] = dict(type='str')
-    properties['file_path'] = dict(type='str')
-    # synthetic key used to specify the software version
-    properties['software_version'] = dict(type='str')
+        module.argument_spec['settings'] = {'type': 'dict', 'options': properties}
 
-    module = AnsibleModule(argument_spec=properties)
-    action_name = module.params['action_name']
+        s = signature(module._check_arguments)
+        if 'check_invalid_arguments' in s.parameters:
+            module._check_arguments(check_invalid_arguments=False)
+        else:
+            module._check_arguments()
+    except:
+        pass
+
+    action = module.params['action']
 
     result = dict(
         changed=False,
@@ -4003,7 +2874,7 @@ def run_module():
         for each in output:
             if each['status_code'] not in [200, 202, 401]:
                 result['failed'] = True
-            elif action_name in actions_returning_ok:
+            elif action in actions_returning_ok:
                 result['changed'] = False
             elif each['content'] != 'NOT CHANGED':
                 result['changed'] = True

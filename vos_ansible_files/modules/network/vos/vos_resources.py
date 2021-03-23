@@ -1,5 +1,5 @@
 """
-COPYRIGHT 2019 Keysight Technologies.
+COPYRIGHT 2021 Keysight Technologies.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ options:
             - The resource type.
         type: string
         required: true
-        choices: [ packet_stack ]
+        choices: [ packetstack ]
     resource:
         description:
             - The name of the resource.
@@ -71,7 +71,7 @@ options:
         suboptions: 
             allocated_bandwidth:
                 description:
-                    - Available on 7300 Series, Vision E10S.
+                    - Available on 7300 Series, Vision E10S..
                 type: integer
             connect_disconnect_access_settings:
                 description:
@@ -117,11 +117,11 @@ options:
                 type: string
             object_id:
                 description:
-                    - Available on 7300 Series, E100 Series, E40 Series, Vision E10S.
+                    - Available on 7300 Series, E100 Series, E40 Series, Vision E10S, F400 Series.
                 type: string or integer
             port_mode:
                 description:
-                    - Available on 7300 Series, E100 Series, E40 Series, Vision E10S.
+                    - Available on 7300 Series, E100 Series, E40 Series, Vision E10S, F400 Series.
                 type: string
                 choices: ['LOOPBACK', 'NETWORK', 'BYPASS_BIDIRECTIONAL', 'HA_FABRIC', 'BIDIRECTIONAL', 'TOOL', 'SIMPLEX', 'INLINE_TOOL_BIDIRECTIONAL']
             view_access_settings:
@@ -147,45 +147,45 @@ author:
 
 EXAMPLES = '''
   - name: Enable PacketStack
-     vos_resources:
-       type: packetstack
-       operation: enable
-       resource: L2-AFM
-       settings:
-         allocated_bandwidth: 100
-         object_id: P2-03
-         port_mode: NETWORK
-   - name: Change resource name
-     vos_resources:
-       type: packetstack
-       resource: L2-AFM
-       settings:
-         name: L2-AFM
-   - name: Update resource
-     vos_resources:
-       type: packetstack
-       resource: L2-AFM
-       settings:
-         description: PacketStack resource attached to P01
-         modify_access_settings:
-           groups: []
-           policy: REQUIRE_ADMIN
-   - name: Enable PacketStack features on port
-     vos_ports:
-       port: P2-03
-       resource_attachment_config: 
-         vxlan_strip_settings: 
-           enabled: true
-           port_mode: NETWORK
-         etag_strip_settings:
-           enabled: true
-   - name: Detach PacketStack
-     vos_resources:
-       type: packetstack
-       operation: disable
-       resource: L2-AFM
-       settings:
-         object_id: P2-03
+    vos_resources:
+      type: packetstack
+      operation: enable
+      resource: L2-AFM
+      settings:
+        allocated_bandwidth: 100
+        object_id: P2-03
+        port_mode: NETWORK
+  - name: Change resource name
+    vos_resources:
+      type: packetstack
+      resource: L2-AFM
+      settings:
+        name: L2-AFM
+  - name: Update resource
+    vos_resources:
+      type: packetstack
+      resource: L2-AFM
+      settings:
+        description: PacketStack resource attached to P01
+        modify_access_settings:
+          groups: []
+          policy: REQUIRE_ADMIN
+  - name: Enable PacketStack features on port
+    vos_ports:
+      port: P2-03
+      resource_attachment_config: 
+        vxlan_strip_settings: 
+          enabled: true
+          port_mode: NETWORK
+        etag_strip_settings:
+          enabled: true
+  - name: Detach PacketStack
+    vos_resources:
+      type: packetstack
+      operation: disable
+      resource: L2-AFM
+      settings:
+        object_id: P2-03
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -194,12 +194,11 @@ from ansible.module_utils.network.vos.resource_configurator import ResourceConfi
 
 
 def run_module():
-    # custom structure of the arguments, as actions do not follow a generic
-    # format
-    module = AnsibleModule(argument_spec={}, check_invalid_arguments=False)
+    module = AnsibleModule(argument_spec={'type': dict(type='str'), 'resource': dict(type='str'),
+                                          'operation': dict(type='str'), 'software_version': dict(type='str'),
+                                          'settings': dict(type='dict')})
 
     connection = Connection(module._socket_path)
-
     configurator = ResourceConfigurator(connection=connection, module=module)
 
     if module.params['type'] == 'packetstack':
@@ -209,18 +208,22 @@ def run_module():
         resource_url = 'atip_resources'
         resource_name = 'appstack_resources'
 
-    # fetch using Web API the python dictionary representing the argument_spec
-    properties = configurator.connection.get_python_representation_of_object(resource_url=resource_url,
-                                                                             resource_name=resource_name)
+    try:
+        from inspect import signature
+        # fetch using Web API the python dictionary representing the argument_spec
+        properties = configurator.connection.get_python_representation_of_object(resource_url=resource_url,
+                                                                                 resource_name=resource_name)
 
-    properties['type'] = dict(type='str')
-    properties['resource'] = dict(type='str')
-    properties['operation'] = dict(type='str')
-    properties['payload'] = dict(type='dict')
-    # synthetic key used to specify the software version
-    properties['software_version'] = dict(type='str')
+        module.argument_spec['settings'] = {'type': 'dict', 'options': properties}
 
-    module = AnsibleModule(argument_spec=properties)
+        s = signature(module._check_arguments)
+        if 'check_invalid_arguments' in s.parameters:
+            module._check_arguments(check_invalid_arguments=False)
+        else:
+            module._check_arguments()
+    except:
+        pass
+
     result = dict(
         changed=False,
         messages=[]
@@ -232,7 +235,7 @@ def run_module():
 
         if 'resource' in module.params:
             configurator.get_target('resource', '/' + module.params['type'])
-        elif 'name' in module.params:
+        elif 'settings' in module.params and 'name' in module.params['settings']:
             configurator.get_target('name', '/' + module.params['type'])
 
         output = configurator.configure_resources()

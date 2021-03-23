@@ -1,5 +1,5 @@
 """
-COPYRIGHT 2019 Keysight Technologies.
+COPYRIGHT 2021 Keysight Technologies.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

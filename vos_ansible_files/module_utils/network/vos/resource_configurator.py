@@ -1,5 +1,5 @@
 """
-COPYRIGHT 2019 Keysight Technologies.
+COPYRIGHT 2021 Keysight Technologies.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -56,7 +56,7 @@ class ResourceConfigurator:
         self.module = module
         self.resource_ids = []
 
-        if SOFTWARE_VERSION in module.params:
+        if SOFTWARE_VERSION in module.params and module.params[SOFTWARE_VERSION] is not None:
             self.connection.set_software_version(module.params[SOFTWARE_VERSION])
 
     def get_all_items(self, resource_url):
@@ -129,11 +129,11 @@ class ResourceConfigurator:
          name or the synthetic key)
         :param resource_url: type of the object
         """
-
-        target = self.module.params[property_name]
-        if property_name != 'name':
+        if property_name == 'name':
+            target = self.module.params['settings'][property_name]
+        else:
+            target = self.module.params[property_name]
             self.module.params.pop(property_name)
-
         if target is None:
             raise Exception(
                 'Name or default name property has not been provided.')
@@ -160,9 +160,9 @@ class ResourceConfigurator:
         """
         if real is None:
             return False
-        if real == 'null':
-            return False
         if isinstance(real, str):
+            if real == 'null':
+                return False
             real = eval(real)
         if isinstance(pattern, str):
             pattern = eval(pattern)
@@ -385,11 +385,11 @@ class ResourceConfigurator:
                                                                "PacketStack properties while the resource is attached."}
                     else:
                         response = self.connection.send_request(path=url, data=data, method=method)
-
-            elif self.will_payload_imply_changes(url, data, method):
-                response = self.connection.send_request(path=url, data=data, method=method)
             else:
-                return {'status_code': 200, 'content': 'NOT CHANGED'}
+                if self.will_payload_imply_changes(url, data, method):
+                    response = self.connection.send_request(path=url, data=data, method=method)
+                else:
+                    return {'status_code': 200, 'content': 'NOT CHANGED'}
 
         response = self.connection.check_error_codes(response, url, data,
                                                      method)
@@ -427,10 +427,6 @@ class ResourceConfigurator:
             url = RAFM_URL
         elif resource_type == 'appstack':
             url = ATIP_URL
-        if 'payload' in self.module.params:
-            payload = self.module.params['payload']
-        else:
-            payload = dict()
 
         response = []
         if self.resource_ids:
@@ -439,7 +435,7 @@ class ResourceConfigurator:
                 if 'operation' in self.module.params:
                     url += '/' + self.module.params['operation']
                 response.append(
-                    self.configure(url=url, method='PUT', data=payload))
+                    self.configure(url=url, method='PUT', data=self.module.params['settings']))
 
         return response
 
@@ -450,16 +446,15 @@ class ResourceConfigurator:
 
         :return: the response from the generic method
         """
-        action_name = self.module.params['action_name']
+        action_name = self.module.params['action']
         url = '/actions/' + action_name
 
         if 'file_path' in self.module.params:
             request_type = MULTIPART
         else:
             request_type = BINARY if action_name in BINARY_ACTIONS else REGULAR
-
-            if action_name + '_payload' in self.module.params:
-                self.module.params = self.module.params[action_name + '_payload']
+            if 'settings' in self.module.params:
+                self.module.params = self.module.params['settings']
             else:
                 self.module.params = {}
 
@@ -477,7 +472,7 @@ class ResourceConfigurator:
         """
         url = '/system'
         method = 'PUT'
-        return [self.configure(url=url, method=method, data=self.module.params)]
+        return [self.configure(url=url, method=method, data=self.module.params['settings'])]
 
     def configure_ports(self):
         """
@@ -500,10 +495,10 @@ class ResourceConfigurator:
             for each in self.resource_ids:
                 response.append(
                     self.configure(url=url + each, method=method,
-                                   data=self.module.params))
+                                   data=self.module.params['settings']))
         else:
             response.append(
-                self.configure(url=url, method=method, data=self.module.params))
+                self.configure(url=url, method=method, data=self.module.params['settings']))
 
         return response
 
@@ -534,15 +529,17 @@ class ResourceConfigurator:
                     method = 'POST'
                     url = '/port_groups'
 
+                if 'settings' in self.module.params:
+                    self.module.params = self.module.params['settings']
                 response.append(
-                    self.configure(url=url, method=method,
-                                   data=self.module.params))
+                    self.configure(url=url, method=method, data=self.module.params))
         else:
             if method is None:
                 method = 'POST'
+            if 'settings' in self.module.params:
+                self.module.params = self.module.params['settings']
             response.append(
-                self.configure(url='/port_groups/', method=method,
-                               data=self.module.params))
+                self.configure(url='/port_groups/', method=method, data=self.module.params))
 
         return response
 
@@ -573,11 +570,15 @@ class ResourceConfigurator:
                     method = 'POST'
                     url = '/filters/'
 
+                if 'settings' in self.module.params:
+                    self.module.params = self.module.params['settings']
                 response.append(
                     self.configure(url=url, method=method, data=self.module.params))
         else:
             if method is None:
                 method = 'POST'
+            if 'settings' in self.module.params:
+                self.module.params = self.module.params['settings']
             response.append(
                 self.configure(url='/filters/', method=method, data=self.module.params))
 
@@ -601,3 +602,4 @@ def get_comma_list_items(object_list):
     stripped_tokens = [item.strip() for item in tokens]
 
     return stripped_tokens
+
