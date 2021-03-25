@@ -1,7 +1,7 @@
 ---
 - name: Using vos_system module
-  hosts: vision_npb
-
+  gather_facts: 'no'
+  hosts: nto
   tasks:
   - name: Initial provisioning
     vos_system:
@@ -70,7 +70,6 @@
               authn_password: v3_password
               authn_protocol: SHA1
               context_name: ''
-              engine_id: ''
               name: RobotUser
               privacy_password: password_v3
               privacy_protocol: AES128

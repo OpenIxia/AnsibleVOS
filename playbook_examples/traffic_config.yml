@@ -1,8 +1,9 @@
 ---
 - name: Create traffic configuration
-  hosts: vision_npb
-  gather_facts: false
+  hosts: nto
+  gather_facts: 'no'
   tasks:
+    - name: Enable port P01 and configure it to pass IPv4 traffic
       vos_ports:
         port: P01
         settings:
@@ -55,7 +56,8 @@
         port: P10
         settings:
           name: Probe 1 port 1
-          keywords: IT
+          keywords: 
+            - IT
           enabled: true
           mode: TOOL
 
@@ -64,7 +66,8 @@
         port: P11
         settings:
           name: Probe 1 port 2
-          keywords: IT
+          keywords: 
+            - IT
           enabled: true
           mode: TOOL
 
