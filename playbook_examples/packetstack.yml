@@ -16,7 +16,7 @@
   - name: Enable port P03 as NETWORK port
     vos_ports:
       settings:
-        port: P03
+        name: P03
         enabled: true
   - name: Change port P09 mode to TOOL and enable it
     vos_ports:

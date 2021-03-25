@@ -172,12 +172,13 @@ EXAMPLES = '''
   - name: Enable PacketStack features on port
     vos_ports:
       port: P2-03
-      resource_attachment_config: 
-        vxlan_strip_settings: 
-          enabled: true
-          port_mode: NETWORK
-        etag_strip_settings:
-          enabled: true
+      settings:
+        resource_attachment_config: 
+          vxlan_strip_settings: 
+            enabled: true
+            port_mode: NETWORK
+          etag_strip_settings:
+            enabled: true
   - name: Detach PacketStack
     vos_resources:
       type: packetstack
