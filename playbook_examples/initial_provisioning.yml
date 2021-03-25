@@ -1,7 +1,7 @@
 ---
 - name: Using vos_system module
+  hosts: vision_npb
   gather_facts: 'no'
-  hosts: nto
   tasks:
   - name: Initial provisioning
     vos_system:

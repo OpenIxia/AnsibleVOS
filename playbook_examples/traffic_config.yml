@@ -1,6 +1,6 @@
 ---
 - name: Create traffic configuration
-  hosts: nto
+  hosts: vision_npb
   gather_facts: 'no'
   tasks:
     - name: Enable port P01 and configure it to pass IPv4 traffic
